@@ -8,7 +8,7 @@
 zebrafish_toxicology_atlas_schema:Entity a sh:NodeShape ;
     sh:closed false ;
     sh:description "The base class for all entities in the Zebrafish Toxicology Atlas Schema." ;
-    sh:ignoredProperties ( zebrafish_toxicology_atlas_schema:control_image zebrafish_toxicology_atlas_schema:comment zebrafish_toxicology_atlas_schema:vehicle_if_treated zebrafish_toxicology_atlas_schema:number_of_individual_exposure zebrafish_toxicology_atlas_schema:total_exposure_duration zebrafish_toxicology_atlas_schema:concentration zebrafish_toxicology_atlas_schema:magnification zebrafish_toxicology_atlas_schema:id zebrafish_toxicology_atlas_schema:cas_id zebrafish_toxicology_atlas_schema:name zebrafish_toxicology_atlas_schema:additional_exposure_condition zebrafish_toxicology_atlas_schema:synonym zebrafish_toxicology_atlas_schema:interval_between_individual_exposures zebrafish_toxicology_atlas_schema:manufacturer zebrafish_toxicology_atlas_schema:standard_rearing_condition zebrafish_toxicology_atlas_schema:prevalence zebrafish_toxicology_atlas_schema:exposure_event zebrafish_toxicology_atlas_schema:phenotype_observation zebrafish_toxicology_atlas_schema:chebi_id zebrafish_toxicology_atlas_schema:vehicle zebrafish_toxicology_atlas_schema:regimen zebrafish_toxicology_atlas_schema:chemical_name zebrafish_toxicology_atlas_schema:chemical_id zebrafish_toxicology_atlas_schema:experiment zebrafish_toxicology_atlas_schema:publication zebrafish_toxicology_atlas_schema:exposure_type zebrafish_toxicology_atlas_schema:phenotype_comments zebrafish_toxicology_atlas_schema:route zebrafish_toxicology_atlas_schema:scale_bar zebrafish_toxicology_atlas_schema:resolution zebrafish_toxicology_atlas_schema:fish zebrafish_toxicology_atlas_schema:phenotype_id zebrafish_toxicology_atlas_schema:phenotype_term_id zebrafish_toxicology_atlas_schema:exposure_end_stage zebrafish_toxicology_atlas_schema:annotator zebrafish_toxicology_atlas_schema:lab zebrafish_toxicology_atlas_schema:rearing_condition_comment zebrafish_toxicology_atlas_schema:stressor zebrafish_toxicology_atlas_schema:exposure_regimen_type zebrafish_toxicology_atlas_schema:individual_exposure_duration zebrafish_toxicology_atlas_schema:control_type rdf:type zebrafish_toxicology_atlas_schema:phenotype zebrafish_toxicology_atlas_schema:image zebrafish_toxicology_atlas_schema:severity zebrafish_toxicology_atlas_schema:stage zebrafish_toxicology_atlas_schema:control zebrafish_toxicology_atlas_schema:exposure_start_stage ) ;
+    sh:ignoredProperties ( zebrafish_toxicology_atlas_schema:rearing_condition_comment zebrafish_toxicology_atlas_schema:phenotype_observation zebrafish_toxicology_atlas_schema:exposure_event zebrafish_toxicology_atlas_schema:publication zebrafish_toxicology_atlas_schema:annotator zebrafish_toxicology_atlas_schema:phenotype zebrafish_toxicology_atlas_schema:severity zebrafish_toxicology_atlas_schema:concentration zebrafish_toxicology_atlas_schema:individual_exposure_duration zebrafish_toxicology_atlas_schema:vehicle_if_treated zebrafish_toxicology_atlas_schema:regimen zebrafish_toxicology_atlas_schema:synonym zebrafish_toxicology_atlas_schema:chebi_id zebrafish_toxicology_atlas_schema:standard_rearing_condition zebrafish_toxicology_atlas_schema:exposure_end_stage zebrafish_toxicology_atlas_schema:image zebrafish_toxicology_atlas_schema:exposure_start_stage rdf:type zebrafish_toxicology_atlas_schema:comment zebrafish_toxicology_atlas_schema:stressor zebrafish_toxicology_atlas_schema:number_of_individual_exposure zebrafish_toxicology_atlas_schema:fish zebrafish_toxicology_atlas_schema:total_exposure_duration zebrafish_toxicology_atlas_schema:exposure_regimen_type zebrafish_toxicology_atlas_schema:name zebrafish_toxicology_atlas_schema:additional_exposure_condition zebrafish_toxicology_atlas_schema:stage zebrafish_toxicology_atlas_schema:route zebrafish_toxicology_atlas_schema:lab zebrafish_toxicology_atlas_schema:vehicle zebrafish_toxicology_atlas_schema:magnification zebrafish_toxicology_atlas_schema:cas_id zebrafish_toxicology_atlas_schema:control_image zebrafish_toxicology_atlas_schema:exposure_type zebrafish_toxicology_atlas_schema:resolution zebrafish_toxicology_atlas_schema:control zebrafish_toxicology_atlas_schema:id zebrafish_toxicology_atlas_schema:prevalence zebrafish_toxicology_atlas_schema:manufacturer zebrafish_toxicology_atlas_schema:control_type zebrafish_toxicology_atlas_schema:chemical_id zebrafish_toxicology_atlas_schema:scale_bar zebrafish_toxicology_atlas_schema:phenotype_id zebrafish_toxicology_atlas_schema:experiment zebrafish_toxicology_atlas_schema:phenotype_term_id zebrafish_toxicology_atlas_schema:phenotype_comments zebrafish_toxicology_atlas_schema:chemical_name zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ) ;
     sh:property [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
@@ -28,6 +28,11 @@ zebrafish_toxicology_atlas_schema:Study a sh:NodeShape ;
             sh:order 2 ;
             sh:path zebrafish_toxicology_atlas_schema:annotator ;
             sh:pattern "^ORCID:[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$" ],
+        [ sh:class zebrafish_toxicology_atlas_schema:Experiment ;
+            sh:description "The experiment in a study." ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:experiment ],
         [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
@@ -36,17 +41,12 @@ zebrafish_toxicology_atlas_schema:Study a sh:NodeShape ;
             sh:order 4 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
         [ sh:datatype xsd:anyURI ;
-            sh:description "The lab where the experiment originated." ;
+            sh:description "ZFIN lab identifier of the laboratory that produced the study data." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
             sh:path zebrafish_toxicology_atlas_schema:lab ;
             sh:pattern "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$" ],
-        [ sh:class zebrafish_toxicology_atlas_schema:Experiment ;
-            sh:description "The experiments in a study." ;
-            sh:nodeKind sh:IRI ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:experiment ],
         [ sh:datatype xsd:string ;
             sh:description "The publication identifier (e.g., PMID, DOI) for the study or \"not published\" if the study is unpublished." ;
             sh:maxCount 1 ;
@@ -60,6 +60,23 @@ zebrafish_toxicology_atlas_schema:ChemicalEntity a sh:NodeShape ;
     sh:description "The chemical used as the stressor chemical in an exposure event." ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:string ;
+            sh:description "Other names for the chemical." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 3 ;
+            sh:path zebrafish_toxicology_atlas_schema:synonym ],
+        [ sh:datatype xsd:string ;
+            sh:description "CAS identifier for the chemical." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:cas_id ],
+        [ sh:datatype xsd:anyURI ;
+            sh:description "CHEBI identifier for the chemical." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:chebi_id ],
+        [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -67,41 +84,25 @@ zebrafish_toxicology_atlas_schema:ChemicalEntity a sh:NodeShape ;
             sh:order 4 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
         [ sh:datatype xsd:string ;
-            sh:description "CAS identifier for the chemical." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:cas_id ],
-        [ sh:datatype xsd:string ;
             sh:description "Name of the chemical." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
-            sh:path zebrafish_toxicology_atlas_schema:chemical_name ],
-        [ sh:datatype xsd:string ;
-            sh:description "Other names for the chemical." ;
-            sh:nodeKind sh:Literal ;
-            sh:order 3 ;
-            sh:path zebrafish_toxicology_atlas_schema:synonym ],
-        [ sh:datatype xsd:anyURI ;
-            sh:description "CHEBI identifier for the chemical." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:chebi_id ] ;
+            sh:path zebrafish_toxicology_atlas_schema:chemical_name ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:ChemicalEntity .
 
 zebrafish_toxicology_atlas_schema:Control a sh:NodeShape ;
     sh:closed true ;
-    sh:description "Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable." ;
+    sh:description "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set." ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:description "Vehicle used if this is a treated control." ;
-            sh:in ( CHEBI:00000000 CHEBI:00000000 ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Type of control (e.g., wildtype vs mutant, treated vs untreated)." ;
             sh:maxCount 1 ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:control_type ],
         [ sh:class zebrafish_toxicology_atlas_schema:ControlImage ;
-            sh:description "Images associated with this control." ;
+            sh:description "Image associated with this control." ;
             sh:nodeKind sh:IRI ;
             sh:order 3 ;
             sh:path zebrafish_toxicology_atlas_schema:control_image ],
@@ -112,12 +113,11 @@ zebrafish_toxicology_atlas_schema:Control a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 4 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
-        [ sh:datatype xsd:string ;
-            sh:description "Type of control (e.g., wildtype vs mutant, treated vs untreated)." ;
+        [ sh:description "The vehicle used in a control." ;
+            sh:in ( CHEBI:00000000 CHEBI:00000000 ) ;
             sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:control_type ],
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
         [ sh:datatype xsd:string ;
             sh:description "Additional comments." ;
             sh:maxCount 1 ;
@@ -128,30 +128,31 @@ zebrafish_toxicology_atlas_schema:Control a sh:NodeShape ;
 
 zebrafish_toxicology_atlas_schema:Experiment a sh:NodeShape ;
     sh:closed true ;
-    sh:description "Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study." ;
+    sh:description "A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study." ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:class zebrafish_toxicology_atlas_schema:Control ;
-            sh:description "The controls for this experiment." ;
-            sh:nodeKind sh:IRI ;
-            sh:order 3 ;
-            sh:path zebrafish_toxicology_atlas_schema:control ],
+    sh:property [ sh:datatype xsd:boolean ;
+            sh:description "An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
+        [ sh:datatype xsd:string ;
+            sh:description "Comments on rearing conditions, for example, about how conditions deviated from standard parameters." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
         [ sh:class zebrafish_toxicology_atlas_schema:Fish ;
             sh:description "The fish subject of the experiment." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:IRI ;
             sh:order 2 ;
             sh:path zebrafish_toxicology_atlas_schema:fish ],
-        [ sh:class zebrafish_toxicology_atlas_schema:ExposureEvent ;
-            sh:description "The exposure events in this experiment." ;
+        [ sh:class zebrafish_toxicology_atlas_schema:Control ;
+            sh:description "An observation that serves as the reference for assessing phenotypic outcome." ;
             sh:nodeKind sh:IRI ;
-            sh:order 4 ;
-            sh:path zebrafish_toxicology_atlas_schema:exposure_event ],
-        [ sh:datatype xsd:boolean ;
-            sh:description "An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
+            sh:order 3 ;
+            sh:path zebrafish_toxicology_atlas_schema:control ],
         [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
@@ -159,41 +160,40 @@ zebrafish_toxicology_atlas_schema:Experiment a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 5 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
-        [ sh:datatype xsd:string ;
-            sh:description "Comments on rearing conditions, for example, about how conditions deviated from standard parameters." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:rearing_condition_comment ] ;
+        [ sh:class zebrafish_toxicology_atlas_schema:ExposureEvent ;
+            sh:description "The exposure event in an experiment." ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path zebrafish_toxicology_atlas_schema:exposure_event ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:Experiment .
 
 zebrafish_toxicology_atlas_schema:ExposureEvent a sh:NodeShape ;
     sh:closed true ;
     sh:description "An occurrence in a study where a subject is exposed to a stressor under defined conditions." ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:class zebrafish_toxicology_atlas_schema:Regimen ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "Additional comments." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 6 ;
+            sh:path zebrafish_toxicology_atlas_schema:comment ],
+        [ sh:datatype xsd:anyURI ;
+            sh:description "The developmental stage of fish when exposure started." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path zebrafish_toxicology_atlas_schema:exposure_start_stage ],
+        [ sh:class zebrafish_toxicology_atlas_schema:Regimen ;
             sh:description "The regimen for the exposure." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:IRI ;
             sh:order 3 ;
             sh:path zebrafish_toxicology_atlas_schema:regimen ],
-        [ sh:datatype xsd:anyURI ;
-            sh:description "The developmental stage of fish when exposure ended." ;
+        [ sh:description "An instance of exposure specifying the type of stressor a subject was exposed to." ;
+            sh:in [ ] ;
             sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 5 ;
-            sh:path zebrafish_toxicology_atlas_schema:exposure_end_stage ],
-        [ sh:class zebrafish_toxicology_atlas_schema:PhenotypeObservationSet ;
-            sh:description "The phenotype observations from this exposure event." ;
-            sh:nodeKind sh:IRI ;
-            sh:order 9 ;
-            sh:path zebrafish_toxicology_atlas_schema:phenotype_observation ],
-        [ sh:datatype xsd:string ;
-            sh:description "Additional information about the conditions under which exposure event occurred." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 8 ;
-            sh:path zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
+            sh:order 7 ;
+            sh:path zebrafish_toxicology_atlas_schema:exposure_type ],
         [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
@@ -201,37 +201,37 @@ zebrafish_toxicology_atlas_schema:ExposureEvent a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 10 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
-        [ sh:class zebrafish_toxicology_atlas_schema:StressorChemical ;
-            sh:description "Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure." ;
-            sh:nodeKind sh:IRI ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:stressor ],
-        [ sh:datatype xsd:anyURI ;
-            sh:description "The developmental stage of fish when exposure started." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 4 ;
-            sh:path zebrafish_toxicology_atlas_schema:exposure_start_stage ],
-        [ sh:datatype xsd:string ;
-            sh:description "Additional comments." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 6 ;
-            sh:path zebrafish_toxicology_atlas_schema:comment ],
-        [ sh:description "An instance of exposure specifying the type of stressor a subject was exposed to." ;
-            sh:in [ ] ;
-            sh:maxCount 1 ;
-            sh:order 7 ;
-            sh:path zebrafish_toxicology_atlas_schema:exposure_type ],
+        [ sh:description "The substance or medium used to deliver a stressor." ;
+            sh:in ( CHEBI:00000000 CHEBI:00000000 ) ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:vehicle ],
         [ sh:description "The route of exposure." ;
             sh:in [ ] ;
             sh:maxCount 1 ;
             sh:order 2 ;
             sh:path zebrafish_toxicology_atlas_schema:route ],
-        [ sh:description "The substance or medium used deliver a stressor." ;
-            sh:in ( CHEBI:00000000 CHEBI:00000000 ) ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:vehicle ] ;
+        [ sh:datatype xsd:anyURI ;
+            sh:description "The developmental stage of fish when exposure ended." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path zebrafish_toxicology_atlas_schema:exposure_end_stage ],
+        [ sh:class zebrafish_toxicology_atlas_schema:PhenotypeObservationSet ;
+            sh:description "The phenotype observation resulting from an exposure event." ;
+            sh:nodeKind sh:IRI ;
+            sh:order 9 ;
+            sh:path zebrafish_toxicology_atlas_schema:phenotype_observation ],
+        [ sh:class zebrafish_toxicology_atlas_schema:StressorChemical ;
+            sh:description "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure." ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:stressor ],
+        [ sh:datatype xsd:string ;
+            sh:description "Additional information about the conditions under which exposure event occurred." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path zebrafish_toxicology_atlas_schema:additional_exposure_condition ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:ExposureEvent .
 
 zebrafish_toxicology_atlas_schema:Fish a sh:NodeShape ;
@@ -272,6 +272,12 @@ zebrafish_toxicology_atlas_schema:Image a sh:NodeShape ;
             sh:order 0 ;
             sh:path zebrafish_toxicology_atlas_schema:magnification ],
         [ sh:datatype xsd:string ;
+            sh:description "The level of detail in the image." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:resolution ],
+        [ sh:datatype xsd:string ;
             sh:description "Scale bar information, including the physical length it represents and the unit of measurement." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
@@ -283,20 +289,20 @@ zebrafish_toxicology_atlas_schema:Image a sh:NodeShape ;
             sh:minCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
-            sh:path zebrafish_toxicology_atlas_schema:uuid ],
-        [ sh:datatype xsd:string ;
-            sh:description "Level of detail of the image." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:resolution ] ;
+            sh:path zebrafish_toxicology_atlas_schema:uuid ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:Image .
 
 zebrafish_toxicology_atlas_schema:Phenotype a sh:NodeShape ;
     sh:closed true ;
     sh:description "Any measurable or visible trait change in the subject as a result of exposure." ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:string ;
+    sh:property [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
+            sh:description "The percentage of subject exhibiting this phenotype." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:prevalence ],
+        [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -309,30 +315,34 @@ zebrafish_toxicology_atlas_schema:Phenotype a sh:NodeShape ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
             sh:path zebrafish_toxicology_atlas_schema:phenotype_term_id ],
-        [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
-            sh:description "The percentage of subject exhibiting this phenotype." ;
+        [ sh:description "The intensity of the observed phenotype." ;
+            sh:in ( "mild" "moderate" "severe" ) ;
             sh:maxCount 1 ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:prevalence ],
+            sh:order 2 ;
+            sh:path zebrafish_toxicology_atlas_schema:severity ],
         [ sh:datatype xsd:anyURI ;
             sh:description "The developmental stage of fish when the phenotype was observed." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:stage ],
-        [ sh:description "The intensity of the observed phenotype." ;
-            sh:in ( "mild" "moderate" "severe" ) ;
-            sh:maxCount 1 ;
-            sh:order 2 ;
-            sh:path zebrafish_toxicology_atlas_schema:severity ] ;
+            sh:path zebrafish_toxicology_atlas_schema:stage ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:Phenotype .
 
 zebrafish_toxicology_atlas_schema:PhenotypeObservationSet a sh:NodeShape ;
     sh:closed true ;
-    sh:description "A phenotypic outcome resulting from an exposure event." ;
+    sh:description "An observation set containing control and phenotypic outcome resulting from an exposure event." ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:string ;
+    sh:property [ sh:class zebrafish_toxicology_atlas_schema:ControlImage ;
+            sh:description "Image associated with this control." ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path zebrafish_toxicology_atlas_schema:control_image ],
+        [ sh:class zebrafish_toxicology_atlas_schema:Phenotype ;
+            sh:description "The phenotype observed." ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:phenotype ],
+        [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -343,47 +353,19 @@ zebrafish_toxicology_atlas_schema:PhenotypeObservationSet a sh:NodeShape ;
             sh:description "Images associated with this observation." ;
             sh:nodeKind sh:IRI ;
             sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:image ],
-        [ sh:class zebrafish_toxicology_atlas_schema:Phenotype ;
-            sh:description "The phenotype observed." ;
-            sh:nodeKind sh:IRI ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:phenotype ],
-        [ sh:class zebrafish_toxicology_atlas_schema:ControlImage ;
-            sh:description "Images associated with this control." ;
-            sh:nodeKind sh:IRI ;
-            sh:order 2 ;
-            sh:path zebrafish_toxicology_atlas_schema:control_image ] ;
+            sh:path zebrafish_toxicology_atlas_schema:image ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:PhenotypeObservationSet .
 
 zebrafish_toxicology_atlas_schema:Regimen a sh:NodeShape ;
     sh:closed true ;
     sh:description "The schedule and pattern of an exposure event." ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:datatype xsd:string ;
-            sh:description "UUID identifier." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 5 ;
-            sh:path zebrafish_toxicology_atlas_schema:uuid ],
-        [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
+    sh:property [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
             sh:description "Interval between individual exposures." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 1 ;
             sh:path zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
-        [ sh:description "The type of exposure regimen (e.g., continuous or repeated)." ;
-            sh:in ( EXO:0000109 EXO:0000110 ) ;
-            sh:maxCount 1 ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
-        [ sh:datatype xsd:integer ;
-            sh:description "Total number of individual exposures." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 4 ;
-            sh:path zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
         [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
             sh:description "Time between first and last individual exposure." ;
             sh:maxCount 1 ;
@@ -395,7 +377,25 @@ zebrafish_toxicology_atlas_schema:Regimen a sh:NodeShape ;
             sh:maxCount 1 ;
             sh:nodeKind sh:BlankNodeOrIRI ;
             sh:order 3 ;
-            sh:path zebrafish_toxicology_atlas_schema:individual_exposure_duration ] ;
+            sh:path zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
+        [ sh:description "The type of exposure regimen (e.g., continuous or repeated)." ;
+            sh:in ( EXO:0000109 EXO:0000110 ) ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
+        [ sh:datatype xsd:integer ;
+            sh:description "Total number of individual exposures." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
+        [ sh:datatype xsd:string ;
+            sh:description "UUID identifier." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 5 ;
+            sh:path zebrafish_toxicology_atlas_schema:uuid ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:Regimen .
 
 zebrafish_toxicology_atlas_schema:StressorChemical a sh:NodeShape ;
@@ -403,6 +403,12 @@ zebrafish_toxicology_atlas_schema:StressorChemical a sh:NodeShape ;
     sh:description "A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure." ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:string ;
+            sh:description "The manufacturer of the chemical." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:manufacturer ],
+        [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
@@ -410,31 +416,25 @@ zebrafish_toxicology_atlas_schema:StressorChemical a sh:NodeShape ;
             sh:order 4 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
         [ sh:datatype xsd:string ;
-            sh:description "The manufacturer of the chemical." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:manufacturer ],
-        [ sh:datatype xsd:string ;
             sh:description "Additional comments." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
             sh:path zebrafish_toxicology_atlas_schema:comment ],
-        [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
-            sh:description "The dose or concentration of the chemical to which the subject was exposed to." ;
-            sh:maxCount 1 ;
-            sh:minCount 1 ;
-            sh:nodeKind sh:BlankNodeOrIRI ;
-            sh:order 2 ;
-            sh:path zebrafish_toxicology_atlas_schema:concentration ],
         [ sh:class zebrafish_toxicology_atlas_schema:ChemicalEntity ;
             sh:description "Chemical identifier (CHEBI, CAS, or UUID)." ;
             sh:maxCount 1 ;
             sh:minCount 1 ;
             sh:nodeKind sh:IRI ;
             sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:chemical_id ] ;
+            sh:path zebrafish_toxicology_atlas_schema:chemical_id ],
+        [ sh:class zebrafish_toxicology_atlas_schema:QuantityValue ;
+            sh:description "The dose or concentration of the chemical to which the subject was exposed to." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path zebrafish_toxicology_atlas_schema:concentration ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:StressorChemical .
 
 zebrafish_toxicology_atlas_schema:ControlImage a sh:NodeShape ;
@@ -442,11 +442,29 @@ zebrafish_toxicology_atlas_schema:ControlImage a sh:NodeShape ;
     sh:description "An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation." ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:string ;
+            sh:description "The factor by which a microscope enlarges the apparent size of a subject compared to its actual size." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path zebrafish_toxicology_atlas_schema:magnification ],
+        [ sh:datatype xsd:string ;
+            sh:description "Foreign key reference to the PhenotypeObservationSet uuid (for database representation)." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:phenotype_id ],
+        [ sh:datatype xsd:string ;
             sh:description "Scale bar information, including the physical length it represents and the unit of measurement." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 3 ;
             sh:path zebrafish_toxicology_atlas_schema:scale_bar ],
+        [ sh:datatype xsd:string ;
+            sh:description "Comments about the phenotype in the control image." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path zebrafish_toxicology_atlas_schema:phenotype_comments ],
         [ sh:datatype xsd:string ;
             sh:description "UUID identifier." ;
             sh:maxCount 1 ;
@@ -455,25 +473,7 @@ zebrafish_toxicology_atlas_schema:ControlImage a sh:NodeShape ;
             sh:order 5 ;
             sh:path zebrafish_toxicology_atlas_schema:uuid ],
         [ sh:datatype xsd:string ;
-            sh:description "Foreign key reference to the PhenotypeObservationSet uuid (for database representation)." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:phenotype_id ],
-        [ sh:datatype xsd:string ;
-            sh:description "The factor by which a microscope enlarges the apparent size of a subject compared to its actual size." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:magnification ],
-        [ sh:datatype xsd:string ;
-            sh:description "Comments about the phenotype in the control image." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 4 ;
-            sh:path zebrafish_toxicology_atlas_schema:phenotype_comments ],
-        [ sh:datatype xsd:string ;
-            sh:description "Level of detail of the image." ;
+            sh:description "The level of detail in the image." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 2 ;
@@ -485,16 +485,16 @@ zebrafish_toxicology_atlas_schema:QuantityValue a sh:NodeShape ;
     sh:description "A value of an attribute that is quantitative and measurable, expressed as a combination of a unit and a numeric value" ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:datatype xsd:string ;
-            sh:description "The unit of the quantity value." ;
-            sh:maxCount 1 ;
-            sh:nodeKind sh:Literal ;
-            sh:order 0 ;
-            sh:path zebrafish_toxicology_atlas_schema:unit ],
-        [ sh:datatype xsd:string ;
             sh:description "The numeric value of the quantity value." ;
             sh:maxCount 1 ;
             sh:nodeKind sh:Literal ;
             sh:order 1 ;
-            sh:path zebrafish_toxicology_atlas_schema:numeric_value ] ;
+            sh:path zebrafish_toxicology_atlas_schema:numeric_value ],
+        [ sh:datatype xsd:string ;
+            sh:description "The unit of the quantity value." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path zebrafish_toxicology_atlas_schema:unit ] ;
     sh:targetClass zebrafish_toxicology_atlas_schema:QuantityValue .
 

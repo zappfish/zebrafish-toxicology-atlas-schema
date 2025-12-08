@@ -352,13 +352,13 @@
 <tr>
 <td><a href="../stressor/">stressor</a></td>
 <td>* <br/> <a href="../StressorChemical/">StressorChemical</a></td>
-<td>Substance, chemical or toxicant, that elicit a response (a phenotype) in a su...</td>
+<td>Substance, chemical or toxicant that elicits a response (a phenotype) in a su...</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../vehicle/">vehicle</a></td>
 <td>* <br/> <a href="../VehicleEnumeration/">VehicleEnumeration</a></td>
-<td>The substance or medium used deliver a stressor</td>
+<td>The substance or medium used to deliver a stressor</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -406,7 +406,7 @@
 <tr>
 <td><a href="../phenotype_observation/">phenotype_observation</a></td>
 <td>* <br/> <a href="../PhenotypeObservationSet/">PhenotypeObservationSet</a></td>
-<td>The phenotype observations from this exposure event</td>
+<td>The phenotype observation resulting from an exposure event</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -501,7 +501,7 @@ is_a: Entity
 attributes:
   stressor:
     name: stressor
-    description: Substance, chemical or toxicant, that elicit a response (a phenotype)
+    description: Substance, chemical or toxicant that elicits a response (a phenotype)
       in a subject when encountered through exposure.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
@@ -515,7 +515,7 @@ attributes:
     inlined_as_list: true
   vehicle:
     name: vehicle
-    description: The substance or medium used deliver a stressor.
+    description: The substance or medium used to deliver a stressor.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: vehicle
@@ -605,7 +605,7 @@ attributes:
     range: string
   phenotype_observation:
     name: phenotype_observation
-    description: The phenotype observations from this exposure event.
+    description: The phenotype observation resulting from an exposure event.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: phenotype_observation

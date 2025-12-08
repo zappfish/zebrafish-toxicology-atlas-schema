@@ -245,7 +245,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-control">Class: Control</h1>
-<p><em>Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.</em></p>
+<p><em>A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.</em></p>
 <p>URI: <a href="https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/Control">zebrafish_toxicology_atlas_schema:Control</a></p>
 <div class="mermaid"> classDiagram
     class Control
@@ -310,7 +310,7 @@
 <tr>
 <td><a href="../vehicle_if_treated/">vehicle_if_treated</a></td>
 <td>0..1 <br/> <a href="../VehicleEnumeration/">VehicleEnumeration</a></td>
-<td>Vehicle used if this is a treated control</td>
+<td>The vehicle used in a control</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -322,7 +322,7 @@
 <tr>
 <td><a href="../control_image/">control_image</a></td>
 <td>* <br/> <a href="../ControlImage/">ControlImage</a></td>
-<td>Images associated with this control</td>
+<td>Image associated with this control</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -381,9 +381,8 @@
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: Control
-description: Information about controls used in the experiment, including the type
-  of control (wildtype vs mutant, treated vs untreated) and vehicle information if
-  applicable.
+description: A subject serves as a reference for assessing phenotypic outcome in the
+  phenotype observation set.
 from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
 is_a: Entity
 slots:
@@ -397,9 +396,8 @@ slots:
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: Control
-description: Information about controls used in the experiment, including the type
-  of control (wildtype vs mutant, treated vs untreated) and vehicle information if
-  applicable.
+description: A subject serves as a reference for assessing phenotypic outcome in the
+  phenotype observation set.
 from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
 is_a: Entity
 attributes:
@@ -415,7 +413,7 @@ attributes:
     range: string
   vehicle_if_treated:
     name: vehicle_if_treated
-    description: Vehicle used if this is a treated control.
+    description: The vehicle used in a control.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: vehicle_if_treated
@@ -437,7 +435,7 @@ attributes:
     range: string
   control_image:
     name: control_image
-    description: Images associated with this control.
+    description: Image associated with this control.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: control_image

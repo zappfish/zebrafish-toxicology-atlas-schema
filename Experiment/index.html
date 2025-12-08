@@ -245,7 +245,7 @@
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
 <h1 id="class-experiment">Class: Experiment</h1>
-<p><em>Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.</em></p>
+<p><em>A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.</em></p>
 <p>URI: <a href="https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/Experiment">zebrafish_toxicology_atlas_schema:Experiment</a></p>
 <div class="mermaid"> classDiagram
     class Experiment
@@ -315,7 +315,7 @@
 <tr>
 <td><a href="../standard_rearing_condition/">standard_rearing_condition</a></td>
 <td>0..1 <br/> <a href="../Boolean/">Boolean</a></td>
-<td>An indication if the subject was maintained under standard conditions, which ...</td>
+<td>An indication of whether the subject was maintained under standard conditions...</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -333,13 +333,13 @@
 <tr>
 <td><a href="../control/">control</a></td>
 <td>* <br/> <a href="../Control/">Control</a></td>
-<td>The controls for this experiment</td>
+<td>An observation that serves as the reference for assessing phenotypic outcome</td>
 <td>direct</td>
 </tr>
 <tr>
 <td><a href="../exposure_event/">exposure_event</a></td>
 <td>* <br/> <a href="../ExposureEvent/">ExposureEvent</a></td>
-<td>The exposure events in this experiment</td>
+<td>The exposure event in an experiment</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -398,8 +398,8 @@
 <h3 id="direct">Direct</h3>
 <details>
 <pre><code class="language-yaml">name: Experiment
-description: Group of observations (phenotypic outcomes and their control) that are
-  linked by a common experiment and subject that are part of a study.
+description: A group of observations (phenotypic outcomes and their control) that
+  are linked by a common exposure event and subject, and that are part of a study.
 from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
 is_a: Entity
 slots:
@@ -414,17 +414,17 @@ slots:
 <h3 id="induced">Induced</h3>
 <details>
 <pre><code class="language-yaml">name: Experiment
-description: Group of observations (phenotypic outcomes and their control) that are
-  linked by a common experiment and subject that are part of a study.
+description: A group of observations (phenotypic outcomes and their control) that
+  are linked by a common exposure event and subject, and that are part of a study.
 from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
 is_a: Entity
 attributes:
   standard_rearing_condition:
     name: standard_rearing_condition
-    description: An indication if the subject was maintained under standard conditions,
-      which are the established, consistent environmental and husbandry parameters
-      (such as temperature, lighting, diet, and housing) designed to minimize variability
-      and ensure reproducibility in experiments.
+    description: An indication of whether the subject was maintained under standard
+      conditions, which are the established, consistent environmental and husbandry
+      parameters (such as temperature, lighting, diet, and housing) designed to minimize
+      variability and ensure reproducibility in experiments.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: standard_rearing_condition
@@ -457,7 +457,8 @@ attributes:
     inlined_as_list: true
   control:
     name: control
-    description: The controls for this experiment.
+    description: An observation that serves as the reference for assessing phenotypic
+      outcome.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: control
@@ -470,7 +471,7 @@ attributes:
     inlined_as_list: true
   exposure_event:
     name: exposure_event
-    description: The exposure events in this experiment.
+    description: The exposure event in an experiment.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: exposure_event

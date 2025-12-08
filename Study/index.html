@@ -288,7 +288,7 @@
 <tr>
 <td><a href="../experiment/">experiment</a></td>
 <td>* <br/> <a href="../Experiment/">Experiment</a></td>
-<td>The experiments in a study</td>
+<td>The experiment in a study</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -306,7 +306,7 @@
 <tr>
 <td><a href="../lab/">lab</a></td>
 <td>0..1 <br/> <a href="../Uriorcurie/">Uriorcurie</a></td>
-<td>The lab where the experiment originated</td>
+<td>ZFIN lab identifier of the laboratory that produced the study data</td>
 <td>direct</td>
 </tr>
 <tr>
@@ -368,7 +368,7 @@ is_a: Entity
 attributes:
   experiment:
     name: experiment
-    description: The experiments in a study.
+    description: The experiment in a study.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: experiment
@@ -404,7 +404,7 @@ attributes:
     pattern: ^ORCID:[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$
   lab:
     name: lab
-    description: The lab where the experiment originated.
+    description: ZFIN lab identifier of the laboratory that produced the study data.
     from_schema: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
     rank: 1000
     alias: lab

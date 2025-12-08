@@ -52,7 +52,7 @@ abstract "Entity" [[{The base class for all entities in the Zebrafish Toxicology
 "Entity" ^-- "StressorChemical"
 "ExposureEvent" *--> "0..1" "Regimen" : "regimen"
 "Entity" ^-- "Regimen"
-class "PhenotypeObservationSet" [[{A phenotypic outcome resulting from an exposure event.}]] {
+class "PhenotypeObservationSet" [[{An observation set containing control and phenotypic outcome resulting from an exposure event.}]] {
     {field} uuid(i) : string  
 }
 "PhenotypeObservationSet" *--> "0..*" "Phenotype" : "phenotype"
@@ -76,14 +76,14 @@ class "Image" [[{An image associated with a phenotype observation.}]] {
 "ExposureEvent" *--> "0..*" "PhenotypeObservationSet" : "phenotype_observation"
 "Entity" ^-- "PhenotypeObservationSet"
 "Entity" ^-- "Image"
-class "Experiment" [[{Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.}]] {
+class "Experiment" [[{A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.}]] {
     {field} standard_rearing_condition : boolean  
     {field} rearing_condition_comment : string  
     {field} uuid(i) : string  
 }
 "Experiment" *--> "0..*" "ExposureEvent" : "exposure_event"
 "Entity" ^-- "ExposureEvent"
-class "Control" [[{Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.}]] {
+class "Control" [[{A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.}]] {
     {field} control_type : string  
     {field} vehicle_if_treated : VehicleEnumeration  
     {field} comment : string  

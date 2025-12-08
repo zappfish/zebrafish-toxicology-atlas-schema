@@ -555,7 +555,7 @@
     {
       "name": "experiment",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/experiment",
-      "description": "The experiments in a study.",
+      "description": "The experiment in a study.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/experiment",
       "owner": "Study",
@@ -571,7 +571,7 @@
     {
       "name": "phenotype_observation",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/phenotype_observation",
-      "description": "The phenotype observations from this exposure event.",
+      "description": "The phenotype observation resulting from an exposure event.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/phenotype_observation",
       "owner": "ExposureEvent",
@@ -587,7 +587,7 @@
     {
       "name": "control",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control",
-      "description": "The controls for this experiment.",
+      "description": "An observation that serves as the reference for assessing phenotypic outcome.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control",
       "owner": "Experiment",
@@ -717,7 +717,7 @@
     {
       "name": "vehicle_if_treated",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle_if_treated",
-      "description": "Vehicle used if this is a treated control.",
+      "description": "The vehicle used in a control.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle_if_treated",
       "owner": "Control",
@@ -739,7 +739,7 @@
     {
       "name": "control_image",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control_image",
-      "description": "Images associated with this control.",
+      "description": "Image associated with this control.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control_image",
       "owner": "Control",
@@ -769,7 +769,7 @@
     {
       "name": "exposure_event",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/exposure_event",
-      "description": "The exposure events in this experiment.",
+      "description": "The exposure event in an experiment.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/exposure_event",
       "owner": "Experiment",
@@ -785,7 +785,7 @@
     {
       "name": "standard_rearing_condition",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/standard_rearing_condition",
-      "description": "An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
+      "description": "An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/standard_rearing_condition",
       "owner": "Experiment",
@@ -824,7 +824,7 @@
     {
       "name": "stressor",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/stressor",
-      "description": "Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure.",
+      "description": "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/stressor",
       "owner": "ExposureEvent",
@@ -840,7 +840,7 @@
     {
       "name": "vehicle",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle",
-      "description": "The substance or medium used deliver a stressor.",
+      "description": "The substance or medium used to deliver a stressor.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle",
       "owner": "ExposureEvent",
@@ -1107,7 +1107,7 @@
     {
       "name": "resolution",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/resolution",
-      "description": "Level of detail of the image.",
+      "description": "The level of detail in the image.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/resolution",
       "owner": "ControlImage",
@@ -1150,7 +1150,7 @@
     {
       "name": "lab",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/lab",
-      "description": "The lab where the experiment originated.",
+      "description": "ZFIN lab identifier of the laboratory that produced the study data.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/lab",
       "owner": "Study",
@@ -1247,7 +1247,7 @@
     {
       "name": "Experiment",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/Experiment",
-      "description": "Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.",
+      "description": "A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "Entity",
       "slots": [
@@ -1265,7 +1265,7 @@
     {
       "name": "PhenotypeObservationSet",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/PhenotypeObservationSet",
-      "description": "A phenotypic outcome resulting from an exposure event.",
+      "description": "An observation set containing control and phenotypic outcome resulting from an exposure event.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "Entity",
       "slots": [
@@ -1298,7 +1298,7 @@
     {
       "name": "Control",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/Control",
-      "description": "Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.",
+      "description": "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "Entity",
       "slots": [
@@ -1458,9 +1458,9 @@
   ],
   "metamodel_version": "1.7.0",
   "source_file": "zebrafish_toxicology_atlas_schema.yaml",
-  "source_file_date": "2025-11-14T00:07:58",
-  "source_file_size": 12585,
-  "generation_date": "2025-11-14T00:08:49",
+  "source_file_date": "2025-12-08T21:36:50",
+  "source_file_size": 12649,
+  "generation_date": "2025-12-08T21:37:16",
   "@type": "SchemaDefinition",
   "@context": [
     "project/jsonld/zebrafish_toxicology_atlas_schema.context.jsonld",

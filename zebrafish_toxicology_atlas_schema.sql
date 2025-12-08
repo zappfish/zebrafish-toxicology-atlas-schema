@@ -2,15 +2,15 @@
 --     * Slot: uuid Description: UUID identifier.
 -- # Class: Study Description: A toxicological investigation, including the experimental conditions and phenotypic outcomes, with information provenance.
 --     * Slot: publication Description: The publication identifier (e.g., PMID, DOI) for the study or "not published" if the study is unpublished.
---     * Slot: lab Description: The lab where the experiment originated.
+--     * Slot: lab Description: ZFIN lab identifier of the laboratory that produced the study data.
 --     * Slot: uuid Description: UUID identifier.
--- # Class: Experiment Description: Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.
---     * Slot: standard_rearing_condition Description: An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.
+-- # Class: Experiment Description: A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.
+--     * Slot: standard_rearing_condition Description: An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.
 --     * Slot: rearing_condition_comment Description: Comments on rearing conditions, for example, about how conditions deviated from standard parameters.
 --     * Slot: uuid Description: UUID identifier.
 --     * Slot: Study_uuid Description: Autocreated FK slot
 --     * Slot: fish_uuid Description: The fish subject of the experiment.
--- # Class: PhenotypeObservationSet Description: A phenotypic outcome resulting from an exposure event.
+-- # Class: PhenotypeObservationSet Description: An observation set containing control and phenotypic outcome resulting from an exposure event.
 --     * Slot: uuid Description: UUID identifier.
 --     * Slot: ExposureEvent_uuid Description: Autocreated FK slot
 -- # Class: Phenotype Description: Any measurable or visible trait change in the subject as a result of exposure.
@@ -20,9 +20,9 @@
 --     * Slot: uuid Description: UUID identifier.
 --     * Slot: PhenotypeObservationSet_uuid Description: Autocreated FK slot
 --     * Slot: prevalence_id Description: The percentage of subject exhibiting this phenotype.
--- # Class: Control Description: Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.
+-- # Class: Control Description: A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.
 --     * Slot: control_type Description: Type of control (e.g., wildtype vs mutant, treated vs untreated).
---     * Slot: vehicle_if_treated Description: Vehicle used if this is a treated control.
+--     * Slot: vehicle_if_treated Description: The vehicle used in a control.
 --     * Slot: comment Description: Additional comments.
 --     * Slot: uuid Description: UUID identifier.
 --     * Slot: Experiment_uuid Description: Autocreated FK slot
@@ -57,14 +57,14 @@
 --     * Slot: uuid Description: UUID identifier.
 -- # Class: Image Description: An image associated with a phenotype observation.
 --     * Slot: magnification Description: The factor by which a microscope enlarges the apparent size of a subject compared to its actual size.
---     * Slot: resolution Description: Level of detail of the image.
+--     * Slot: resolution Description: The level of detail in the image.
 --     * Slot: scale_bar Description: Scale bar information, including the physical length it represents and the unit of measurement.
 --     * Slot: uuid Description: UUID identifier.
 --     * Slot: PhenotypeObservationSet_uuid Description: Autocreated FK slot
 -- # Class: ControlImage Description: An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation.
 --     * Slot: phenotype_id Description: Foreign key reference to the PhenotypeObservationSet uuid (for database representation).
 --     * Slot: magnification Description: The factor by which a microscope enlarges the apparent size of a subject compared to its actual size.
---     * Slot: resolution Description: Level of detail of the image.
+--     * Slot: resolution Description: The level of detail in the image.
 --     * Slot: scale_bar Description: Scale bar information, including the physical length it represents and the unit of measurement.
 --     * Slot: phenotype_comments Description: Comments about the phenotype in the control image.
 --     * Slot: uuid Description: UUID identifier.
@@ -83,7 +83,7 @@
 --     * Slot: annotator Description: ORCID identifier of the indidvidual submitting the study data.
 -- # Class: ExposureEvent_vehicle
 --     * Slot: ExposureEvent_uuid Description: Autocreated FK slot
---     * Slot: vehicle Description: The substance or medium used deliver a stressor.
+--     * Slot: vehicle Description: The substance or medium used to deliver a stressor.
 -- # Class: ChemicalEntity_synonym
 --     * Slot: ChemicalEntity_uuid Description: Autocreated FK slot
 --     * Slot: synonym Description: Other names for the chemical.
@@ -144,13 +144,13 @@ CREATE TABLE "Study_annotator" (
 	annotator TEXT,
 	PRIMARY KEY ("Study_uuid", annotator),
 	FOREIGN KEY("Study_uuid") REFERENCES "Study" (uuid)
-);CREATE INDEX "ix_Study_annotator_annotator" ON "Study_annotator" (annotator);CREATE INDEX "ix_Study_annotator_Study_uuid" ON "Study_annotator" ("Study_uuid");
+);CREATE INDEX "ix_Study_annotator_Study_uuid" ON "Study_annotator" ("Study_uuid");CREATE INDEX "ix_Study_annotator_annotator" ON "Study_annotator" (annotator);
 CREATE TABLE "ChemicalEntity_synonym" (
 	"ChemicalEntity_uuid" TEXT,
 	synonym TEXT,
 	PRIMARY KEY ("ChemicalEntity_uuid", synonym),
 	FOREIGN KEY("ChemicalEntity_uuid") REFERENCES "ChemicalEntity" (uuid)
-);CREATE INDEX "ix_ChemicalEntity_synonym_ChemicalEntity_uuid" ON "ChemicalEntity_synonym" ("ChemicalEntity_uuid");CREATE INDEX "ix_ChemicalEntity_synonym_synonym" ON "ChemicalEntity_synonym" (synonym);
+);CREATE INDEX "ix_ChemicalEntity_synonym_synonym" ON "ChemicalEntity_synonym" (synonym);CREATE INDEX "ix_ChemicalEntity_synonym_ChemicalEntity_uuid" ON "ChemicalEntity_synonym" ("ChemicalEntity_uuid");
 CREATE TABLE "Control" (
 	control_type TEXT,
 	vehicle_if_treated VARCHAR(7),
@@ -197,7 +197,7 @@ CREATE TABLE "ExposureEvent_vehicle" (
 	vehicle VARCHAR(7),
 	PRIMARY KEY ("ExposureEvent_uuid", vehicle),
 	FOREIGN KEY("ExposureEvent_uuid") REFERENCES "ExposureEvent" (uuid)
-);CREATE INDEX "ix_ExposureEvent_vehicle_vehicle" ON "ExposureEvent_vehicle" (vehicle);CREATE INDEX "ix_ExposureEvent_vehicle_ExposureEvent_uuid" ON "ExposureEvent_vehicle" ("ExposureEvent_uuid");
+);CREATE INDEX "ix_ExposureEvent_vehicle_ExposureEvent_uuid" ON "ExposureEvent_vehicle" ("ExposureEvent_uuid");CREATE INDEX "ix_ExposureEvent_vehicle_vehicle" ON "ExposureEvent_vehicle" (vehicle);
 CREATE TABLE "Phenotype" (
 	stage TEXT,
 	severity VARCHAR(8),
