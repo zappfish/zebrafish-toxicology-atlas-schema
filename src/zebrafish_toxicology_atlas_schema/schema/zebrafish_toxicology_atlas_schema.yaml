@@ -46,7 +46,7 @@ classes:
 
   Experiment:
     is_a: Entity
-    description: Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.
+    description: A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.
     slots:
       - standard_rearing_condition
       - rearing_condition_comment
@@ -56,7 +56,7 @@ classes:
 
   PhenotypeObservationSet:
     is_a: Entity
-    description: A phenotypic outcome resulting from an exposure event.
+    description: An observation set containing control and phenotypic outcome resulting from an exposure event.
     slots:
       - image
       - phenotype
@@ -73,7 +73,7 @@ classes:
 
   Control:
     is_a: Entity
-    description: Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.
+    description: A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set. 
     slots:
       - control_type
       - vehicle_if_treated
@@ -188,19 +188,19 @@ slots:
   numeric_value:
     description: The numeric value of the quantity value.
   experiment:
-    description: The experiments in a study.
+    description: The experiment in a study.
     range: Experiment
     multivalued: true
     inlined_as_list: true
     inlined: true
   phenotype_observation:
-    description: The phenotype observations from this exposure event.
+    description: The phenotype observation resulting from an exposure event.
     range: PhenotypeObservationSet
     multivalued: true
     inlined: true
     inlined_as_list: true
   control:
-    description: The controls for this experiment.
+    description: An observation that serves as the reference for assessing phenotypic outcome.
     range: Control
     multivalued: true
     inlined: true
@@ -240,13 +240,13 @@ slots:
     description: Type of control (e.g., wildtype vs mutant, treated vs untreated).
     range: string
   vehicle_if_treated:
-    description: Vehicle used if this is a treated control.
+    description: The vehicle used in a control.
     range: VehicleEnumeration
   control_id:
     description: Identifier for the control, used to link control images to specific controls.
     range: string
   control_image:
-    description: Images associated with this control.
+    description: Image associated with this control.
     range: ControlImage
     multivalued: true
     inlined: true
@@ -255,13 +255,13 @@ slots:
     description: Foreign key reference to the PhenotypeObservationSet uuid (for database representation).
     range: string
   exposure_event:
-    description: The exposure events in this experiment.
+    description: The exposure event in an experiment.
     range: ExposureEvent
     multivalued: true
     inlined_as_list: true
     inlined: true
   standard_rearing_condition:
-    description: An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.
+    description: An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.
     range: boolean
   number_of_individual_exposure:
     description: Total number of individual exposures.
@@ -270,13 +270,13 @@ slots:
     description: Comments on rearing conditions, for example, about how conditions deviated from standard parameters.
     range: string
   stressor:
-    description: Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure.
+    description: Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.
     range: StressorChemical
     multivalued: true
     inlined_as_list: true
     inlined: true
   vehicle:
-    description: The substance or medium used deliver a stressor.
+    description: The substance or medium used to deliver a stressor.
     range: VehicleEnumeration
     multivalued: true
   route:
@@ -353,7 +353,7 @@ slots:
     description: The factor by which a microscope enlarges the apparent size of a subject compared to its actual size.
     range: string
   resolution:
-    description: Level of detail of the image.
+    description: The level of detail in the image.
     range: string
   scale_bar:
     description: Scale bar information, including the physical length it represents and the unit of measurement.
@@ -364,7 +364,7 @@ slots:
     multivalued: true
     pattern: "^ORCID:[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"
   lab:
-    description: The lab where the experiment originated.
+    description: ZFIN lab identifier of the laboratory that produced the study data.
     range: uriorcurie
     pattern: "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$"
   phenotype_comments:
