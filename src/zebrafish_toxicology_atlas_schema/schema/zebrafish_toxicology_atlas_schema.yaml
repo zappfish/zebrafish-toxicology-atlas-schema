@@ -19,6 +19,7 @@ prefixes:
   CAS: https://commonchemistry.cas.org/detail?cas_rn=
   ECTO: http://purl.obolibrary.org/obo/ECTO_
   EXO: http://purl.obolibrary.org/obo/EXO_
+  ZP: http://purl.obolibrary.org/obo/ZP_
   ORCID: https://orcid.org/
   ZFIN: https://zfin.org/
 default_prefix: zebrafish_toxicology_atlas_schema
@@ -29,14 +30,26 @@ imports:
 
 classes:
 
-  Entity:
-    description: The base class for all entities in the Zebrafish Toxicology Atlas Schema.
+  # Base classes for different ID strategies
+  ZappEntity:
+    description: Internal entities with auto-generated integer IDs.
     abstract: true
     slots:
-      - uuid
+      - id
 
+  OntologyEntity:
+    description: Entities representing ontology terms with URI identifiers.
+    abstract: true
+
+  ZfinEntity:
+    description: Entities with ZFIN database identifiers.
+    abstract: true
+    slots:
+      - zfin_id
+
+  # Internal entities (integer autoincrement)
   Study:
-    is_a: Entity
+    is_a: ZappEntity
     description: A toxicological investigation, including the experimental conditions and phenotypic outcomes, with information provenance.
     slots:
       - experiment
@@ -45,7 +58,7 @@ classes:
       - lab
 
   Experiment:
-    is_a: Entity
+    is_a: ZappEntity
     description: Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.
     slots:
       - standard_rearing_condition
@@ -55,7 +68,7 @@ classes:
       - exposure_event
 
   PhenotypeObservationSet:
-    is_a: Entity
+    is_a: ZappEntity
     description: A phenotypic outcome resulting from an exposure event.
     slots:
       - image
@@ -63,7 +76,7 @@ classes:
       - control_image
 
   Phenotype:
-    is_a: Entity
+    is_a: ZappEntity
     description: Any measurable or visible trait change in the subject as a result of exposure.
     slots:
       - stage
@@ -72,7 +85,7 @@ classes:
       - phenotype_term_id
 
   Control:
-    is_a: Entity
+    is_a: ZappEntity
     description: Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.
     slots:
       - control_type
@@ -81,7 +94,7 @@ classes:
       - control_image
 
   ExposureEvent:
-    is_a: Entity
+    is_a: ZappEntity
     description: >-
       An occurrence in a study where a subject is exposed to a stressor under defined conditions.
     slots:
@@ -99,7 +112,7 @@ classes:
       - biolink:ExposureEvent
 
   Regimen:
-    is_a: Entity
+    is_a: ZappEntity
     description: The schedule and pattern of an exposure event.
     slots:
       - exposure_regimen_type
@@ -109,7 +122,7 @@ classes:
       - number_of_individual_exposure
 
   StressorChemical:
-    is_a: Entity
+    is_a: ZappEntity
     description: A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.
     slots:
       - chemical_id
@@ -117,19 +130,8 @@ classes:
       - concentration
       - comment
 
-  ChemicalEntity:
-    is_a: Entity
-    description: The chemical used as the stressor chemical in an exposure event.
-    slots:
-      - chebi_id
-      - cas_id
-      - chemical_name
-      - synonym
-    exact_mappings:
-      - biolink:ChemicalEntity
-
   Image:
-    is_a: Entity
+    is_a: ZappEntity
     description: An image associated with a phenotype observation.
     slots:
       - magnification
@@ -137,7 +139,7 @@ classes:
       - scale_bar
 
   ControlImage:
-    is_a: Entity
+    is_a: ZappEntity
     description: An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation.
     slots:
       - phenotype_id
@@ -146,18 +148,39 @@ classes:
       - scale_bar
       - phenotype_comments
 
+  # Ontology entities (string URI identifiers)
+  ChemicalEntity:
+    is_a: OntologyEntity
+    description: The chemical used as the stressor chemical in an exposure event.
+    slots:
+      - uri
+      - chebi_id
+      - cas_id
+      - chemical_name
+      - synonym
+    exact_mappings:
+      - biolink:ChemicalEntity
+
+  PhenotypeTerm:
+    is_a: OntologyEntity
+    description: A phenotype ontology term from the Zebrafish Phenotype ontology (ZP).
+    slots:
+      - term_uri
+      - term_label
+    exact_mappings:
+      - biolink:PhenotypicFeature
+
+  # ZFIN entities (ZFIN database identifiers)
   Fish:
-    is_a: Entity
+    is_a: ZfinEntity
     description: Zebrafish used as subject in the study.
     slots:
-      - id
       - name
     slot_usage:
       name:
         required: true
-      id:
-        pattern: "^ZFIN:ZDB-FISH-[0-9]{4}-[0-9]{6}-[0-9]+$"
 
+  # Value objects (not entities, inlined)
   QuantityValue:
     description: >-
       A value of an attribute that is quantitative and measurable,
@@ -168,9 +191,32 @@ classes:
 
 
 slots:
+  # Identifier slots
   id:
+    identifier: true
+    description: Auto-generated integer identifier.
+    range: integer
+
+  uri:
+    identifier: true
+    description: URI identifier for the chemical entity (CHEBI or CAS URI).
     range: uriorcurie
     required: true
+
+  term_uri:
+    identifier: true
+    description: The URI of the phenotype ontology term.
+    range: uriorcurie
+    required: true
+
+  zfin_id:
+    identifier: true
+    description: ZFIN database identifier.
+    range: string
+    required: true
+    pattern: "^ZFIN:ZDB-[A-Z]+-\\d{6}-\\d+$"
+
+  # Other slots
   publication:
     description: The publication identifier (e.g., PMID, DOI) for the study or "not published" if the study is unpublished.
     range: string
@@ -234,8 +280,13 @@ slots:
     description: The intensity of the observed phenotype.
     range: SeverityEnum
   phenotype_term_id:
-    description: The phenotype ontology term identifier.
-    range: uriorcurie
+    description: The phenotype ontology term.
+    range: PhenotypeTerm
+    inlined: true
+    inlined_as_list: true
+  term_label:
+    description: The human-readable label for the phenotype ontology term.
+    range: string
   control_type:
     description: Type of control (e.g., wildtype vs mutant, treated vs untreated).
     range: string
@@ -311,11 +362,6 @@ slots:
   chemical_name:
     description: Name of the chemical.
     range: string
-  uuid:
-    identifier: true
-    description: UUID identifier.
-    range: string
-    required: true
   chemical_id:
     description: Chemical identifier (CHEBI, CAS, or UUID).
     range: ChemicalEntity
