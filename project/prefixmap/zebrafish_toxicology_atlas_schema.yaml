@@ -1,5 +1,12 @@
 {
+   "CAS": "https://commonchemistry.cas.org/detail?cas_rn=",
+   "CHEBI": "http://purl.obolibrary.org/obo/CHEBI_",
+   "ECTO": "http://purl.obolibrary.org/obo/ECTO_",
+   "EXO": "http://purl.obolibrary.org/obo/EXO_",
+   "ORCID": "https://orcid.org/",
    "PATO": "http://purl.obolibrary.org/obo/PATO_",
+   "ZFIN": "https://zfin.org/",
+   "ZP": "http://purl.obolibrary.org/obo/ZP_",
    "biolink": "https://w3id.org/biolink/",
    "example": "https://example.org/",
    "linkml": "https://w3id.org/linkml/",
