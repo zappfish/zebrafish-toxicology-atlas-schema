@@ -10,21 +10,22 @@ license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.10,<4.0"
 dependencies = [
-    "linkml-runtime>=1.1.24",
     "SQLAlchemy>=2.0",
-    "linkml-transformer>=0.1",
-    "linkml @ git+https://github.com/linkml/linkml.git@feat/sqla-2x-declarative#subdirectory=packages/linkml",
-    "yamllint>=1.35.1",
-    "codespell>=2.4.1",
-    "eralchemy2>=1.4.1",
+    "pydantic>=2.0",
 ]
 
 [project.optional-dependencies]
 dev = [
+    "linkml @ git+https://github.com/linkml/linkml.git@feat/sqla-2x-declarative#subdirectory=packages/linkml",
+    "linkml-runtime>=1.1.24",
     "linkml-renderer>=0.1.2",
+    "linkml-transformer>=0.1",
     "mkdocs-material>=8.2.8",
     "mkdocs-mermaid2-plugin>=1.1.1",
     "schemasheets>=0.1.14",
+    "yamllint>=1.35.1",
+    "codespell>=2.4.1",
+    "eralchemy2>=1.4.1",
 ]
 docs = [
     "mkdocs-material>=8.2.8",
