@@ -22,6 +22,11 @@ gen-project:
         --include python \
         --include rdf \
         -d {{dest}} {{source_schema_path}}
-    uv run gen-pydantic {{source_schema_path}} > {{pymodel}}/pydanticmodel_v2.py
+    uv run python -m zebrafish_toxicology_atlas_schema.generators.crud_pydanticgen {{source_schema_path}} > {{pymodel}}/pydanticmodel_v2.py
     uv run gen-owl --mergeimports --no-metaclasses --no-type-objects --add-root-classes --mixins-as-expressions {{source_schema_path}} > {{dest}}/owl/{{schema_name}}.owl.ttl
     uv run gen-sqla --declarative --sqla-style 2 {{source_schema_path}} > {{pymodel}}/sqla.py
+
+# Generate Pydantic models with CRUD variants
+gen-crud-pydantic:
+    uv run python -m zebrafish_toxicology_atlas_schema.generators.crud_pydanticgen \
+        {{source_schema_path}} > {{pymodel}}/pydanticmodel_v2.py
