@@ -2504,21 +2504,22 @@ name = "zebrafish-toxicology-atlas-schema"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "codespell" },
-    { name = "eralchemy2" },
-    { name = "linkml" },
-    { name = "linkml-runtime" },
-    { name = "linkml-transformer" },
+    { name = "pydantic" },
     { name = "sqlalchemy" },
-    { name = "yamllint" },
 ]
 
 [package.optional-dependencies]
 dev = [
+    { name = "codespell" },
+    { name = "eralchemy2" },
+    { name = "linkml" },
     { name = "linkml-renderer" },
+    { name = "linkml-runtime" },
+    { name = "linkml-transformer" },
     { name = "mkdocs-material" },
     { name = "mkdocs-mermaid2-plugin" },
     { name = "schemasheets" },
+    { name = "yamllint" },
 ]
 docs = [
     { name = "mkdocs-material" },
@@ -2527,19 +2528,20 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "codespell", specifier = ">=2.4.1" },
-    { name = "eralchemy2", specifier = ">=1.4.1" },
-    { name = "linkml", git = "https://github.com/linkml/linkml.git?subdirectory=packages%2Flinkml&rev=feat%2Fsqla-2x-declarative" },
+    { name = "codespell", marker = "extra == 'dev'", specifier = ">=2.4.1" },
+    { name = "eralchemy2", marker = "extra == 'dev'", specifier = ">=1.4.1" },
+    { name = "linkml", marker = "extra == 'dev'", git = "https://github.com/linkml/linkml.git?subdirectory=packages%2Flinkml&rev=feat%2Fsqla-2x-declarative" },
     { name = "linkml-renderer", marker = "extra == 'dev'", specifier = ">=0.1.2" },
-    { name = "linkml-runtime", specifier = ">=1.1.24" },
-    { name = "linkml-transformer", specifier = ">=0.1" },
+    { name = "linkml-runtime", marker = "extra == 'dev'", specifier = ">=1.1.24" },
+    { name = "linkml-transformer", marker = "extra == 'dev'", specifier = ">=0.1" },
     { name = "mkdocs-material", marker = "extra == 'dev'", specifier = ">=8.2.8" },
     { name = "mkdocs-material", marker = "extra == 'docs'", specifier = ">=8.2.8" },
     { name = "mkdocs-mermaid2-plugin", marker = "extra == 'dev'", specifier = ">=1.1.1" },
     { name = "mkdocs-mermaid2-plugin", marker = "extra == 'docs'", specifier = ">=1.1.1" },
+    { name = "pydantic", specifier = ">=2.0" },
     { name = "schemasheets", marker = "extra == 'dev'", specifier = ">=0.1.14" },
     { name = "sqlalchemy", specifier = ">=2.0" },
-    { name = "yamllint", specifier = ">=1.35.1" },
+    { name = "yamllint", marker = "extra == 'dev'", specifier = ">=1.35.1" },
 ]
 provides-extras = ["dev", "docs"]
 
