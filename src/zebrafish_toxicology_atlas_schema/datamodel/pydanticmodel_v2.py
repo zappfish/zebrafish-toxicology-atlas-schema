@@ -71,6 +71,8 @@ class ReadBaseModel(BaseModel):
     model_config = ConfigDict(
         from_attributes=True,
         extra="ignore",
+        arbitrary_types_allowed=True,
+        use_enum_values=True,
     )
 linkml_meta = LinkMLMeta({'default_prefix': 'zebrafish_toxicology_atlas_schema',
      'default_range': 'string',

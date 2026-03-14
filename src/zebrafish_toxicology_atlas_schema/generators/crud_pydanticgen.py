@@ -26,6 +26,8 @@ READBASEMODEL_SRC = '''class ReadBaseModel(BaseModel):
     model_config = ConfigDict(
         from_attributes=True,
         extra="ignore",
+        arbitrary_types_allowed=True,
+        use_enum_values=True,
     )'''
 
 
