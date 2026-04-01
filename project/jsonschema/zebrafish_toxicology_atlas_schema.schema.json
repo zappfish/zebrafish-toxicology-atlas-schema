@@ -35,13 +35,13 @@
                         "null"
                     ]
                 },
-                "uuid": {
-                    "description": "UUID identifier.",
+                "uri": {
+                    "description": "URI identifier for the chemical entity (CHEBI or CAS URI).",
                     "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "uri"
             ],
             "title": "ChemicalEntity",
             "type": "object"
@@ -74,9 +74,9 @@
                         "null"
                     ]
                 },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
                 },
                 "vehicle_if_treated": {
                     "$ref": "#/$defs/VehicleEnumeration",
@@ -84,7 +84,7 @@
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "Control",
             "type": "object"
@@ -93,8 +93,19 @@
             "additionalProperties": false,
             "description": "An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation.",
             "properties": {
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
                 "magnification": {
                     "description": "The factor by which a microscope enlarges the apparent size of a subject compared to its actual size.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "phenotype_comments": {
+                    "description": "Comments about the phenotype in the control image.",
                     "type": [
                         "string",
                         "null"
@@ -120,14 +131,10 @@
                         "string",
                         "null"
                     ]
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "ControlImage",
             "type": "object"
@@ -167,6 +174,10 @@
                     ],
                     "description": "The fish subject of the experiment."
                 },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
                 "rearing_condition_comment": {
                     "description": "Comments on rearing conditions, for example, about how conditions deviated from standard parameters.",
                     "type": [
@@ -180,14 +191,10 @@
                         "boolean",
                         "null"
                     ]
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "Experiment",
             "type": "object"
@@ -228,6 +235,10 @@
                     "$ref": "#/$defs/ExposureTypeEnum",
                     "description": "An instance of exposure specifying the type of stressor a subject was exposed to."
                 },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
                 "phenotype_observation": {
                     "description": "The phenotype observations from this exposure event.",
                     "items": {
@@ -263,10 +274,6 @@
                         "null"
                     ]
                 },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
-                },
                 "vehicle": {
                     "description": "The substance or medium used deliver a stressor.",
                     "items": {
@@ -279,7 +286,7 @@
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "ExposureEvent",
             "type": "object"
@@ -307,23 +314,19 @@
             "additionalProperties": false,
             "description": "Zebrafish used as subject in the study.",
             "properties": {
-                "id": {
-                    "pattern": "^ZFIN:ZDB-FISH-[0-9]{4}-[0-9]{6}-[0-9]+$",
-                    "type": "string"
-                },
                 "name": {
                     "description": "Name or label of an entity.",
                     "type": "string"
                 },
-                "uuid": {
-                    "description": "UUID identifier.",
+                "zfin_id": {
+                    "description": "ZFIN database identifier.",
+                    "pattern": "^ZFIN:ZDB-[A-Z]+-\\d{6}-\\d+$",
                     "type": "string"
                 }
             },
             "required": [
-                "id",
                 "name",
-                "uuid"
+                "zfin_id"
             ],
             "title": "Fish",
             "type": "object"
@@ -332,6 +335,10 @@
             "additionalProperties": false,
             "description": "An image associated with a phenotype observation.",
             "properties": {
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
                 "magnification": {
                     "description": "The factor by which a microscope enlarges the apparent size of a subject compared to its actual size.",
                     "type": [
@@ -352,14 +359,10 @@
                         "string",
                         "null"
                     ]
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "Image",
             "type": "object"
@@ -368,12 +371,20 @@
             "additionalProperties": false,
             "description": "Any measurable or visible trait change in the subject as a result of exposure.",
             "properties": {
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
                 "phenotype_term_id": {
-                    "description": "The phenotype ontology term identifier.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/PhenotypeTerm"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The phenotype ontology term."
                 },
                 "prevalence": {
                     "anyOf": [
@@ -396,14 +407,10 @@
                         "string",
                         "null"
                     ]
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "Phenotype",
             "type": "object"
@@ -421,6 +428,10 @@
                         "array",
                         "null"
                     ]
+                },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
                 },
                 "image": {
                     "description": "Images associated with this observation.",
@@ -441,16 +452,34 @@
                         "array",
                         "null"
                     ]
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "PhenotypeObservationSet",
+            "type": "object"
+        },
+        "PhenotypeTerm": {
+            "additionalProperties": false,
+            "description": "A phenotype ontology term from the Zebrafish Phenotype ontology (ZP).",
+            "properties": {
+                "term_label": {
+                    "description": "The human-readable label for the phenotype ontology term.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
-                "uuid": {
-                    "description": "UUID identifier.",
+                "term_uri": {
+                    "description": "The URI of the phenotype ontology term.",
                     "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "term_uri"
             ],
-            "title": "PhenotypeObservationSet",
+            "title": "PhenotypeTerm",
             "type": "object"
         },
         "QuantityValue": {
@@ -482,6 +511,10 @@
                 "exposure_regimen_type": {
                     "$ref": "#/$defs/ExposureRegimenTypeEnum",
                     "description": "The type of exposure regimen (e.g., continuous or repeated)."
+                },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
                 },
                 "individual_exposure_duration": {
                     "anyOf": [
@@ -522,14 +555,10 @@
                         }
                     ],
                     "description": "Time between first and last individual exposure."
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "Regimen",
             "type": "object"
@@ -563,22 +592,22 @@
                     "$ref": "#/$defs/QuantityValue",
                     "description": "The dose or concentration of the chemical to which the subject was exposed to."
                 },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
                 "manufacturer": {
                     "description": "The manufacturer of the chemical.",
                     "type": [
                         "string",
                         "null"
                     ]
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
                 "chemical_id",
                 "concentration",
-                "uuid"
+                "id"
             ],
             "title": "StressorChemical",
             "type": "object"
@@ -608,6 +637,13 @@
                         "null"
                     ]
                 },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
                 "lab": {
                     "description": "The lab where the experiment originated.",
                     "pattern": "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$",
@@ -622,14 +658,10 @@
                         "string",
                         "null"
                     ]
-                },
-                "uuid": {
-                    "description": "UUID identifier.",
-                    "type": "string"
                 }
             },
             "required": [
-                "uuid"
+                "id"
             ],
             "title": "Study",
             "type": "object"
@@ -652,4 +684,3 @@
     "type": "object",
     "version": null
 }
-

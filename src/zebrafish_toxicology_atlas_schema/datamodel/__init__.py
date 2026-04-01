@@ -1,5 +1,4 @@
 from pathlib import Path
-from .zebrafish_toxicology_atlas_schema import *
 
 THIS_PATH = Path(__file__).parent
 

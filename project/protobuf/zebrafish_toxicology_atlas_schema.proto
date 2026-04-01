@@ -1,77 +1,127 @@
  syntax="proto3";
  package
 // metamodel_version: 1.7.0
-// A representation of the genetic background of the fish.
-message Allele
- {
-  string name = 0
-  gene gene = 0
-  string variationType = 0
-  string id = 0
- }
-// A chemical compound used as a toxicant in the study.
+// The chemical used as the stressor chemical in an exposure event.
 message ChemicalEntity
  {
-  string name = 0
-  string id = 0
+  uriorcurie uri = 0
+  uriorcurie chebiId = 0
+  string casId = 0
+  string chemicalName = 0
+ repeated  string synonym = 0
  }
-// The concentration of a chemical.
-message Concentration
+// Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.
+message Control
  {
-  string hasUnit = 0
-  string hasNumericValue = 0
+  integer id = 0
+  string controlType = 0
+  vehicleEnumeration vehicleIfTreated = 0
+  string comment = 0
+ repeated  controlImage controlImage = 0
  }
-// A zebrafish developmental stage.
-message DevelopmentalStage
+// An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation.
+message ControlImage
  {
-  string name = 0
-  string id = 0
+  integer id = 0
+  string phenotypeId = 0
+  string magnification = 0
+  string resolution = 0
+  string scaleBar = 0
+  string phenotypeComments = 0
  }
-// An instance of a toxicological exposure event in the study.  According to ECTO,  an exposure
+// Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.
+message Experiment
+ {
+  integer id = 0
+  boolean standardRearingCondition = 0
+  string rearingConditionComment = 0
+  fish fish = 0
+ repeated  control control = 0
+ repeated  exposureEvent exposureEvent = 0
+ }
+// An occurrence in a study where a subject is exposed to a stressor under defined conditions.
 message ExposureEvent
  {
-  string id = 0
-  string name = 0
-  chemicalEntity exposureSubstance = 0
+  integer id = 0
+ repeated  stressorChemical stressor = 0
+ repeated  vehicleEnumeration vehicle = 0
+  exposureRouteEnum route = 0
+  regimen regimen = 0
+  uriorcurie exposureStartStage = 0
+  uriorcurie exposureEndStage = 0
+  string comment = 0
   exposureTypeEnum exposureType = 0
-  concentration concentration = 0
-  developmentalStage startStage = 0
-  developmentalStage endStage = 0
-  quantityValue duration = 0
-  quantityValue frequency = 0
+  string additionalExposureCondition = 0
+ repeated  phenotypeObservationSet phenotypeObservation = 0
  }
-// A representation of the zebrafish used in the toxicology study.
+// Zebrafish used as subject in the study.
 message Fish
  {
+  string zfinId = 0
   string name = 0
-  string background = 0
-  allele allele = 0
-  uriorcurie zygosity = 0
-  string id = 0
  }
-// A representation of the phenotype observed in the fish as a result of exposure.
-message FishExposureOutcome
+// An image associated with a phenotype observation.
+message Image
  {
-  fish fish = 0
-  exposureEvent exposureEvent = 0
- repeated  phenotype outcome = 0
+  integer id = 0
+  string magnification = 0
+  string resolution = 0
+  string scaleBar = 0
  }
-// A representation of a gene.
-message Gene
- {
-  string name = 0
-  string symbol = 0
-  string id = 0
- }
-// A phenotype observed in the fish as a result of exposure.
+// Any measurable or visible trait change in the subject as a result of exposure.
 message Phenotype
  {
-  string id = 0
-  string name = 0
+  integer id = 0
+  uriorcurie stage = 0
+  quantityValue prevalence = 0
+  severityEnum severity = 0
+  phenotypeTerm phenotypeTermId = 0
+ }
+// A phenotypic outcome resulting from an exposure event.
+message PhenotypeObservationSet
+ {
+  integer id = 0
+ repeated  image image = 0
+ repeated  phenotype phenotype = 0
+ repeated  controlImage controlImage = 0
+ }
+// A phenotype ontology term from the Zebrafish Phenotype ontology (ZP).
+message PhenotypeTerm
+ {
+  uriorcurie termUri = 0
+  string termLabel = 0
  }
 // A value of an attribute that is quantitative and measurable, expressed as a combination of a unit and a numeric value
 message QuantityValue
  {
-  string hasUnit = 0
-  string hasNumericValue = 0
+  string unit = 0
+  string numericValue = 0
+ }
+// The schedule and pattern of an exposure event.
+message Regimen
+ {
+  integer id = 0
+  exposureRegimenTypeEnum exposureRegimenType = 0
+  quantityValue intervalBetweenIndividualExposures = 0
+  quantityValue totalExposureDuration = 0
+  quantityValue individualExposureDuration = 0
+  integer numberOfIndividualExposure = 0
+ }
+// A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.
+message StressorChemical
+ {
+  integer id = 0
+  chemicalEntity chemicalId = 0
+  string manufacturer = 0
+  quantityValue concentration = 0
+  string comment = 0
+ }
+// A toxicological investigation, including the experimental conditions and phenotypic outcomes, with information provenance.
+message Study
+ {
+  integer id = 0
+ repeated  experiment experiment = 0
+  string publication = 0
+ repeated  uriorcurie annotator = 0
+  uriorcurie lab = 0
  }
