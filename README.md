@@ -4,7 +4,7 @@ Schema to represent metadata associated with the Zebrafish Toxicology Atlas
 
 ## Website
 
-[https://sierra-moxon.github.io/zebrafish-toxicology-atlas-schema](https://sierra-moxon.github.io/zebrafish-toxicology-atlas-schema)
+[https://zappfish.org/zebrafish-toxicology-atlas-schema/](https://sierra-moxon.github.io/zebrafish-toxicology-atlas-schema)
 
 ## Repository Structure
 
