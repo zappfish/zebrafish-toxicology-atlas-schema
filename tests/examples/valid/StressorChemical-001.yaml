@@ -1,14 +1,12 @@
 ---
 uuid: "stressor-001"
-chemical_id:
-  uuid: "chemical-001"
-  chebi_id: "CHEBI:15377"
-  cas_id: "64-17-5"
-  chemical_name: "ethanol"
-  synonym:
-    - "ethyl alcohol"
-    - "EtOH"
-manufacturer: "Sigma-Aldrich"
+chemical_id: "CHEBI:15377"
+cas_id: "64-17-5"
+chemical_name: "ethanol"
+synonym:
+  - "ethyl alcohol"
+  - "EtOH"
+manufacturer: "sigma_aldrich"
 concentration:
   unit: "mg/L"
   numeric_value: "10.5"

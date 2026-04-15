@@ -1,0 +1,8 @@
+---
+uuid: "vehicle-001"
+vehicle_type: "ethanol"
+manufacturer: "sigma_aldrich"
+concentration:
+  unit: "percent"
+  numeric_value: "0.1"
+comment: "Used as solvent for stressor delivery"

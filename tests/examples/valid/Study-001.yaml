@@ -30,7 +30,13 @@ experiment:
         exposure_end_stage: "ZFIN:ZDB-STAGE-050211-6"
         exposure_type: "ECTO:0000002"
         vehicle:
-          - "ethanol"
+          - uuid: "vehicle-001"
+            vehicle_type: "ethanol"
+            manufacturer: "sigma_aldrich"
+            concentration:
+              unit: "percent"
+              numeric_value: "0.1"
+            comment: "Used as solvent for stressor delivery"
         regimen:
           uuid: "regimen-001"
           exposure_regimen_type: "repeated"
@@ -46,15 +52,13 @@ experiment:
             numeric_value: "6"
         stressor:
           - uuid: "stressor-001"
-            chemical_id:
-              uuid: "chemical-001"
-              chebi_id: "CHEBI:15377"
-              cas_id: "64-17-5"
-              chemical_name: "ethanol"
-              synonym:
-                - "ethyl alcohol"
-                - "EtOH"
-            manufacturer: "Sigma-Aldrich"
+            chemical_id: "CHEBI:15377"
+            cas_id: "64-17-5"
+            chemical_name: "ethanol"
+            synonym:
+              - "ethyl alcohol"
+              - "EtOH"
+            manufacturer: "sigma_aldrich"
             concentration:
               unit: "mg/L"
               numeric_value: "10.5"
