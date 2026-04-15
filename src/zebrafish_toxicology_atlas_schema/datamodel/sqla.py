@@ -103,7 +103,7 @@ class ExposureEventVehicle(Base):
     __tablename__ = 'ExposureEvent_vehicle'
 
     ExposureEvent_id: Mapped[int] = mapped_column(Integer(), ForeignKey('ExposureEvent.id'), primary_key=True)
-    vehicle: Mapped[str] = mapped_column(Enum('ethanol', 'dmso', name='VehicleEnumeration'), primary_key=True)
+    vehicle: Mapped[str] = mapped_column(Enum('ethanol', 'dmso', name='VehicleEnum'), primary_key=True)
     
 
     def __repr__(self):
@@ -265,7 +265,7 @@ class Control(ZappEntity):
     __tablename__ = 'Control'
 
     control_type: Mapped[Optional[str]] = mapped_column(Text())
-    vehicle_if_treated: Mapped[Optional[str]] = mapped_column(Enum('ethanol', 'dmso', name='VehicleEnumeration'))
+    vehicle_if_treated: Mapped[Optional[str]] = mapped_column(Enum('ethanol', 'dmso', name='VehicleEnum'))
     comment: Mapped[Optional[str]] = mapped_column(Text())
     id: Mapped[int] = mapped_column(Integer(), primary_key=True)
     Experiment_id: Mapped[Optional[int]] = mapped_column(Integer(), ForeignKey('Experiment.id'))

@@ -445,8 +445,8 @@
       ]
     },
     {
-      "name": "VehicleEnumeration",
-      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnumeration",
+      "name": "VehicleEnum",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnum",
       "description": "An enumeration of vehicles used in exposures.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "permissible_values": [
@@ -791,7 +791,7 @@
       "domain_of": [
         "Control"
       ],
-      "range": "VehicleEnumeration",
+      "range": "VehicleEnum",
       "@type": "SlotDefinition"
     },
     {
@@ -914,7 +914,7 @@
       "domain_of": [
         "ExposureEvent"
       ],
-      "range": "VehicleEnumeration",
+      "range": "VehicleEnum",
       "multivalued": true,
       "@type": "SlotDefinition"
     },

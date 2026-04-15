@@ -156,7 +156,7 @@ zebrafish_toxicology_atlas_schema:Control a owl:Class ;
             owl:minCardinality 0 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
         [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnumeration ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnum ;
             owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
@@ -294,7 +294,7 @@ zebrafish_toxicology_atlas_schema:ExposureEvent a owl:Class ;
             owl:maxCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:route ],
         [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnumeration ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnum ;
             owl:onProperty zebrafish_toxicology_atlas_schema:vehicle ],
         [ a owl:Restriction ;
             owl:minCardinality 0 ;
@@ -643,7 +643,7 @@ zebrafish_toxicology_atlas_schema:synonym a owl:DatatypeProperty ;
 
 zebrafish_toxicology_atlas_schema:vehicle a owl:ObjectProperty ;
     rdfs:label "vehicle" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:VehicleEnumeration ;
+    rdfs:range zebrafish_toxicology_atlas_schema:VehicleEnum ;
     skos:definition "The substance or medium used deliver a stressor." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
@@ -651,7 +651,7 @@ CHEBI:00000000 a owl:Class ;
     rdfs:label "dmso",
         "ethanol" ;
     rdfs:subClassOf linkml:PermissibleValue,
-        zebrafish_toxicology_atlas_schema:VehicleEnumeration ;
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
     skos:definition "DMSO",
         "Ethanol" .
 
@@ -924,7 +924,7 @@ zebrafish_toxicology_atlas_schema:uri a owl:DatatypeProperty ;
 
 zebrafish_toxicology_atlas_schema:vehicle_if_treated a owl:ObjectProperty ;
     rdfs:label "vehicle_if_treated" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:VehicleEnumeration ;
+    rdfs:range zebrafish_toxicology_atlas_schema:VehicleEnum ;
     skos:definition "Vehicle used if this is a treated control." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
@@ -962,8 +962,8 @@ zebrafish_toxicology_atlas_schema:SeverityEnum a owl:Class ;
         <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/SeverityEnum#moderate>,
         <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/SeverityEnum#severe> .
 
-zebrafish_toxicology_atlas_schema:VehicleEnumeration a owl:Class ;
-    rdfs:label "VehicleEnumeration" ;
+zebrafish_toxicology_atlas_schema:VehicleEnum a owl:Class ;
+    rdfs:label "VehicleEnum" ;
     rdfs:subClassOf linkml:EnumDefinition ;
     owl:unionOf ( CHEBI:00000000 CHEBI:00000000 ) ;
     skos:definition "An enumeration of vehicles used in exposures." ;

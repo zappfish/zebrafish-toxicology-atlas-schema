@@ -79,7 +79,7 @@
                     "type": "integer"
                 },
                 "vehicle_if_treated": {
-                    "$ref": "#/$defs/VehicleEnumeration",
+                    "$ref": "#/$defs/VehicleEnum",
                     "description": "Vehicle used if this is a treated control."
                 }
             },
@@ -277,7 +277,7 @@
                 "vehicle": {
                     "description": "The substance or medium used deliver a stressor.",
                     "items": {
-                        "$ref": "#/$defs/VehicleEnumeration"
+                        "$ref": "#/$defs/VehicleEnum"
                     },
                     "type": [
                         "array",
@@ -666,13 +666,13 @@
             "title": "Study",
             "type": "object"
         },
-        "VehicleEnumeration": {
+        "VehicleEnum": {
             "description": "An enumeration of vehicles used in exposures.",
             "enum": [
                 "ethanol",
                 "dmso"
             ],
-            "title": "VehicleEnumeration",
+            "title": "VehicleEnum",
             "type": "string"
         }
     },

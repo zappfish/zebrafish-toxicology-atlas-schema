@@ -12,7 +12,7 @@ enum SeverityEnum
     severe
   }
 
-enum VehicleEnumeration
+enum VehicleEnum
   {
     ethanol
     dmso
@@ -31,7 +31,7 @@ type Control
   {
     id: Int!
     controlType: String
-    vehicleIfTreated: VehicleEnumeration
+    vehicleIfTreated: VehicleEnum
     comment: String
     controlImage: [ControlImage]
   }
@@ -60,7 +60,7 @@ type ExposureEvent
   {
     id: Int!
     stressor: [StressorChemical]
-    vehicle: [VehicleEnumeration]
+    vehicle: [VehicleEnum]
     route: ExposureRouteEnum
     regimen: Regimen
     exposureStartStage: String
