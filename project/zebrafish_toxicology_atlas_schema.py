@@ -1,5 +1,5 @@
 # Auto generated from zebrafish_toxicology_atlas_schema.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-04-17T19:47:52
+# Generation date: 2026-04-17T20:49:53
 # Schema: zebrafish-toxicology-atlas-schema
 #
 # id: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
@@ -90,6 +90,22 @@ class ZfinEntityZfinId(extended_str):
     pass
 
 
+class ChemicalEntityUri(URIorCURIE):
+    pass
+
+
+class PhenotypeTermTermUri(URIorCURIE):
+    pass
+
+
+class ExposureRouteTermUri(URIorCURIE):
+    pass
+
+
+class ExposureTypeTermUri(URIorCURIE):
+    pass
+
+
 class StudyId(ZappEntityId):
     pass
 
@@ -127,22 +143,6 @@ class ImageId(ZappEntityId):
 
 
 class ControlImageId(ZappEntityId):
-    pass
-
-
-class ChemicalEntityUri(URIorCURIE):
-    pass
-
-
-class PhenotypeTermTermUri(URIorCURIE):
-    pass
-
-
-class ExposureRouteTermUri(URIorCURIE):
-    pass
-
-
-class ExposureTypeTermUri(URIorCURIE):
     pass
 
 

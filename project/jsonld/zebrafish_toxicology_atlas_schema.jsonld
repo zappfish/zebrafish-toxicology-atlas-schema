@@ -72,7 +72,7 @@
       "definition_uri": "https://w3id.org/linkml/String",
       "description": "A character string",
       "notes": [
-        "In RDF serializations, a slot with range of string is treated as a literal or type xsd:string.   If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"string\"."
+        "In RDF serializations, a slot with range of string is treated as a literal or type xsd:string. If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"string\"."
       ],
       "from_schema": "https://w3id.org/linkml/types",
       "imported_from": "linkml:types",
@@ -1573,7 +1573,7 @@
   "source_file": "zebrafish_toxicology_atlas_schema.yaml",
   "source_file_date": "2026-04-17T19:47:45",
   "source_file_size": 14044,
-  "generation_date": "2026-04-17T19:47:52",
+  "generation_date": "2026-04-17T20:49:53",
   "@type": "SchemaDefinition",
   "@context": [
     "project/jsonld/zebrafish_toxicology_atlas_schema.context.jsonld",

@@ -403,6 +403,12 @@
             "title": "Image",
             "type": "object"
         },
+        "OntologyEntity": {
+            "additionalProperties": false,
+            "description": "Entities representing ontology terms with URI identifiers.",
+            "title": "OntologyEntity",
+            "type": "object"
+        },
         "Phenotype": {
             "additionalProperties": false,
             "description": "Any measurable or visible trait change in the subject as a result of exposure.",
@@ -675,10 +681,7 @@
                 },
                 "id": {
                     "description": "Auto-generated integer identifier.",
-                    "type": [
-                        "integer",
-                        "null"
-                    ]
+                    "type": "integer"
                 },
                 "lab": {
                     "description": "ZFIN lab identifier of the laboratory that produced the study data.",
@@ -710,6 +713,37 @@
             ],
             "title": "VehicleEnumeration",
             "type": "string"
+        },
+        "ZappEntity": {
+            "additionalProperties": false,
+            "description": "Internal entities with auto-generated integer IDs.",
+            "properties": {
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ZappEntity",
+            "type": "object"
+        },
+        "ZfinEntity": {
+            "additionalProperties": false,
+            "description": "Entities with ZFIN database identifiers.",
+            "properties": {
+                "zfin_id": {
+                    "description": "ZFIN database identifier.",
+                    "pattern": "^ZFIN:ZDB-[A-Z]+-\\d{6}-\\d+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zfin_id"
+            ],
+            "title": "ZfinEntity",
+            "type": "object"
         }
     },
     "$id": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",

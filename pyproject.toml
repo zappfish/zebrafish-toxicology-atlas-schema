@@ -16,7 +16,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "linkml @ git+https://github.com/linkml/linkml.git@feat/sqla-2x-declarative#subdirectory=packages/linkml",
+    "linkml @ git+https://github.com/linkml/linkml.git@fix-3416-sqla-2x-fk-relationships#subdirectory=packages/linkml",
     "linkml-runtime>=1.1.24",
     "linkml-renderer>=0.1.2",
     "linkml-transformer>=0.1",
