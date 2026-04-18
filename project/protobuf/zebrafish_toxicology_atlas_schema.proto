@@ -10,7 +10,7 @@ message ChemicalEntity
   string chemicalName = 0
  repeated  string synonym = 0
  }
-// Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.
+// A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.
 message Control
  {
   integer id = 0
@@ -29,7 +29,7 @@ message ControlImage
   string scaleBar = 0
   string phenotypeComments = 0
  }
-// Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.
+// A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.
 message Experiment
  {
   integer id = 0
@@ -45,14 +45,31 @@ message ExposureEvent
   integer id = 0
  repeated  stressorChemical stressor = 0
  repeated  vehicleEnumeration vehicle = 0
-  exposureRouteEnum route = 0
+  exposureRoute route = 0
   regimen regimen = 0
   uriorcurie exposureStartStage = 0
   uriorcurie exposureEndStage = 0
   string comment = 0
-  exposureTypeEnum exposureType = 0
+  exposureType exposureType = 0
   string additionalExposureCondition = 0
  repeated  phenotypeObservationSet phenotypeObservation = 0
+ }
+// A route-of-exposure term. Term URIs are expected to be reachable from
+// EXO:0000154 (route of exposure) in the EXO ontology; the API enforces
+// this at insert time by querying OLS/oaklib.
+// 
+message ExposureRoute
+ {
+  uriorcurie termUri = 0
+  string termLabel = 0
+ }
+// An exposure-type term from ECTO. The API enforces ECTO membership at
+// insert time by querying OLS/oaklib.
+// 
+message ExposureType
+ {
+  uriorcurie termUri = 0
+  string termLabel = 0
  }
 // Zebrafish used as subject in the study.
 message Fish
@@ -77,7 +94,7 @@ message Phenotype
   severityEnum severity = 0
   phenotypeTerm phenotypeTermId = 0
  }
-// A phenotypic outcome resulting from an exposure event.
+// An observation set containing control and phenotypic outcome resulting from an exposure event.
 message PhenotypeObservationSet
  {
   integer id = 0

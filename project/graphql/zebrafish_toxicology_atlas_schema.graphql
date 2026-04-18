@@ -61,14 +61,26 @@ type ExposureEvent
     id: Int!
     stressor: [StressorChemical]
     vehicle: [VehicleEnumeration]
-    route: ExposureRouteEnum
+    route: ExposureRoute
     regimen: Regimen
     exposureStartStage: String
     exposureEndStage: String
     comment: String
-    exposureType: ExposureTypeEnum
+    exposureType: ExposureType
     additionalExposureCondition: String
     phenotypeObservation: [PhenotypeObservationSet]
+  }
+
+type ExposureRoute
+  {
+    termUri: String!
+    termLabel: String!
+  }
+
+type ExposureType
+  {
+    termUri: String!
+    termLabel: String!
   }
 
 type Fish

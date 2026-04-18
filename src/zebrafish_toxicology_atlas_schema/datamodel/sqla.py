@@ -164,7 +164,7 @@ class Study(ZappEntity):
 
 class Experiment(ZappEntity):
     """
-    Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.
+    A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.
     """
     __tablename__ = 'Experiment'
 
@@ -198,7 +198,7 @@ class Experiment(ZappEntity):
 
 class PhenotypeObservationSet(ZappEntity):
     """
-    A phenotypic outcome resulting from an exposure event.
+    An observation set containing control and phenotypic outcome resulting from an exposure event.
     """
     __tablename__ = 'PhenotypeObservationSet'
 
@@ -260,7 +260,7 @@ class Phenotype(ZappEntity):
 
 class Control(ZappEntity):
     """
-    Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.
+    A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.
     """
     __tablename__ = 'Control'
 
@@ -293,11 +293,11 @@ class ExposureEvent(ZappEntity):
     """
     __tablename__ = 'ExposureEvent'
 
-    route: Mapped[Optional[str]] = mapped_column(Enum(name='ExposureRouteEnum'))
+    route: Mapped[Optional[int]] = mapped_column(Integer(), ForeignKey('ExposureRoute.term_uri'))
     exposure_start_stage: Mapped[Optional[str]] = mapped_column(Text())
     exposure_end_stage: Mapped[Optional[str]] = mapped_column(Text())
     comment: Mapped[Optional[str]] = mapped_column(Text())
-    exposure_type: Mapped[Optional[str]] = mapped_column(Enum(name='ExposureTypeEnum'))
+    exposure_type: Mapped[Optional[int]] = mapped_column(Integer(), ForeignKey('ExposureType.term_uri'))
     additional_exposure_condition: Mapped[Optional[str]] = mapped_column(Text())
     id: Mapped[int] = mapped_column(Integer(), primary_key=True)
     Experiment_id: Mapped[Optional[int]] = mapped_column(Integer(), ForeignKey('Experiment.id'))
@@ -481,6 +481,55 @@ class PhenotypeTerm(OntologyEntity):
 
     def __repr__(self):
         return f"PhenotypeTerm(term_uri={self.term_uri},term_label={self.term_label},)"
+
+
+    
+    # Using concrete inheritance: see https://docs.sqlalchemy.org/en/20/orm/inheritance.html
+    __mapper_args__ = {
+        'concrete': True
+    }
+    
+
+
+class ExposureRoute(OntologyEntity):
+    """
+    A route-of-exposure term. Term URIs are expected to be reachable from
+EXO:0000154 (route of exposure) in the EXO ontology; the API enforces
+this at insert time by querying OLS/oaklib.
+
+    """
+    __tablename__ = 'ExposureRoute'
+
+    term_uri: Mapped[str] = mapped_column(Text(), primary_key=True)
+    term_label: Mapped[str] = mapped_column(Text(), primary_key=True)
+    
+
+    def __repr__(self):
+        return f"ExposureRoute(term_uri={self.term_uri},term_label={self.term_label},)"
+
+
+    
+    # Using concrete inheritance: see https://docs.sqlalchemy.org/en/20/orm/inheritance.html
+    __mapper_args__ = {
+        'concrete': True
+    }
+    
+
+
+class ExposureType(OntologyEntity):
+    """
+    An exposure-type term from ECTO. The API enforces ECTO membership at
+insert time by querying OLS/oaklib.
+
+    """
+    __tablename__ = 'ExposureType'
+
+    term_uri: Mapped[str] = mapped_column(Text(), primary_key=True)
+    term_label: Mapped[str] = mapped_column(Text(), primary_key=True)
+    
+
+    def __repr__(self):
+        return f"ExposureType(term_uri={self.term_uri},term_label={self.term_label},)"
 
 
     

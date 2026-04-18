@@ -99,16 +99,34 @@ linkml:Sparqlpath xsd:string
           rdf:type [ <ZappEntity> ] ? ;
           <stressor> @<StressorChemical> * ;
           <vehicle> [ <http://purl.obolibrary.org/obo/CHEBI_00000000> <http://purl.obolibrary.org/obo/CHEBI_00000000> ] * ;
-          <route> . ? ;
+          <route> @<ExposureRoute> ? ;
           <regimen> @<Regimen> ? ;
           <exposure_start_stage> @linkml:Uriorcurie ? ;
           <exposure_end_stage> @linkml:Uriorcurie ? ;
           <comment> @linkml:String ? ;
-          <exposure_type> . ? ;
+          <exposure_type> @<ExposureType> ? ;
           <additional_exposure_condition> @linkml:String ? ;
           <phenotype_observation> @<PhenotypeObservationSet> *
        ) ;
        rdf:type [ <ExposureEvent> ]
+    )
+}
+
+<ExposureRoute> CLOSED {
+    (  $<ExposureRoute_tes> (  &<OntologyEntity_tes> ;
+          rdf:type [ <OntologyEntity> ] ? ;
+          <term_label> @linkml:String
+       ) ;
+       rdf:type [ <ExposureRoute> ]
+    )
+}
+
+<ExposureType> CLOSED {
+    (  $<ExposureType_tes> (  &<OntologyEntity_tes> ;
+          rdf:type [ <OntologyEntity> ] ? ;
+          <term_label> @linkml:String
+       ) ;
+       rdf:type [ <ExposureType> ]
     )
 }
 
@@ -133,7 +151,7 @@ linkml:Sparqlpath xsd:string
 }
 
 <OntologyEntity>  (
-    @<ChemicalEntity> OR @<PhenotypeTerm>
+    @<ChemicalEntity> OR @<ExposureRoute> OR @<ExposureType> OR @<PhenotypeTerm>
 )
 
 <OntologyEntity_struct> {
