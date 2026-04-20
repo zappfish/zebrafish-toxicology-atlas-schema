@@ -48,7 +48,7 @@
         },
         "Control": {
             "additionalProperties": false,
-            "description": "Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.",
+            "description": "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.",
             "properties": {
                 "comment": {
                     "description": "Additional comments.",
@@ -58,7 +58,7 @@
                     ]
                 },
                 "control_image": {
-                    "description": "Images associated with this control.",
+                    "description": "Image associated with this control.",
                     "items": {
                         "$ref": "#/$defs/ControlImage"
                     },
@@ -80,7 +80,7 @@
                 },
                 "vehicle_if_treated": {
                     "$ref": "#/$defs/VehicleEnumeration",
-                    "description": "Vehicle used if this is a treated control."
+                    "description": "The vehicle used in a control."
                 }
             },
             "required": [
@@ -119,7 +119,7 @@
                     ]
                 },
                 "resolution": {
-                    "description": "Level of detail of the image.",
+                    "description": "The level of detail in the image.",
                     "type": [
                         "string",
                         "null"
@@ -141,10 +141,10 @@
         },
         "Experiment": {
             "additionalProperties": false,
-            "description": "Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.",
+            "description": "A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.",
             "properties": {
                 "control": {
-                    "description": "The controls for this experiment.",
+                    "description": "An observation that serves as the reference for assessing phenotypic outcome.",
                     "items": {
                         "$ref": "#/$defs/Control"
                     },
@@ -154,7 +154,7 @@
                     ]
                 },
                 "exposure_event": {
-                    "description": "The exposure events in this experiment.",
+                    "description": "The exposure event in an experiment.",
                     "items": {
                         "$ref": "#/$defs/ExposureEvent"
                     },
@@ -186,7 +186,7 @@
                     ]
                 },
                 "standard_rearing_condition": {
-                    "description": "An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
+                    "description": "An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
                     "type": [
                         "boolean",
                         "null"
@@ -232,7 +232,14 @@
                     ]
                 },
                 "exposure_type": {
-                    "$ref": "#/$defs/ExposureTypeEnum",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExposureType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
                     "description": "An instance of exposure specifying the type of stressor a subject was exposed to."
                 },
                 "id": {
@@ -240,7 +247,7 @@
                     "type": "integer"
                 },
                 "phenotype_observation": {
-                    "description": "The phenotype observations from this exposure event.",
+                    "description": "The phenotype observation resulting from an exposure event.",
                     "items": {
                         "$ref": "#/$defs/PhenotypeObservationSet"
                     },
@@ -261,11 +268,18 @@
                     "description": "The regimen for the exposure."
                 },
                 "route": {
-                    "$ref": "#/$defs/ExposureRouteEnum",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExposureRoute"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
                     "description": "The route of exposure."
                 },
                 "stressor": {
-                    "description": "Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure.",
+                    "description": "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.",
                     "items": {
                         "$ref": "#/$defs/StressorChemical"
                     },
@@ -275,7 +289,7 @@
                     ]
                 },
                 "vehicle": {
-                    "description": "The substance or medium used deliver a stressor.",
+                    "description": "The substance or medium used to deliver a stressor.",
                     "items": {
                         "$ref": "#/$defs/VehicleEnumeration"
                     },
@@ -300,15 +314,45 @@
             "title": "ExposureRegimenTypeEnum",
             "type": "string"
         },
-        "ExposureRouteEnum": {
-            "description": "An enumeration of exposure routes derived from the EXO ontology.",
-            "title": "ExposureRouteEnum",
-            "type": "string"
+        "ExposureRoute": {
+            "additionalProperties": false,
+            "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology.",
+            "properties": {
+                "term_label": {
+                    "description": "The human-readable label for the phenotype ontology term.",
+                    "type": "string"
+                },
+                "term_uri": {
+                    "description": "The URI of the phenotype ontology term.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "term_uri",
+                "term_label"
+            ],
+            "title": "ExposureRoute",
+            "type": "object"
         },
-        "ExposureTypeEnum": {
-            "description": "An enumeration of exposure types derived from the ECTO ontology.",
-            "title": "ExposureTypeEnum",
-            "type": "string"
+        "ExposureType": {
+            "additionalProperties": false,
+            "description": "An exposure-type term from ECTO.",
+            "properties": {
+                "term_label": {
+                    "description": "The human-readable label for the phenotype ontology term.",
+                    "type": "string"
+                },
+                "term_uri": {
+                    "description": "The URI of the phenotype ontology term.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "term_uri",
+                "term_label"
+            ],
+            "title": "ExposureType",
+            "type": "object"
         },
         "Fish": {
             "additionalProperties": false,
@@ -347,7 +391,7 @@
                     ]
                 },
                 "resolution": {
-                    "description": "Level of detail of the image.",
+                    "description": "The level of detail in the image.",
                     "type": [
                         "string",
                         "null"
@@ -365,6 +409,12 @@
                 "id"
             ],
             "title": "Image",
+            "type": "object"
+        },
+        "OntologyEntity": {
+            "additionalProperties": false,
+            "description": "Entities representing ontology terms with URI identifiers.",
+            "title": "OntologyEntity",
             "type": "object"
         },
         "Phenotype": {
@@ -417,10 +467,10 @@
         },
         "PhenotypeObservationSet": {
             "additionalProperties": false,
-            "description": "A phenotypic outcome resulting from an exposure event.",
+            "description": "An observation set containing control and phenotypic outcome resulting from an exposure event.",
             "properties": {
                 "control_image": {
-                    "description": "Images associated with this control.",
+                    "description": "Image associated with this control.",
                     "items": {
                         "$ref": "#/$defs/ControlImage"
                     },
@@ -628,7 +678,7 @@
                     ]
                 },
                 "experiment": {
-                    "description": "The experiments in a study.",
+                    "description": "The experiment in a study.",
                     "items": {
                         "$ref": "#/$defs/Experiment"
                     },
@@ -639,13 +689,10 @@
                 },
                 "id": {
                     "description": "Auto-generated integer identifier.",
-                    "type": [
-                        "integer",
-                        "null"
-                    ]
+                    "type": "integer"
                 },
                 "lab": {
-                    "description": "The lab where the experiment originated.",
+                    "description": "ZFIN lab identifier of the laboratory that produced the study data.",
                     "pattern": "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$",
                     "type": [
                         "string",
@@ -674,6 +721,37 @@
             ],
             "title": "VehicleEnumeration",
             "type": "string"
+        },
+        "ZappEntity": {
+            "additionalProperties": false,
+            "description": "Internal entities with auto-generated integer IDs.",
+            "properties": {
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ZappEntity",
+            "type": "object"
+        },
+        "ZfinEntity": {
+            "additionalProperties": false,
+            "description": "Entities with ZFIN database identifiers.",
+            "properties": {
+                "zfin_id": {
+                    "description": "ZFIN database identifier.",
+                    "pattern": "^ZFIN:ZDB-[A-Z]+-\\d{6}-\\d+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zfin_id"
+            ],
+            "title": "ZfinEntity",
+            "type": "object"
         }
     },
     "$id": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",

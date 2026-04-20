@@ -170,6 +170,29 @@ classes:
     exact_mappings:
       - biolink:PhenotypicFeature
 
+  ExposureRoute:
+    is_a: OntologyEntity
+    description: |
+      A route-of-exposure term. Term URIs are expected to be reachable from
+      EXO:0000154 (route of exposure) in the EXO ontology.
+    slots:
+      - term_uri
+      - term_label
+    slot_usage:
+      term_label:
+        required: true
+
+  ExposureType:
+    is_a: OntologyEntity
+    description: |
+      An exposure-type term from ECTO.
+    slots:
+      - term_uri
+      - term_label
+    slot_usage:
+      term_label:
+        required: true
+
   # ZFIN entities (ZFIN database identifiers)
   Fish:
     is_a: ZfinEntity
@@ -228,7 +251,9 @@ slots:
     description: Name or label of an entity.
   exposure_type:
     description: An instance of exposure specifying the type of stressor a subject was exposed to.
-    range: ExposureTypeEnum
+    range: ExposureType
+    inlined: true
+    inlined_as_list: true
   unit:
     description: The unit of the quantity value.
   numeric_value:
@@ -332,7 +357,9 @@ slots:
     multivalued: true
   route:
     description: The route of exposure.
-    range: ExposureRouteEnum
+    range: ExposureRoute
+    inlined: true
+    inlined_as_list: true
   regimen:
     description: The regimen for the exposure.
     range: Regimen
@@ -428,24 +455,6 @@ enums:
         description: Moderate severity
       severe:
         description: Severe severity
-
-  ExposureTypeEnum:
-    description: An enumeration of exposure types derived from the ECTO ontology.
-    reachable_from:
-      source_ontology: obo:ecto
-      relationship_types:
-        - "rdfs:subClassOf"
-      include_self: true
-
-  ExposureRouteEnum:
-    description: An enumeration of exposure routes derived from the EXO ontology.
-    reachable_from:
-      source_ontology: obo:exo
-      source_nodes:
-        - EXO:0000002
-      relationship_types:
-        - rdfs:subClassOf
-      include_self: true
 
   ExposureRegimenTypeEnum:
     description: An enumeration of exposure regimen types.
