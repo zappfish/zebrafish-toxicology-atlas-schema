@@ -2767,6 +2767,7 @@ dev = [
     { name = "linkml-transformer" },
     { name = "mkdocs-material" },
     { name = "mkdocs-mermaid2-plugin" },
+    { name = "pytest" },
     { name = "schemasheets" },
     { name = "yamllint" },
 ]
@@ -2788,6 +2789,7 @@ requires-dist = [
     { name = "mkdocs-mermaid2-plugin", marker = "extra == 'dev'", specifier = ">=1.1.1" },
     { name = "mkdocs-mermaid2-plugin", marker = "extra == 'docs'", specifier = ">=1.1.1" },
     { name = "pydantic", specifier = ">=2.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0" },
     { name = "schemasheets", marker = "extra == 'dev'", specifier = ">=0.1.14" },
     { name = "sqlalchemy", specifier = ">=2.0" },
     { name = "yamllint", marker = "extra == 'dev'", specifier = ">=1.35.1" },
