@@ -27,6 +27,7 @@ dev = [
     "codespell>=2.4.1",
     "eralchemy2>=1.4.1",
     "pytest>=7.0",
+    "click>=8.0",
 ]
 docs = [
     "mkdocs-material>=8.2.8",
