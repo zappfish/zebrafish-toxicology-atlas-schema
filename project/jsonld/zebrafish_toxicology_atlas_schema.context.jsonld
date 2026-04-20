@@ -22,6 +22,9 @@
          "@id": "http://purl.obolibrary.org/obo/PATO_",
          "@prefix": true
       },
+      "PUBCHEM.COMPOUND": "https://identifiers.org/pubchem.compound/",
+      "UMLS": "https://uts.nlm.nih.gov/uts/umls/concept/",
+      "UNII": "https://fdasis.nlm.nih.gov/srs/unii/",
       "ZFIN": "https://zfin.org/",
       "ZP": {
          "@id": "http://purl.obolibrary.org/obo/ZP_",
@@ -44,12 +47,8 @@
       "cas_id": {
          "@id": "cas_id"
       },
-      "chebi_id": {
-         "@type": "xsd:anyURI",
-         "@id": "chebi_id"
-      },
       "chemical_id": {
-         "@type": "@id",
+         "@type": "xsd:anyURI",
          "@id": "chemical_id"
       },
       "chemical_name": {
@@ -129,6 +128,11 @@
          "@id": "magnification"
       },
       "manufacturer": {
+         "@context": {
+            "text": "skos:notation",
+            "description": "skos:prefLabel",
+            "meaning": "@id"
+         },
          "@id": "manufacturer"
       },
       "name": {
@@ -217,27 +221,23 @@
       "unit": {
          "@id": "unit"
       },
-      "uri": "@id",
       "vehicle": {
-         "@context": {
-            "text": "skos:notation",
-            "description": "skos:prefLabel",
-            "meaning": "@id"
-         },
+         "@type": "@id",
          "@id": "vehicle"
       },
       "vehicle_if_treated": {
+         "@type": "@id",
+         "@id": "vehicle_if_treated"
+      },
+      "vehicle_type": {
          "@context": {
             "text": "skos:notation",
             "description": "skos:prefLabel",
             "meaning": "@id"
          },
-         "@id": "vehicle_if_treated"
+         "@id": "vehicle_type"
       },
       "zfin_id": "@id",
-      "ChemicalEntity": {
-         "@id": "ChemicalEntity"
-      },
       "Control": {
          "@id": "Control"
       },
@@ -285,6 +285,9 @@
       },
       "Study": {
          "@id": "Study"
+      },
+      "VehicleOfTransmission": {
+         "@id": "VehicleOfTransmission"
       },
       "ZappEntity": {
          "@id": "ZappEntity"

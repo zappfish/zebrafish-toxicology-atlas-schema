@@ -1,51 +1,5 @@
 {
     "$defs": {
-        "ChemicalEntity": {
-            "additionalProperties": false,
-            "description": "The chemical used as the stressor chemical in an exposure event.",
-            "properties": {
-                "cas_id": {
-                    "description": "CAS identifier for the chemical.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
-                },
-                "chebi_id": {
-                    "description": "CHEBI identifier for the chemical.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
-                },
-                "chemical_name": {
-                    "description": "Name of the chemical.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
-                },
-                "synonym": {
-                    "description": "Other names for the chemical.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": [
-                        "array",
-                        "null"
-                    ]
-                },
-                "uri": {
-                    "description": "URI identifier for the chemical entity (CHEBI or CAS URI).",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "uri"
-            ],
-            "title": "ChemicalEntity",
-            "type": "object"
-        },
         "Control": {
             "additionalProperties": false,
             "description": "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.",
@@ -79,7 +33,14 @@
                     "type": "integer"
                 },
                 "vehicle_if_treated": {
-                    "$ref": "#/$defs/VehicleEnumeration",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/VehicleOfTransmission"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
                     "description": "The vehicle used in a control."
                 }
             },
@@ -291,7 +252,7 @@
                 "vehicle": {
                     "description": "The substance or medium used to deliver a stressor.",
                     "items": {
-                        "$ref": "#/$defs/VehicleEnumeration"
+                        "$ref": "#/$defs/VehicleOfTransmission"
                     },
                     "type": [
                         "array",
@@ -410,6 +371,44 @@
             ],
             "title": "Image",
             "type": "object"
+        },
+        "ManufacturerEnum": {
+            "description": "An enumeration of manufacturers and suppliers of chemicals used in exposure events.",
+            "enum": [
+                "sigma_aldrich",
+                "merck_kgaa",
+                "millipore_sigma",
+                "thermo_fisher_scientific",
+                "fisher_scientific",
+                "avantor",
+                "vwr",
+                "new_england_biolabs",
+                "bio_rad_laboratories",
+                "promega_corporation",
+                "corning_life_sciences",
+                "lonza_group",
+                "tocris_bioscience",
+                "cayman_chemical_company",
+                "selleck_chemicals",
+                "medchemexpress",
+                "enzo_life_sciences",
+                "aquaneering_inc",
+                "pentair_aquatic_eco_systems",
+                "tecniplast",
+                "zebrafish_international_resource_center",
+                "tokyo_chemical_industry",
+                "alfa_aesar",
+                "acros_organics",
+                "honeywell",
+                "abcam",
+                "cell_signaling_technology",
+                "genscript",
+                "addgene",
+                "thomas_scientific",
+                "cole_parmer"
+            ],
+            "title": "ManufacturerEnum",
+            "type": "string"
         },
         "OntologyEntity": {
             "additionalProperties": false,
@@ -625,11 +624,28 @@
         },
         "StressorChemical": {
             "additionalProperties": false,
-            "description": "A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.",
+            "description": "A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.",
             "properties": {
+                "cas_id": {
+                    "description": "CAS identifier for the chemical.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
                 "chemical_id": {
-                    "$ref": "#/$defs/ChemicalEntity",
-                    "description": "Chemical identifier (CHEBI, CAS, or UUID)."
+                    "description": "Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "chemical_name": {
+                    "description": "Name of the chemical.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "comment": {
                     "description": "Additional comments.",
@@ -647,15 +663,21 @@
                     "type": "integer"
                 },
                 "manufacturer": {
-                    "description": "The manufacturer of the chemical.",
+                    "$ref": "#/$defs/ManufacturerEnum",
+                    "description": "The manufacturer or supplier of the chemical."
+                },
+                "synonym": {
+                    "description": "Other names for the chemical.",
+                    "items": {
+                        "type": "string"
+                    },
                     "type": [
-                        "string",
+                        "array",
                         "null"
                     ]
                 }
             },
             "required": [
-                "chemical_id",
                 "concentration",
                 "id"
             ],
@@ -713,14 +735,72 @@
             "title": "Study",
             "type": "object"
         },
-        "VehicleEnumeration": {
-            "description": "An enumeration of vehicles used in exposures.",
+        "VehicleEnum": {
+            "description": "An enumeration of vehicles used to deliver stressors in exposure events.",
             "enum": [
+                "acetone",
+                "acetonitrile",
+                "albumin_bsa",
+                "butanone_mek",
+                "cyclodextrin_hpbcd",
+                "dimethyl_formamide",
+                "dmso",
+                "embryonic_media",
                 "ethanol",
-                "dmso"
+                "glycerol",
+                "isopropanol",
+                "methanol",
+                "methylcellulose",
+                "pbs",
+                "polyethylene_glycol",
+                "propylene_glycol",
+                "solketal",
+                "water"
             ],
-            "title": "VehicleEnumeration",
+            "title": "VehicleEnum",
             "type": "string"
+        },
+        "VehicleOfTransmission": {
+            "additionalProperties": false,
+            "description": "The substance or medium used to deliver a stressor to a subject during an exposure event.",
+            "properties": {
+                "comment": {
+                    "description": "Additional comments.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "concentration": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/QuantityValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The dose or concentration of the chemical to which the subject was exposed to."
+                },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
+                "manufacturer": {
+                    "$ref": "#/$defs/ManufacturerEnum",
+                    "description": "The manufacturer or supplier of the chemical."
+                },
+                "vehicle_type": {
+                    "$ref": "#/$defs/VehicleEnum",
+                    "description": "The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary."
+                }
+            },
+            "required": [
+                "vehicle_type",
+                "id"
+            ],
+            "title": "VehicleOfTransmission",
+            "type": "object"
         },
         "ZappEntity": {
             "additionalProperties": false,

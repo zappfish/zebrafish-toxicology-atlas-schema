@@ -1,8 +1,0 @@
----
-uuid: "chemical-001"
-chebi_id: "CHEBI:15377"
-cas_id: "64-17-5"
-chemical_name: "ethanol"
-synonym:
-  - "ethyl alcohol"
-  - "EtOH"

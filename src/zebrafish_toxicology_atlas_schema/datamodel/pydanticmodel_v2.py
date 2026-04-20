@@ -94,6 +94,12 @@ linkml_meta = LinkMLMeta({'default_prefix': 'zebrafish_toxicology_atlas_schema',
                             'prefix_reference': 'https://orcid.org/'},
                   'PATO': {'prefix_prefix': 'PATO',
                            'prefix_reference': 'http://purl.obolibrary.org/obo/PATO_'},
+                  'PUBCHEM.COMPOUND': {'prefix_prefix': 'PUBCHEM.COMPOUND',
+                                       'prefix_reference': 'https://identifiers.org/pubchem.compound/'},
+                  'UMLS': {'prefix_prefix': 'UMLS',
+                           'prefix_reference': 'https://uts.nlm.nih.gov/uts/umls/concept/'},
+                  'UNII': {'prefix_prefix': 'UNII',
+                           'prefix_reference': 'https://fdasis.nlm.nih.gov/srs/unii/'},
                   'ZFIN': {'prefix_prefix': 'ZFIN',
                            'prefix_reference': 'https://zfin.org/'},
                   'ZP': {'prefix_prefix': 'ZP',
@@ -144,17 +150,211 @@ class ExposureRegimenTypeEnum(str, Enum):
     """
 
 
-class VehicleEnumeration(str, Enum):
+class VehicleEnum(str, Enum):
     """
-    An enumeration of vehicles used in exposures.
+    An enumeration of vehicles used to deliver stressors in exposure events.
+    """
+    acetone = "acetone"
+    """
+    Acetone
+    """
+    acetonitrile = "acetonitrile"
+    """
+    Acetonitrile
+    """
+    albumin_bsa = "albumin_bsa"
+    """
+    Albumin (BSA)
+    """
+    butanone_mek = "butanone_mek"
+    """
+    Butanone (MEK)
+    """
+    cyclodextrin_hpbcd = "cyclodextrin_hpbcd"
+    """
+    Cyclodextrin (HPBCD)
+    """
+    dimethyl_formamide = "dimethyl_formamide"
+    """
+    Dimethyl formamide (DMF)
+    """
+    dmso = "dmso"
+    """
+    Dimethyl sulfoxide (DMSO)
+    """
+    embryonic_media = "embryonic_media"
+    """
+    Embryonic Media (EM/E3)
     """
     ethanol = "ethanol"
     """
     Ethanol
     """
-    dmso = "dmso"
+    glycerol = "glycerol"
     """
-    DMSO
+    Glycerol
+    """
+    isopropanol = "isopropanol"
+    """
+    Isopropanol
+    """
+    methanol = "methanol"
+    """
+    Methanol
+    """
+    methylcellulose = "methylcellulose"
+    """
+    Methylcellulose
+    """
+    pbs = "pbs"
+    """
+    Phosphate-buffered saline (PBS)
+    """
+    polyethylene_glycol = "polyethylene_glycol"
+    """
+    Polyethylene glycol
+    """
+    propylene_glycol = "propylene_glycol"
+    """
+    Propylene glycol
+    """
+    solketal = "solketal"
+    """
+    Solketal
+    """
+    water = "water"
+    """
+    Water
+    """
+
+
+class ManufacturerEnum(str, Enum):
+    """
+    An enumeration of manufacturers and suppliers of chemicals used in exposure events.
+    """
+    sigma_aldrich = "sigma_aldrich"
+    """
+    Sigma-Aldrich
+    """
+    merck_kgaa = "merck_kgaa"
+    """
+    Merck KGaA
+    """
+    millipore_sigma = "millipore_sigma"
+    """
+    MilliporeSigma
+    """
+    thermo_fisher_scientific = "thermo_fisher_scientific"
+    """
+    Thermo Fisher Scientific
+    """
+    fisher_scientific = "fisher_scientific"
+    """
+    Fisher Scientific
+    """
+    avantor = "avantor"
+    """
+    Avantor
+    """
+    vwr = "vwr"
+    """
+    VWR
+    """
+    new_england_biolabs = "new_england_biolabs"
+    """
+    New England Biolabs
+    """
+    bio_rad_laboratories = "bio_rad_laboratories"
+    """
+    Bio-Rad Laboratories
+    """
+    promega_corporation = "promega_corporation"
+    """
+    Promega Corporation
+    """
+    corning_life_sciences = "corning_life_sciences"
+    """
+    Corning Life Sciences
+    """
+    lonza_group = "lonza_group"
+    """
+    Lonza Group
+    """
+    tocris_bioscience = "tocris_bioscience"
+    """
+    Tocris Bioscience
+    """
+    cayman_chemical_company = "cayman_chemical_company"
+    """
+    Cayman Chemical Company
+    """
+    selleck_chemicals = "selleck_chemicals"
+    """
+    Selleck Chemicals
+    """
+    medchemexpress = "medchemexpress"
+    """
+    MedChemExpress
+    """
+    enzo_life_sciences = "enzo_life_sciences"
+    """
+    Enzo Life Sciences
+    """
+    aquaneering_inc = "aquaneering_inc"
+    """
+    Aquaneering Inc.
+    """
+    pentair_aquatic_eco_systems = "pentair_aquatic_eco_systems"
+    """
+    Pentair Aquatic Eco-Systems
+    """
+    tecniplast = "tecniplast"
+    """
+    Tecniplast
+    """
+    zebrafish_international_resource_center = "zebrafish_international_resource_center"
+    """
+    Zebrafish International Resource Center
+    """
+    tokyo_chemical_industry = "tokyo_chemical_industry"
+    """
+    Tokyo Chemical Industry
+    """
+    alfa_aesar = "alfa_aesar"
+    """
+    Alfa Aesar
+    """
+    acros_organics = "acros_organics"
+    """
+    Acros Organics
+    """
+    honeywell = "honeywell"
+    """
+    Honeywell
+    """
+    abcam = "abcam"
+    """
+    Abcam
+    """
+    cell_signaling_technology = "cell_signaling_technology"
+    """
+    Cell Signaling Technology
+    """
+    genscript = "genscript"
+    """
+    GenScript
+    """
+    addgene = "addgene"
+    """
+    Addgene
+    """
+    thomas_scientific = "thomas_scientific"
+    """
+    Thomas Scientific
+    """
+    cole_parmer = "cole_parmer"
+    """
+    Cole-Parmer
     """
 
 
@@ -489,8 +689,11 @@ class Control(ZappEntity):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema'})
 
     control_type: Optional[str] = Field(default=None, description="""Type of control (e.g., wildtype vs mutant, treated vs untreated).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    vehicle_if_treated: Optional[VehicleEnumeration] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    vehicle_if_treated: Optional[VehicleOfTransmission] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     control_image: Optional[list[ControlImage]] = Field(default=None, description="""Image associated with this control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PhenotypeObservationSet', 'Control']} })
     id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
 
@@ -500,8 +703,11 @@ class ControlCreate(ConfiguredBaseModel):
     Create schema for Control — id is server-generated.
     """
     control_type: Optional[str] = Field(default=None, description="""Type of control (e.g., wildtype vs mutant, treated vs untreated).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    vehicle_if_treated: Optional[VehicleEnumeration] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    vehicle_if_treated: Optional[VehicleOfTransmissionCreate] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     control_image: Optional[list[ControlImageCreate]] = Field(default=None, description="""Image associated with this control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PhenotypeObservationSet', 'Control']} })
 
 
@@ -510,8 +716,11 @@ class ControlUpdate(ConfiguredBaseModel):
     Update schema for Control — all fields optional for partial updates.
     """
     control_type: Optional[str] = Field(default=None, description="""Type of control (e.g., wildtype vs mutant, treated vs untreated).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    vehicle_if_treated: Optional[VehicleEnumeration] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    vehicle_if_treated: Optional[VehicleOfTransmission] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     control_image: Optional[list[ControlImage]] = Field(default=None, description="""Image associated with this control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PhenotypeObservationSet', 'Control']} })
 
 
@@ -520,8 +729,11 @@ class ControlRead(ReadBaseModel):
     Read schema for Control — from_attributes=True, extra=ignore.
     """
     control_type: Optional[str] = Field(default=None, description="""Type of control (e.g., wildtype vs mutant, treated vs untreated).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    vehicle_if_treated: Optional[VehicleEnumeration] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    vehicle_if_treated: Optional[VehicleOfTransmissionRead] = Field(default=None, description="""The vehicle used in a control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     control_image: Optional[list[ControlImageRead]] = Field(default=None, description="""Image associated with this control.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PhenotypeObservationSet', 'Control']} })
     id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
 
@@ -534,12 +746,15 @@ class ExposureEvent(ZappEntity):
          'from_schema': 'https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema'})
 
     stressor: Optional[list[StressorChemical]] = Field(default=None, description="""Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    vehicle: Optional[list[VehicleEnumeration]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    vehicle: Optional[list[VehicleOfTransmission]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     route: Optional[ExposureRoute] = Field(default=None, description="""The route of exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     regimen: Optional[Regimen] = Field(default=None, description="""The regimen for the exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_start_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure started.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_end_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure ended.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     exposure_type: Optional[ExposureType] = Field(default=None, description="""An instance of exposure specifying the type of stressor a subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     additional_exposure_condition: Optional[str] = Field(default=None, description="""Additional information about the conditions under which exposure event occurred.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     phenotype_observation: Optional[list[PhenotypeObservationSet]] = Field(default=None, description="""The phenotype observation resulting from an exposure event.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
@@ -551,12 +766,15 @@ class ExposureEventCreate(ConfiguredBaseModel):
     Create schema for ExposureEvent — id is server-generated.
     """
     stressor: Optional[list[StressorChemicalCreate]] = Field(default=None, description="""Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    vehicle: Optional[list[VehicleEnumeration]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    vehicle: Optional[list[VehicleOfTransmissionCreate]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     route: Optional[ExposureRoute] = Field(default=None, description="""The route of exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     regimen: Optional[RegimenCreate] = Field(default=None, description="""The regimen for the exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_start_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure started.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_end_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure ended.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     exposure_type: Optional[ExposureType] = Field(default=None, description="""An instance of exposure specifying the type of stressor a subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     additional_exposure_condition: Optional[str] = Field(default=None, description="""Additional information about the conditions under which exposure event occurred.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     phenotype_observation: Optional[list[PhenotypeObservationSetCreate]] = Field(default=None, description="""The phenotype observation resulting from an exposure event.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
@@ -567,12 +785,15 @@ class ExposureEventUpdate(ConfiguredBaseModel):
     Update schema for ExposureEvent — all fields optional for partial updates.
     """
     stressor: Optional[list[StressorChemical]] = Field(default=None, description="""Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    vehicle: Optional[list[VehicleEnumeration]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    vehicle: Optional[list[VehicleOfTransmission]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     route: Optional[ExposureRoute] = Field(default=None, description="""The route of exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     regimen: Optional[Regimen] = Field(default=None, description="""The regimen for the exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_start_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure started.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_end_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure ended.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     exposure_type: Optional[ExposureType] = Field(default=None, description="""An instance of exposure specifying the type of stressor a subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     additional_exposure_condition: Optional[str] = Field(default=None, description="""Additional information about the conditions under which exposure event occurred.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     phenotype_observation: Optional[list[PhenotypeObservationSet]] = Field(default=None, description="""The phenotype observation resulting from an exposure event.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
@@ -583,12 +804,15 @@ class ExposureEventRead(ReadBaseModel):
     Read schema for ExposureEvent — from_attributes=True, extra=ignore.
     """
     stressor: Optional[list[StressorChemicalRead]] = Field(default=None, description="""Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    vehicle: Optional[list[VehicleEnumeration]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
+    vehicle: Optional[list[VehicleOfTransmissionRead]] = Field(default=None, description="""The substance or medium used to deliver a stressor.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     route: Optional[ExposureRouteRead] = Field(default=None, description="""The route of exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     regimen: Optional[RegimenRead] = Field(default=None, description="""The regimen for the exposure.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_start_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure started.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     exposure_end_stage: Optional[str] = Field(default=None, description="""The developmental stage of fish when exposure ended.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     exposure_type: Optional[ExposureTypeRead] = Field(default=None, description="""An instance of exposure specifying the type of stressor a subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     additional_exposure_condition: Optional[str] = Field(default=None, description="""Additional information about the conditions under which exposure event occurred.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
     phenotype_observation: Optional[list[PhenotypeObservationSetRead]] = Field(default=None, description="""The phenotype observation resulting from an exposure event.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ExposureEvent']} })
@@ -645,14 +869,20 @@ class RegimenRead(ReadBaseModel):
 
 class StressorChemical(ZappEntity):
     """
-    A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.
+    A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema'})
 
-    chemical_id: ChemicalEntity = Field(default=..., description="""Chemical identifier (CHEBI, CAS, or UUID).""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    manufacturer: Optional[str] = Field(default=None, description="""The manufacturer of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    concentration: QuantityValue = Field(default=..., description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    chemical_id: Optional[str] = Field(default=None, description="""Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    cas_id: Optional[str] = Field(default=None, description="""CAS identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    chemical_name: Optional[str] = Field(default=None, description="""Name of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    synonym: Optional[list[str]] = Field(default=None, description="""Other names for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: QuantityValue = Field(default=..., description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
 
 
@@ -660,30 +890,105 @@ class StressorChemicalCreate(ConfiguredBaseModel):
     """
     Create schema for StressorChemical — id is server-generated.
     """
-    chemical_id: ChemicalEntity = Field(default=..., description="""Chemical identifier (CHEBI, CAS, or UUID).""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    manufacturer: Optional[str] = Field(default=None, description="""The manufacturer of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    concentration: QuantityValue = Field(default=..., description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    chemical_id: Optional[str] = Field(default=None, description="""Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    cas_id: Optional[str] = Field(default=None, description="""CAS identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    chemical_name: Optional[str] = Field(default=None, description="""Name of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    synonym: Optional[list[str]] = Field(default=None, description="""Other names for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: QuantityValue = Field(default=..., description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
 
 
 class StressorChemicalUpdate(ConfiguredBaseModel):
     """
     Update schema for StressorChemical — all fields optional for partial updates.
     """
-    chemical_id: Optional[ChemicalEntity] = Field(default=None, description="""Chemical identifier (CHEBI, CAS, or UUID).""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    manufacturer: Optional[str] = Field(default=None, description="""The manufacturer of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    concentration: Optional[QuantityValue] = Field(default=None, description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    chemical_id: Optional[str] = Field(default=None, description="""Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    cas_id: Optional[str] = Field(default=None, description="""CAS identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    chemical_name: Optional[str] = Field(default=None, description="""Name of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    synonym: Optional[list[str]] = Field(default=None, description="""Other names for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: Optional[QuantityValue] = Field(default=None, description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
 
 
 class StressorChemicalRead(ReadBaseModel):
     """
     Read schema for StressorChemical — from_attributes=True, extra=ignore.
     """
-    chemical_id: ChemicalEntityRead = Field(default=..., description="""Chemical identifier (CHEBI, CAS, or UUID).""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    manufacturer: Optional[str] = Field(default=None, description="""The manufacturer of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    concentration: QuantityValueRead = Field(default=..., description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
-    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control', 'ExposureEvent', 'StressorChemical']} })
+    chemical_id: Optional[str] = Field(default=None, description="""Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    cas_id: Optional[str] = Field(default=None, description="""CAS identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    chemical_name: Optional[str] = Field(default=None, description="""Name of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    synonym: Optional[list[str]] = Field(default=None, description="""Other names for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: QuantityValueRead = Field(default=..., description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
+    id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
+
+
+class VehicleOfTransmission(ZappEntity):
+    """
+    The substance or medium used to deliver a stressor to a subject during an exposure event.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema',
+         'slot_usage': {'concentration': {'name': 'concentration', 'required': False}}})
+
+    vehicle_type: VehicleEnum = Field(default=..., description="""The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary.""", json_schema_extra = { "linkml_meta": {'domain_of': ['VehicleOfTransmission']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: Optional[QuantityValue] = Field(default=None, description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
+    id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
+
+
+class VehicleOfTransmissionCreate(ConfiguredBaseModel):
+    """
+    Create schema for VehicleOfTransmission — id is server-generated.
+    """
+    vehicle_type: VehicleEnum = Field(default=..., description="""The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary.""", json_schema_extra = { "linkml_meta": {'domain_of': ['VehicleOfTransmission']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: Optional[QuantityValue] = Field(default=None, description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
+
+
+class VehicleOfTransmissionUpdate(ConfiguredBaseModel):
+    """
+    Update schema for VehicleOfTransmission — all fields optional for partial updates.
+    """
+    vehicle_type: Optional[VehicleEnum] = Field(default=None, description="""The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary.""", json_schema_extra = { "linkml_meta": {'domain_of': ['VehicleOfTransmission']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: Optional[QuantityValue] = Field(default=None, description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
+
+
+class VehicleOfTransmissionRead(ReadBaseModel):
+    """
+    Read schema for VehicleOfTransmission — from_attributes=True, extra=ignore.
+    """
+    vehicle_type: VehicleEnum = Field(default=..., description="""The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary.""", json_schema_extra = { "linkml_meta": {'domain_of': ['VehicleOfTransmission']} })
+    manufacturer: Optional[ManufacturerEnum] = Field(default=None, description="""The manufacturer or supplier of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    concentration: Optional[QuantityValueRead] = Field(default=None, description="""The dose or concentration of the chemical to which the subject was exposed to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['StressorChemical', 'VehicleOfTransmission']} })
+    comment: Optional[str] = Field(default=None, description="""Additional comments.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Control',
+                       'ExposureEvent',
+                       'StressorChemical',
+                       'VehicleOfTransmission']} })
     id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
 
 
@@ -773,31 +1078,6 @@ class ControlImageRead(ReadBaseModel):
     scale_bar: Optional[str] = Field(default=None, description="""Scale bar information, including the physical length it represents and the unit of measurement.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Image', 'ControlImage']} })
     phenotype_comments: Optional[str] = Field(default=None, description="""Comments about the phenotype in the control image.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ControlImage']} })
     id: int = Field(default=..., description="""Auto-generated integer identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ZappEntity']} })
-
-
-class ChemicalEntity(OntologyEntity):
-    """
-    The chemical used as the stressor chemical in an exposure event.
-    """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'exact_mappings': ['biolink:ChemicalEntity'],
-         'from_schema': 'https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema'})
-
-    uri: str = Field(default=..., description="""URI identifier for the chemical entity (CHEBI or CAS URI).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    chebi_id: Optional[str] = Field(default=None, description="""CHEBI identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    cas_id: Optional[str] = Field(default=None, description="""CAS identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    chemical_name: Optional[str] = Field(default=None, description="""Name of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    synonym: Optional[list[str]] = Field(default=None, description="""Other names for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-
-
-class ChemicalEntityRead(ReadBaseModel):
-    """
-    Read schema for ChemicalEntity — from_attributes=True, extra=ignore.
-    """
-    uri: str = Field(default=..., description="""URI identifier for the chemical entity (CHEBI or CAS URI).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    chebi_id: Optional[str] = Field(default=None, description="""CHEBI identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    cas_id: Optional[str] = Field(default=None, description="""CAS identifier for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    chemical_name: Optional[str] = Field(default=None, description="""Name of the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
-    synonym: Optional[list[str]] = Field(default=None, description="""Other names for the chemical.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ChemicalEntity']} })
 
 
 class PhenotypeTerm(OntologyEntity):
@@ -960,6 +1240,10 @@ StressorChemical.model_rebuild()
 StressorChemicalCreate.model_rebuild()
 StressorChemicalUpdate.model_rebuild()
 StressorChemicalRead.model_rebuild()
+VehicleOfTransmission.model_rebuild()
+VehicleOfTransmissionCreate.model_rebuild()
+VehicleOfTransmissionUpdate.model_rebuild()
+VehicleOfTransmissionRead.model_rebuild()
 Image.model_rebuild()
 ImageCreate.model_rebuild()
 ImageUpdate.model_rebuild()
@@ -968,8 +1252,6 @@ ControlImage.model_rebuild()
 ControlImageCreate.model_rebuild()
 ControlImageUpdate.model_rebuild()
 ControlImageRead.model_rebuild()
-ChemicalEntity.model_rebuild()
-ChemicalEntityRead.model_rebuild()
 PhenotypeTerm.model_rebuild()
 PhenotypeTermRead.model_rebuild()
 ExposureRoute.model_rebuild()

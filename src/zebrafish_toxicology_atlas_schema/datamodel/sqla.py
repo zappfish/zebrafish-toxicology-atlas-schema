@@ -94,32 +94,18 @@ class StudyAnnotator(Base):
         return f"Study_annotator(Study_id={self.Study_id},annotator={self.annotator},)"
 
 
-class ExposureEventVehicle(Base):
+class StressorChemicalSynonym(Base):
     """
     None
     """
 
-    __tablename__ = "ExposureEvent_vehicle"
+    __tablename__ = "StressorChemical_synonym"
 
-    ExposureEvent_id: Mapped[int] = mapped_column(Integer(), ForeignKey("ExposureEvent.id"), primary_key=True)
-    vehicle: Mapped[str] = mapped_column(Enum('ethanol', 'dmso', name='VehicleEnumeration'), primary_key=True)
-
-    def __repr__(self):
-        return f"ExposureEvent_vehicle(ExposureEvent_id={self.ExposureEvent_id},vehicle={self.vehicle},)"
-
-
-class ChemicalEntitySynonym(Base):
-    """
-    None
-    """
-
-    __tablename__ = "ChemicalEntity_synonym"
-
-    ChemicalEntity_uri: Mapped[str] = mapped_column(Text(), ForeignKey("ChemicalEntity.uri"), primary_key=True)
+    StressorChemical_id: Mapped[int] = mapped_column(Integer(), ForeignKey("StressorChemical.id"), primary_key=True)
     synonym: Mapped[str] = mapped_column(Text(), primary_key=True)
 
     def __repr__(self):
-        return f"ChemicalEntity_synonym(ChemicalEntity_uri={self.ChemicalEntity_uri},synonym={self.synonym},)"
+        return f"StressorChemical_synonym(StressorChemical_id={self.StressorChemical_id},synonym={self.synonym},)"
 
 
 class Study(ZappEntity):
@@ -230,16 +216,17 @@ class Control(ZappEntity):
     __tablename__ = "Control"
 
     control_type: Mapped[str | None] = mapped_column(Text())
-    vehicle_if_treated: Mapped[str | None] = mapped_column(Enum('ethanol', 'dmso', name='VehicleEnumeration'))
     comment: Mapped[str | None] = mapped_column(Text())
     id: Mapped[int] = mapped_column(Integer(), primary_key=True)
     Experiment_id: Mapped[int | None] = mapped_column(Integer(), ForeignKey("Experiment.id"))
+    vehicle_if_treated_id: Mapped[int | None] = mapped_column(Integer(), ForeignKey("VehicleOfTransmission.id"))
+    vehicle_if_treated: Mapped[VehicleOfTransmission | None] = relationship(foreign_keys=[vehicle_if_treated_id])
 
     # One-To-Many: OneToAnyMapping(source_class='Control', source_slot='control_image', mapping_type=None, target_class='ControlImage', target_slot='Control_id', join_class=None, uses_join_table=None, multivalued=False)
     control_image: Mapped[list[ControlImage]] = relationship(foreign_keys="[ControlImage.Control_id]")
 
     def __repr__(self):
-        return f"Control(control_type={self.control_type},vehicle_if_treated={self.vehicle_if_treated},comment={self.comment},id={self.id},Experiment_id={self.Experiment_id},)"
+        return f"Control(control_type={self.control_type},comment={self.comment},id={self.id},Experiment_id={self.Experiment_id},vehicle_if_treated_id={self.vehicle_if_treated_id},)"
 
     __mapper_args__ = {"concrete": True}
 
@@ -267,12 +254,8 @@ class ExposureEvent(ZappEntity):
     # One-To-Many: OneToAnyMapping(source_class='ExposureEvent', source_slot='stressor', mapping_type=None, target_class='StressorChemical', target_slot='ExposureEvent_id', join_class=None, uses_join_table=None, multivalued=False)
     stressor: Mapped[list[StressorChemical]] = relationship(foreign_keys="[StressorChemical.ExposureEvent_id]")
 
-    vehicle_rel: Mapped[list[ExposureEventVehicle]] = relationship()
-    vehicle: AssociationProxy[list[str]] = association_proxy(
-        "vehicle_rel",
-        "vehicle",
-        creator=lambda x_: ExposureEventVehicle(vehicle=x_),
-    )
+    # One-To-Many: OneToAnyMapping(source_class='ExposureEvent', source_slot='vehicle', mapping_type=None, target_class='VehicleOfTransmission', target_slot='ExposureEvent_id', join_class=None, uses_join_table=None, multivalued=False)
+    vehicle: Mapped[list[VehicleOfTransmission]] = relationship(foreign_keys="[VehicleOfTransmission.ExposureEvent_id]")
 
     # One-To-Many: OneToAnyMapping(source_class='ExposureEvent', source_slot='phenotype_observation', mapping_type=None, target_class='PhenotypeObservationSet', target_slot='ExposureEvent_id', join_class=None, uses_join_table=None, multivalued=False)
     phenotype_observation: Mapped[list[PhenotypeObservationSet]] = relationship(foreign_keys="[PhenotypeObservationSet.ExposureEvent_id]")
@@ -308,22 +291,51 @@ class Regimen(ZappEntity):
 
 class StressorChemical(ZappEntity):
     """
-    A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.
+    A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.
     """
 
     __tablename__ = "StressorChemical"
 
-    manufacturer: Mapped[str | None] = mapped_column(Text())
+    chemical_id: Mapped[str | None] = mapped_column(Text())
+    cas_id: Mapped[str | None] = mapped_column(Text())
+    chemical_name: Mapped[str | None] = mapped_column(Text())
+    manufacturer: Mapped[str | None] = mapped_column(Enum('sigma_aldrich', 'merck_kgaa', 'millipore_sigma', 'thermo_fisher_scientific', 'fisher_scientific', 'avantor', 'vwr', 'new_england_biolabs', 'bio_rad_laboratories', 'promega_corporation', 'corning_life_sciences', 'lonza_group', 'tocris_bioscience', 'cayman_chemical_company', 'selleck_chemicals', 'medchemexpress', 'enzo_life_sciences', 'aquaneering_inc', 'pentair_aquatic_eco_systems', 'tecniplast', 'zebrafish_international_resource_center', 'tokyo_chemical_industry', 'alfa_aesar', 'acros_organics', 'honeywell', 'abcam', 'cell_signaling_technology', 'genscript', 'addgene', 'thomas_scientific', 'cole_parmer', name='ManufacturerEnum'))
     comment: Mapped[str | None] = mapped_column(Text())
     id: Mapped[int] = mapped_column(Integer(), primary_key=True)
     ExposureEvent_id: Mapped[int | None] = mapped_column(Integer(), ForeignKey("ExposureEvent.id"))
-    chemical_id_uri: Mapped[str] = mapped_column(Text(), ForeignKey("ChemicalEntity.uri"))
-    chemical_id: Mapped[ChemicalEntity | None] = relationship(foreign_keys=[chemical_id_uri])
     concentration_id: Mapped[int] = mapped_column(Integer(), ForeignKey("QuantityValue.id"))
     concentration: Mapped[QuantityValue | None] = relationship(foreign_keys=[concentration_id])
 
+    synonym_rel: Mapped[list[StressorChemicalSynonym]] = relationship()
+    synonym: AssociationProxy[list[str]] = association_proxy(
+        "synonym_rel",
+        "synonym",
+        creator=lambda x_: StressorChemicalSynonym(synonym=x_),
+    )
+
     def __repr__(self):
-        return f"StressorChemical(manufacturer={self.manufacturer},comment={self.comment},id={self.id},ExposureEvent_id={self.ExposureEvent_id},chemical_id_uri={self.chemical_id_uri},concentration_id={self.concentration_id},)"
+        return f"StressorChemical(chemical_id={self.chemical_id},cas_id={self.cas_id},chemical_name={self.chemical_name},manufacturer={self.manufacturer},comment={self.comment},id={self.id},ExposureEvent_id={self.ExposureEvent_id},concentration_id={self.concentration_id},)"
+
+    __mapper_args__ = {"concrete": True}
+
+
+class VehicleOfTransmission(ZappEntity):
+    """
+    The substance or medium used to deliver a stressor to a subject during an exposure event.
+    """
+
+    __tablename__ = "VehicleOfTransmission"
+
+    vehicle_type: Mapped[str] = mapped_column(Enum('acetone', 'acetonitrile', 'albumin_bsa', 'butanone_mek', 'cyclodextrin_hpbcd', 'dimethyl_formamide', 'dmso', 'embryonic_media', 'ethanol', 'glycerol', 'isopropanol', 'methanol', 'methylcellulose', 'pbs', 'polyethylene_glycol', 'propylene_glycol', 'solketal', 'water', name='VehicleEnum'))
+    manufacturer: Mapped[str | None] = mapped_column(Enum('sigma_aldrich', 'merck_kgaa', 'millipore_sigma', 'thermo_fisher_scientific', 'fisher_scientific', 'avantor', 'vwr', 'new_england_biolabs', 'bio_rad_laboratories', 'promega_corporation', 'corning_life_sciences', 'lonza_group', 'tocris_bioscience', 'cayman_chemical_company', 'selleck_chemicals', 'medchemexpress', 'enzo_life_sciences', 'aquaneering_inc', 'pentair_aquatic_eco_systems', 'tecniplast', 'zebrafish_international_resource_center', 'tokyo_chemical_industry', 'alfa_aesar', 'acros_organics', 'honeywell', 'abcam', 'cell_signaling_technology', 'genscript', 'addgene', 'thomas_scientific', 'cole_parmer', name='ManufacturerEnum'))
+    comment: Mapped[str | None] = mapped_column(Text())
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True)
+    ExposureEvent_id: Mapped[int | None] = mapped_column(Integer(), ForeignKey("ExposureEvent.id"))
+    concentration_id: Mapped[int | None] = mapped_column(Integer(), ForeignKey("QuantityValue.id"))
+    concentration: Mapped[QuantityValue | None] = relationship(foreign_keys=[concentration_id])
+
+    def __repr__(self):
+        return f"VehicleOfTransmission(vehicle_type={self.vehicle_type},manufacturer={self.manufacturer},comment={self.comment},id={self.id},ExposureEvent_id={self.ExposureEvent_id},concentration_id={self.concentration_id},)"
 
     __mapper_args__ = {"concrete": True}
 
@@ -365,31 +377,6 @@ class ControlImage(ZappEntity):
 
     def __repr__(self):
         return f"ControlImage(phenotype_id={self.phenotype_id},magnification={self.magnification},resolution={self.resolution},scale_bar={self.scale_bar},phenotype_comments={self.phenotype_comments},id={self.id},PhenotypeObservationSet_id={self.PhenotypeObservationSet_id},Control_id={self.Control_id},)"
-
-    __mapper_args__ = {"concrete": True}
-
-
-class ChemicalEntity(OntologyEntity):
-    """
-    The chemical used as the stressor chemical in an exposure event.
-    """
-
-    __tablename__ = "ChemicalEntity"
-
-    uri: Mapped[str] = mapped_column(Text(), primary_key=True)
-    chebi_id: Mapped[str] = mapped_column(Text(), primary_key=True)
-    cas_id: Mapped[str] = mapped_column(Text(), primary_key=True)
-    chemical_name: Mapped[str] = mapped_column(Text(), primary_key=True)
-
-    synonym_rel: Mapped[list[ChemicalEntitySynonym]] = relationship()
-    synonym: AssociationProxy[list[str]] = association_proxy(
-        "synonym_rel",
-        "synonym",
-        creator=lambda x_: ChemicalEntitySynonym(synonym=x_),
-    )
-
-    def __repr__(self):
-        return f"ChemicalEntity(uri={self.uri},chebi_id={self.chebi_id},cas_id={self.cas_id},chemical_name={self.chemical_name},)"
 
     __mapper_args__ = {"concrete": True}
 

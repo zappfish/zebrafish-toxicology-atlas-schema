@@ -2759,6 +2759,7 @@ dependencies = [
 
 [package.optional-dependencies]
 dev = [
+    { name = "click" },
     { name = "codespell" },
     { name = "eralchemy2" },
     { name = "linkml" },
@@ -2776,8 +2777,14 @@ docs = [
     { name = "mkdocs-mermaid2-plugin" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
+    { name = "click", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "codespell", marker = "extra == 'dev'", specifier = ">=2.4.1" },
     { name = "eralchemy2", marker = "extra == 'dev'", specifier = ">=1.4.1" },
     { name = "linkml", marker = "extra == 'dev'", git = "https://github.com/linkml/linkml.git?subdirectory=packages%2Flinkml&rev=fix-3416-sqla-2x-fk-relationships" },
@@ -2797,4 +2804,4 @@ requires-dist = [
 provides-extras = ["dev", "docs"]
 
 [package.metadata.requires-dev]
-dev = []
+dev = [{ name = "pytest", specifier = ">=7.0" }]

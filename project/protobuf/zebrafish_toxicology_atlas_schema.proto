@@ -1,21 +1,12 @@
  syntax="proto3";
  package
 // metamodel_version: 1.7.0
-// The chemical used as the stressor chemical in an exposure event.
-message ChemicalEntity
- {
-  uriorcurie uri = 0
-  uriorcurie chebiId = 0
-  string casId = 0
-  string chemicalName = 0
- repeated  string synonym = 0
- }
 // A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.
 message Control
  {
   integer id = 0
   string controlType = 0
-  vehicleEnumeration vehicleIfTreated = 0
+  vehicleOfTransmission vehicleIfTreated = 0
   string comment = 0
  repeated  controlImage controlImage = 0
  }
@@ -44,7 +35,7 @@ message ExposureEvent
  {
   integer id = 0
  repeated  stressorChemical stressor = 0
- repeated  vehicleEnumeration vehicle = 0
+ repeated  vehicleOfTransmission vehicle = 0
   exposureRoute route = 0
   regimen regimen = 0
   uriorcurie exposureStartStage = 0
@@ -122,12 +113,15 @@ message Regimen
   quantityValue individualExposureDuration = 0
   integer numberOfIndividualExposure = 0
  }
-// A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.
+// A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.
 message StressorChemical
  {
   integer id = 0
-  chemicalEntity chemicalId = 0
-  string manufacturer = 0
+  uriorcurie chemicalId = 0
+  string casId = 0
+  string chemicalName = 0
+ repeated  string synonym = 0
+  manufacturerEnum manufacturer = 0
   quantityValue concentration = 0
   string comment = 0
  }
@@ -139,4 +133,13 @@ message Study
   string publication = 0
  repeated  uriorcurie annotator = 0
   uriorcurie lab = 0
+ }
+// The substance or medium used to deliver a stressor to a subject during an exposure event.
+message VehicleOfTransmission
+ {
+  integer id = 0
+  vehicleEnum vehicleType = 0
+  manufacturerEnum manufacturer = 0
+  quantityValue concentration = 0
+  string comment = 0
  }

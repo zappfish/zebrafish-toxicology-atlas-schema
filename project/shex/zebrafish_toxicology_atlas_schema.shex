@@ -3,6 +3,9 @@ BASE <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
+PREFIX UMLS: <https://uts.nlm.nih.gov/uts/umls/concept/>
+PREFIX PUBCHEM.COMPOUND: <https://identifiers.org/pubchem.compound/>
+PREFIX UNII: <https://fdasis.nlm.nih.gov/srs/unii/>
 
 
 linkml:String xsd:string
@@ -43,24 +46,11 @@ linkml:Jsonpath xsd:string
 
 linkml:Sparqlpath xsd:string
 
-<ChemicalEntity> CLOSED {
-    (  $<ChemicalEntity_tes> (  &<OntologyEntity_tes> ;
-          rdf:type [ <OntologyEntity> ] ? ;
-          <chebi_id> @linkml:Uriorcurie ? ;
-          <cas_id> @linkml:String ? ;
-          <chemical_name> @linkml:String ? ;
-          <synonym> @linkml:String *
-       ) ;
-       rdf:type [ <ChemicalEntity> ]
-    )
-}
-
 <Control> CLOSED {
     (  $<Control_tes> (  &<ZappEntity_tes> ;
           rdf:type [ <ZappEntity> ] ? ;
           <control_type> @linkml:String ? ;
-          <vehicle_if_treated> [ <http://purl.obolibrary.org/obo/CHEBI_00000000> <http://purl.obolibrary.org/obo/CHEBI_00000000> ]
-          ? ;
+          <vehicle_if_treated> @<VehicleOfTransmission> ? ;
           <comment> @linkml:String ? ;
           <control_image> @<ControlImage> *
        ) ;
@@ -98,7 +88,7 @@ linkml:Sparqlpath xsd:string
     (  $<ExposureEvent_tes> (  &<ZappEntity_tes> ;
           rdf:type [ <ZappEntity> ] ? ;
           <stressor> @<StressorChemical> * ;
-          <vehicle> [ <http://purl.obolibrary.org/obo/CHEBI_00000000> <http://purl.obolibrary.org/obo/CHEBI_00000000> ] * ;
+          <vehicle> @<VehicleOfTransmission> * ;
           <route> @<ExposureRoute> ? ;
           <regimen> @<Regimen> ? ;
           <exposure_start_stage> @linkml:Uriorcurie ? ;
@@ -151,7 +141,7 @@ linkml:Sparqlpath xsd:string
 }
 
 <OntologyEntity>  (
-    @<ChemicalEntity> OR @<ExposureRoute> OR @<ExposureType> OR @<PhenotypeTerm>
+    @<ExposureRoute> OR @<ExposureType> OR @<PhenotypeTerm>
 )
 
 <OntologyEntity_struct> {
@@ -218,8 +208,41 @@ linkml:Sparqlpath xsd:string
 <StressorChemical> CLOSED {
     (  $<StressorChemical_tes> (  &<ZappEntity_tes> ;
           rdf:type [ <ZappEntity> ] ? ;
-          <chemical_id> @<ChemicalEntity> ;
-          <manufacturer> @linkml:String ? ;
+          <chemical_id> @linkml:Uriorcurie ? ;
+          <cas_id> @linkml:String ? ;
+          <chemical_name> @linkml:String ? ;
+          <synonym> @linkml:String * ;
+          <manufacturer> [ <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#sigma_aldrich>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#merck_kgaa>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#millipore_sigma>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thermo_fisher_scientific>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#fisher_scientific>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#avantor>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#vwr>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#new_england_biolabs>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#bio_rad_laboratories>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#promega_corporation>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#corning_life_sciences>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#lonza_group>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tocris_bioscience>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cayman_chemical_company>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#selleck_chemicals>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#medchemexpress>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#enzo_life_sciences>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#aquaneering_inc>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#pentair_aquatic_eco_systems>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tecniplast>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#zebrafish_international_resource_center>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tokyo_chemical_industry>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#alfa_aesar>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#acros_organics>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#honeywell>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#abcam>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cell_signaling_technology>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#genscript>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#addgene>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thomas_scientific>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cole_parmer> ] ? ;
           <concentration> @<QuantityValue> ;
           <comment> @linkml:String ?
        ) ;
@@ -239,9 +262,58 @@ linkml:Sparqlpath xsd:string
     )
 }
 
+<VehicleOfTransmission> CLOSED {
+    (  $<VehicleOfTransmission_tes> (  &<ZappEntity_tes> ;
+          rdf:type [ <ZappEntity> ] ? ;
+          <vehicle_type> [ <http://purl.obolibrary.org/obo/CHEBI_15347> <http://purl.obolibrary.org/obo/CHEBI_38472> UMLS:C0036774
+             <http://purl.obolibrary.org/obo/CHEBI_28398> <http://purl.obolibrary.org/obo/CHEBI_23456>
+             <http://purl.obolibrary.org/obo/CHEBI_17741> <http://purl.obolibrary.org/obo/CHEBI_28262>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnum#embryonic_media>
+             <http://purl.obolibrary.org/obo/CHEBI_16236> <http://purl.obolibrary.org/obo/CHEBI_17754>
+             <http://purl.obolibrary.org/obo/CHEBI_17824> <http://purl.obolibrary.org/obo/CHEBI_17790>
+             <http://purl.obolibrary.org/obo/CHEBI_53448> PUBCHEM.COMPOUND:24978514 <http://purl.obolibrary.org/obo/CHEBI_30742>
+             <http://purl.obolibrary.org/obo/CHEBI_16997> UNII:3XK098O8ZW <http://purl.obolibrary.org/obo/CHEBI_15377> ] ;
+          <manufacturer> [ <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#sigma_aldrich>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#merck_kgaa>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#millipore_sigma>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thermo_fisher_scientific>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#fisher_scientific>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#avantor>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#vwr>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#new_england_biolabs>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#bio_rad_laboratories>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#promega_corporation>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#corning_life_sciences>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#lonza_group>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tocris_bioscience>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cayman_chemical_company>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#selleck_chemicals>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#medchemexpress>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#enzo_life_sciences>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#aquaneering_inc>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#pentair_aquatic_eco_systems>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tecniplast>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#zebrafish_international_resource_center>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tokyo_chemical_industry>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#alfa_aesar>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#acros_organics>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#honeywell>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#abcam>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cell_signaling_technology>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#genscript>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#addgene>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thomas_scientific>
+             <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cole_parmer> ] ? ;
+          <concentration> @<QuantityValue> ;
+          <comment> @linkml:String ?
+       ) ;
+       rdf:type [ <VehicleOfTransmission> ]
+    )
+}
+
 <ZappEntity>  (
     @<Control> OR @<ControlImage> OR @<Experiment> OR @<ExposureEvent> OR @<Image> OR @<Phenotype> OR @<PhenotypeObservationSet> OR
-    @<Regimen> OR @<StressorChemical> OR @<Study>
+    @<Regimen> OR @<StressorChemical> OR @<Study> OR @<VehicleOfTransmission>
 )
 
 <ZappEntity_struct> {

@@ -1,62 +1,20 @@
 ---
 uuid: "phenotype-observation-001"
-control: false
 phenotype:
   - uuid: "phenotype-001"
     stage: "ZFIN:ZDB-STAGE-050211-5"
-    phenotype_term_id: "PATO:0001236"
+    phenotype_term_id: "ZP:0000001"
     severity: "moderate"
     prevalence:
       unit: "percent"
       numeric_value: "75"
-exposure_experiment:
-  uuid: "exposure-experiment-001"
-  subject:
-    uuid: "fish-001"
-    name: "AB"
-    id: "ZFIN:ZDB-FISH-2024-000001-1"
-  standard_rearing_conditions: true
-  rearing_condition_comments: "Standard Westerfield conditions"
-  exposure_event:
-    - uuid: "exposure-event-001"
-      route: "EXO:0000002"
-      exposure_start_stage: "ZFIN:ZDB-STAGE-050211-5"
-      exposure_end_stage: "ZFIN:ZDB-STAGE-050211-6"
-      exposure_type: "ECTO:0000002"
-      vehicle:
-        - "ethanol"
-      regimen:
-        uuid: "regimen-001"
-        exposure_regimen_type: "repeated"
-        number_of_repeats: 3
-        interval_between_exposures:
-          unit: "hours"
-          numeric_value: "24"
-        time_between_first_and_last_exposure:
-          unit: "hours"
-          numeric_value: "72"
-        individual_exposure_duration:
-          unit: "hours"
-          numeric_value: "6"
-      stressor_chemical:
-        - uuid: "stressor-001"
-          chemical:
-            uuid: "chemical-001"
-            chebi_id: "CHEBI:15377"
-            cas_id: "64-17-5"
-            chemical_name: "ethanol"
-            synonym:
-              - "ethyl alcohol"
-              - "EtOH"
-          manufacturer: "Sigma-Aldrich"
-          dose:
-            unit: "mg/L"
-            numeric_value: "10.5"
-          comments: "High purity grade"
-      comments: "Standard exposure protocol"
-      additional_exposure_conditions: "Temperature maintained at 28°C"
 image:
   - uuid: "image-001"
+    magnification: "10x"
+    resolution: "1024x768"
+    scale_bar: "100 µm"
+control_image:
+  - uuid: "control-image-001"
     magnification: "10x"
     resolution: "1024x768"
     scale_bar: "100 µm"

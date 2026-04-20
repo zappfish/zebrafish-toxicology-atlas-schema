@@ -1,5 +1,5 @@
 # Auto generated from zebrafish_toxicology_atlas_schema.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-04-20T11:39:08
+# Generation date: 2026-04-20T15:22:49
 # Schema: zebrafish-toxicology-atlas-schema
 #
 # id: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
@@ -69,6 +69,9 @@ ECTO = CurieNamespace('ECTO', 'http://purl.obolibrary.org/obo/ECTO_')
 EXO = CurieNamespace('EXO', 'http://purl.obolibrary.org/obo/EXO_')
 ORCID = CurieNamespace('ORCID', 'https://orcid.org/')
 PATO = CurieNamespace('PATO', 'http://purl.obolibrary.org/obo/PATO_')
+PUBCHEM_COMPOUND = CurieNamespace('PUBCHEM_COMPOUND', 'https://identifiers.org/pubchem.compound/')
+UMLS = CurieNamespace('UMLS', 'https://uts.nlm.nih.gov/uts/umls/concept/')
+UNII = CurieNamespace('UNII', 'https://fdasis.nlm.nih.gov/srs/unii/')
 ZFIN = CurieNamespace('ZFIN', 'https://zfin.org/')
 ZP = CurieNamespace('ZP', 'http://purl.obolibrary.org/obo/ZP_')
 BIOLINK = CurieNamespace('biolink', 'https://w3id.org/biolink/')
@@ -87,10 +90,6 @@ class ZappEntityId(extended_int):
 
 
 class ZfinEntityZfinId(extended_str):
-    pass
-
-
-class ChemicalEntityUri(URIorCURIE):
     pass
 
 
@@ -135,6 +134,10 @@ class RegimenId(ZappEntityId):
 
 
 class StressorChemicalId(ZappEntityId):
+    pass
+
+
+class VehicleOfTransmissionId(ZappEntityId):
     pass
 
 
@@ -375,7 +378,7 @@ class Control(ZappEntity):
 
     id: Union[int, ControlId] = None
     control_type: Optional[str] = None
-    vehicle_if_treated: Optional[Union[str, "VehicleEnumeration"]] = None
+    vehicle_if_treated: Optional[Union[dict, "VehicleOfTransmission"]] = None
     comment: Optional[str] = None
     control_image: Optional[Union[dict[Union[int, ControlImageId], Union[dict, "ControlImage"]], list[Union[dict, "ControlImage"]]]] = empty_dict()
 
@@ -388,8 +391,8 @@ class Control(ZappEntity):
         if self.control_type is not None and not isinstance(self.control_type, str):
             self.control_type = str(self.control_type)
 
-        if self.vehicle_if_treated is not None and not isinstance(self.vehicle_if_treated, VehicleEnumeration):
-            self.vehicle_if_treated = VehicleEnumeration(self.vehicle_if_treated)
+        if self.vehicle_if_treated is not None and not isinstance(self.vehicle_if_treated, VehicleOfTransmission):
+            self.vehicle_if_treated = VehicleOfTransmission(**as_dict(self.vehicle_if_treated))
 
         if self.comment is not None and not isinstance(self.comment, str):
             self.comment = str(self.comment)
@@ -413,7 +416,7 @@ class ExposureEvent(ZappEntity):
 
     id: Union[int, ExposureEventId] = None
     stressor: Optional[Union[dict[Union[int, StressorChemicalId], Union[dict, "StressorChemical"]], list[Union[dict, "StressorChemical"]]]] = empty_dict()
-    vehicle: Optional[Union[Union[str, "VehicleEnumeration"], list[Union[str, "VehicleEnumeration"]]]] = empty_list()
+    vehicle: Optional[Union[dict[Union[int, VehicleOfTransmissionId], Union[dict, "VehicleOfTransmission"]], list[Union[dict, "VehicleOfTransmission"]]]] = empty_dict()
     route: Optional[Union[dict, "ExposureRoute"]] = None
     regimen: Optional[Union[dict, "Regimen"]] = None
     exposure_start_stage: Optional[Union[str, URIorCURIE]] = None
@@ -431,9 +434,7 @@ class ExposureEvent(ZappEntity):
 
         self._normalize_inlined_as_list(slot_name="stressor", slot_type=StressorChemical, key_name="id", keyed=True)
 
-        if not isinstance(self.vehicle, list):
-            self.vehicle = [self.vehicle] if self.vehicle is not None else []
-        self.vehicle = [v if isinstance(v, VehicleEnumeration) else VehicleEnumeration(v) for v in self.vehicle]
+        self._normalize_inlined_as_list(slot_name="vehicle", slot_type=VehicleOfTransmission, key_name="id", keyed=True)
 
         if self.route is not None and not isinstance(self.route, ExposureRoute):
             self.route = ExposureRoute(**as_dict(self.route))
@@ -507,7 +508,7 @@ class Regimen(ZappEntity):
 @dataclass(repr=False)
 class StressorChemical(ZappEntity):
     """
-    A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.
+    A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.
     """
     _inherited_slots: ClassVar[list[str]] = []
 
@@ -517,9 +518,12 @@ class StressorChemical(ZappEntity):
     class_model_uri: ClassVar[URIRef] = ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.StressorChemical
 
     id: Union[int, StressorChemicalId] = None
-    chemical_id: Union[dict, "ChemicalEntity"] = None
     concentration: Union[dict, "QuantityValue"] = None
-    manufacturer: Optional[str] = None
+    chemical_id: Optional[Union[str, URIorCURIE]] = None
+    cas_id: Optional[str] = None
+    chemical_name: Optional[str] = None
+    synonym: Optional[Union[str, list[str]]] = empty_list()
+    manufacturer: Optional[Union[str, "ManufacturerEnum"]] = None
     comment: Optional[str] = None
 
     def __post_init__(self, *_: str, **kwargs: Any):
@@ -528,18 +532,69 @@ class StressorChemical(ZappEntity):
         if not isinstance(self.id, StressorChemicalId):
             self.id = StressorChemicalId(self.id)
 
-        if self._is_empty(self.chemical_id):
-            self.MissingRequiredField("chemical_id")
-        if not isinstance(self.chemical_id, ChemicalEntity):
-            self.chemical_id = ChemicalEntity(**as_dict(self.chemical_id))
+        if self._is_empty(self.concentration):
+            self.MissingRequiredField("concentration")
+        if not isinstance(self.concentration, QuantityValue):
+            self.concentration = QuantityValue(**as_dict(self.concentration))
+
+        if self.chemical_id is not None and not isinstance(self.chemical_id, URIorCURIE):
+            self.chemical_id = URIorCURIE(self.chemical_id)
+
+        if self.cas_id is not None and not isinstance(self.cas_id, str):
+            self.cas_id = str(self.cas_id)
+
+        if self.chemical_name is not None and not isinstance(self.chemical_name, str):
+            self.chemical_name = str(self.chemical_name)
+
+        if not isinstance(self.synonym, list):
+            self.synonym = [self.synonym] if self.synonym is not None else []
+        self.synonym = [v if isinstance(v, str) else str(v) for v in self.synonym]
+
+        if self.manufacturer is not None and not isinstance(self.manufacturer, ManufacturerEnum):
+            self.manufacturer = ManufacturerEnum(self.manufacturer)
+
+        if self.comment is not None and not isinstance(self.comment, str):
+            self.comment = str(self.comment)
+
+        super().__post_init__(**kwargs)
+
+
+@dataclass(repr=False)
+class VehicleOfTransmission(ZappEntity):
+    """
+    The substance or medium used to deliver a stressor to a subject during an exposure event.
+    """
+    _inherited_slots: ClassVar[list[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA["VehicleOfTransmission"]
+    class_class_curie: ClassVar[str] = "zebrafish_toxicology_atlas_schema:VehicleOfTransmission"
+    class_name: ClassVar[str] = "VehicleOfTransmission"
+    class_model_uri: ClassVar[URIRef] = ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.VehicleOfTransmission
+
+    id: Union[int, VehicleOfTransmissionId] = None
+    vehicle_type: Union[str, "VehicleEnum"] = None
+    concentration: Union[dict, "QuantityValue"] = None
+    manufacturer: Optional[Union[str, "ManufacturerEnum"]] = None
+    comment: Optional[str] = None
+
+    def __post_init__(self, *_: str, **kwargs: Any):
+        if self._is_empty(self.id):
+            self.MissingRequiredField("id")
+        if not isinstance(self.id, VehicleOfTransmissionId):
+            self.id = VehicleOfTransmissionId(self.id)
+
+        if self._is_empty(self.vehicle_type):
+            self.MissingRequiredField("vehicle_type")
+        if not isinstance(self.vehicle_type, VehicleEnum):
+            self.vehicle_type = VehicleEnum(self.vehicle_type)
 
         if self._is_empty(self.concentration):
             self.MissingRequiredField("concentration")
         if not isinstance(self.concentration, QuantityValue):
             self.concentration = QuantityValue(**as_dict(self.concentration))
 
-        if self.manufacturer is not None and not isinstance(self.manufacturer, str):
-            self.manufacturer = str(self.manufacturer)
+        if self.manufacturer is not None and not isinstance(self.manufacturer, ManufacturerEnum):
+            self.manufacturer = ManufacturerEnum(self.manufacturer)
 
         if self.comment is not None and not isinstance(self.comment, str):
             self.comment = str(self.comment)
@@ -622,46 +677,6 @@ class ControlImage(ZappEntity):
 
         if self.phenotype_comments is not None and not isinstance(self.phenotype_comments, str):
             self.phenotype_comments = str(self.phenotype_comments)
-
-        super().__post_init__(**kwargs)
-
-
-@dataclass(repr=False)
-class ChemicalEntity(OntologyEntity):
-    """
-    The chemical used as the stressor chemical in an exposure event.
-    """
-    _inherited_slots: ClassVar[list[str]] = []
-
-    class_class_uri: ClassVar[URIRef] = ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA["ChemicalEntity"]
-    class_class_curie: ClassVar[str] = "zebrafish_toxicology_atlas_schema:ChemicalEntity"
-    class_name: ClassVar[str] = "ChemicalEntity"
-    class_model_uri: ClassVar[URIRef] = ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.ChemicalEntity
-
-    uri: Union[str, ChemicalEntityUri] = None
-    chebi_id: Optional[Union[str, URIorCURIE]] = None
-    cas_id: Optional[str] = None
-    chemical_name: Optional[str] = None
-    synonym: Optional[Union[str, list[str]]] = empty_list()
-
-    def __post_init__(self, *_: str, **kwargs: Any):
-        if self._is_empty(self.uri):
-            self.MissingRequiredField("uri")
-        if not isinstance(self.uri, ChemicalEntityUri):
-            self.uri = ChemicalEntityUri(self.uri)
-
-        if self.chebi_id is not None and not isinstance(self.chebi_id, URIorCURIE):
-            self.chebi_id = URIorCURIE(self.chebi_id)
-
-        if self.cas_id is not None and not isinstance(self.cas_id, str):
-            self.cas_id = str(self.cas_id)
-
-        if self.chemical_name is not None and not isinstance(self.chemical_name, str):
-            self.chemical_name = str(self.chemical_name)
-
-        if not isinstance(self.synonym, list):
-            self.synonym = [self.synonym] if self.synonym is not None else []
-        self.synonym = [v if isinstance(v, str) else str(v) for v in self.synonym]
 
         super().__post_init__(**kwargs)
 
@@ -845,22 +860,188 @@ class ExposureRegimenTypeEnum(EnumDefinitionImpl):
         description="An enumeration of exposure regimen types.",
     )
 
-class VehicleEnumeration(EnumDefinitionImpl):
+class VehicleEnum(EnumDefinitionImpl):
     """
-    An enumeration of vehicles used in exposures.
+    An enumeration of vehicles used to deliver stressors in exposure events.
     """
+    acetone = PermissibleValue(
+        text="acetone",
+        description="Acetone",
+        meaning=CHEBI["15347"])
+    acetonitrile = PermissibleValue(
+        text="acetonitrile",
+        description="Acetonitrile",
+        meaning=CHEBI["38472"])
+    albumin_bsa = PermissibleValue(
+        text="albumin_bsa",
+        description="Albumin (BSA)",
+        meaning=UMLS["C0036774"])
+    butanone_mek = PermissibleValue(
+        text="butanone_mek",
+        description="Butanone (MEK)",
+        meaning=CHEBI["28398"])
+    cyclodextrin_hpbcd = PermissibleValue(
+        text="cyclodextrin_hpbcd",
+        description="Cyclodextrin (HPBCD)",
+        meaning=CHEBI["23456"])
+    dimethyl_formamide = PermissibleValue(
+        text="dimethyl_formamide",
+        description="Dimethyl formamide (DMF)",
+        meaning=CHEBI["17741"])
+    dmso = PermissibleValue(
+        text="dmso",
+        description="Dimethyl sulfoxide (DMSO)",
+        meaning=CHEBI["28262"])
+    embryonic_media = PermissibleValue(
+        text="embryonic_media",
+        description="Embryonic Media (EM/E3)")
     ethanol = PermissibleValue(
         text="ethanol",
         description="Ethanol",
-        meaning=CHEBI["00000000"])
-    dmso = PermissibleValue(
-        text="dmso",
-        description="DMSO",
-        meaning=CHEBI["00000000"])
+        meaning=CHEBI["16236"])
+    glycerol = PermissibleValue(
+        text="glycerol",
+        description="Glycerol",
+        meaning=CHEBI["17754"])
+    isopropanol = PermissibleValue(
+        text="isopropanol",
+        description="Isopropanol",
+        meaning=CHEBI["17824"])
+    methanol = PermissibleValue(
+        text="methanol",
+        description="Methanol",
+        meaning=CHEBI["17790"])
+    methylcellulose = PermissibleValue(
+        text="methylcellulose",
+        description="Methylcellulose",
+        meaning=CHEBI["53448"])
+    pbs = PermissibleValue(
+        text="pbs",
+        description="Phosphate-buffered saline (PBS)",
+        meaning=PUBCHEM.COMPOUND["24978514"])
+    polyethylene_glycol = PermissibleValue(
+        text="polyethylene_glycol",
+        description="Polyethylene glycol",
+        meaning=CHEBI["30742"])
+    propylene_glycol = PermissibleValue(
+        text="propylene_glycol",
+        description="Propylene glycol",
+        meaning=CHEBI["16997"])
+    solketal = PermissibleValue(
+        text="solketal",
+        description="Solketal",
+        meaning=UNII["3XK098O8ZW"])
+    water = PermissibleValue(
+        text="water",
+        description="Water",
+        meaning=CHEBI["15377"])
 
     _defn = EnumDefinition(
-        name="VehicleEnumeration",
-        description="An enumeration of vehicles used in exposures.",
+        name="VehicleEnum",
+        description="An enumeration of vehicles used to deliver stressors in exposure events.",
+    )
+
+class ManufacturerEnum(EnumDefinitionImpl):
+    """
+    An enumeration of manufacturers and suppliers of chemicals used in exposure events.
+    """
+    sigma_aldrich = PermissibleValue(
+        text="sigma_aldrich",
+        description="Sigma-Aldrich")
+    merck_kgaa = PermissibleValue(
+        text="merck_kgaa",
+        description="Merck KGaA")
+    millipore_sigma = PermissibleValue(
+        text="millipore_sigma",
+        description="MilliporeSigma")
+    thermo_fisher_scientific = PermissibleValue(
+        text="thermo_fisher_scientific",
+        description="Thermo Fisher Scientific")
+    fisher_scientific = PermissibleValue(
+        text="fisher_scientific",
+        description="Fisher Scientific")
+    avantor = PermissibleValue(
+        text="avantor",
+        description="Avantor")
+    vwr = PermissibleValue(
+        text="vwr",
+        description="VWR")
+    new_england_biolabs = PermissibleValue(
+        text="new_england_biolabs",
+        description="New England Biolabs")
+    bio_rad_laboratories = PermissibleValue(
+        text="bio_rad_laboratories",
+        description="Bio-Rad Laboratories")
+    promega_corporation = PermissibleValue(
+        text="promega_corporation",
+        description="Promega Corporation")
+    corning_life_sciences = PermissibleValue(
+        text="corning_life_sciences",
+        description="Corning Life Sciences")
+    lonza_group = PermissibleValue(
+        text="lonza_group",
+        description="Lonza Group")
+    tocris_bioscience = PermissibleValue(
+        text="tocris_bioscience",
+        description="Tocris Bioscience")
+    cayman_chemical_company = PermissibleValue(
+        text="cayman_chemical_company",
+        description="Cayman Chemical Company")
+    selleck_chemicals = PermissibleValue(
+        text="selleck_chemicals",
+        description="Selleck Chemicals")
+    medchemexpress = PermissibleValue(
+        text="medchemexpress",
+        description="MedChemExpress")
+    enzo_life_sciences = PermissibleValue(
+        text="enzo_life_sciences",
+        description="Enzo Life Sciences")
+    aquaneering_inc = PermissibleValue(
+        text="aquaneering_inc",
+        description="Aquaneering Inc.")
+    pentair_aquatic_eco_systems = PermissibleValue(
+        text="pentair_aquatic_eco_systems",
+        description="Pentair Aquatic Eco-Systems")
+    tecniplast = PermissibleValue(
+        text="tecniplast",
+        description="Tecniplast")
+    zebrafish_international_resource_center = PermissibleValue(
+        text="zebrafish_international_resource_center",
+        description="Zebrafish International Resource Center")
+    tokyo_chemical_industry = PermissibleValue(
+        text="tokyo_chemical_industry",
+        description="Tokyo Chemical Industry")
+    alfa_aesar = PermissibleValue(
+        text="alfa_aesar",
+        description="Alfa Aesar")
+    acros_organics = PermissibleValue(
+        text="acros_organics",
+        description="Acros Organics")
+    honeywell = PermissibleValue(
+        text="honeywell",
+        description="Honeywell")
+    abcam = PermissibleValue(
+        text="abcam",
+        description="Abcam")
+    cell_signaling_technology = PermissibleValue(
+        text="cell_signaling_technology",
+        description="Cell Signaling Technology")
+    genscript = PermissibleValue(
+        text="genscript",
+        description="GenScript")
+    addgene = PermissibleValue(
+        text="addgene",
+        description="Addgene")
+    thomas_scientific = PermissibleValue(
+        text="thomas_scientific",
+        description="Thomas Scientific")
+    cole_parmer = PermissibleValue(
+        text="cole_parmer",
+        description="Cole-Parmer")
+
+    _defn = EnumDefinition(
+        name="ManufacturerEnum",
+        description="An enumeration of manufacturers and suppliers of chemicals used in exposure events.",
     )
 
 # Slots
@@ -869,9 +1050,6 @@ class slots:
 
 slots.id = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.id, name="id", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('id'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.id, domain=None, range=URIRef)
-
-slots.uri = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.uri, name="uri", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('uri'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.uri, domain=None, range=URIRef)
 
 slots.term_uri = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.term_uri, name="term_uri", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('term_uri'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.term_uri, domain=None, range=URIRef)
@@ -934,8 +1112,11 @@ slots.term_label = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.term_label, name="
 slots.control_type = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.control_type, name="control_type", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('control_type'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.control_type, domain=None, range=Optional[str])
 
+slots.vehicle_type = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle_type, name="vehicle_type", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('vehicle_type'),
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle_type, domain=None, range=Union[str, "VehicleEnum"])
+
 slots.vehicle_if_treated = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle_if_treated, name="vehicle_if_treated", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('vehicle_if_treated'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle_if_treated, domain=None, range=Optional[Union[str, "VehicleEnumeration"]])
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle_if_treated, domain=None, range=Optional[Union[dict, VehicleOfTransmission]])
 
 slots.control_id = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.control_id, name="control_id", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('control_id'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.control_id, domain=None, range=Optional[str])
@@ -962,7 +1143,7 @@ slots.stressor = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.stressor, name="stre
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.stressor, domain=None, range=Optional[Union[dict[Union[int, StressorChemicalId], Union[dict, StressorChemical]], list[Union[dict, StressorChemical]]]])
 
 slots.vehicle = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle, name="vehicle", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('vehicle'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle, domain=None, range=Optional[Union[Union[str, "VehicleEnumeration"], list[Union[str, "VehicleEnumeration"]]]])
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle, domain=None, range=Optional[Union[dict[Union[int, VehicleOfTransmissionId], Union[dict, VehicleOfTransmission]], list[Union[dict, VehicleOfTransmission]]]])
 
 slots.route = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.route, name="route", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('route'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.route, domain=None, range=Optional[Union[dict, ExposureRoute]])
@@ -982,9 +1163,6 @@ slots.comment = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.comment, name="commen
 slots.additional_exposure_condition = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.additional_exposure_condition, name="additional_exposure_condition", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('additional_exposure_condition'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.additional_exposure_condition, domain=None, range=Optional[str])
 
-slots.chebi_id = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chebi_id, name="chebi_id", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('chebi_id'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chebi_id, domain=None, range=Optional[Union[str, URIorCURIE]])
-
 slots.cas_id = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.cas_id, name="cas_id", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('cas_id'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.cas_id, domain=None, range=Optional[str])
 
@@ -992,10 +1170,10 @@ slots.chemical_name = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chemical_name, 
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chemical_name, domain=None, range=Optional[str])
 
 slots.chemical_id = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chemical_id, name="chemical_id", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('chemical_id'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chemical_id, domain=None, range=Union[dict, ChemicalEntity])
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.chemical_id, domain=None, range=Optional[Union[str, URIorCURIE]])
 
 slots.manufacturer = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.manufacturer, name="manufacturer", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('manufacturer'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.manufacturer, domain=None, range=Optional[str])
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.manufacturer, domain=None, range=Optional[Union[str, "ManufacturerEnum"]])
 
 slots.concentration = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.concentration, name="concentration", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('concentration'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.concentration, domain=None, range=Union[dict, QuantityValue])
@@ -1031,6 +1209,9 @@ slots.lab = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.lab, name="lab", curie=ZE
 
 slots.phenotype_comments = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.phenotype_comments, name="phenotype_comments", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('phenotype_comments'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.phenotype_comments, domain=None, range=Optional[str])
+
+slots.VehicleOfTransmission_concentration = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.concentration, name="VehicleOfTransmission_concentration", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('concentration'),
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.VehicleOfTransmission_concentration, domain=VehicleOfTransmission, range=Union[dict, "QuantityValue"])
 
 slots.ExposureRoute_term_label = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.term_label, name="ExposureRoute_term_label", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('term_label'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.ExposureRoute_term_label, domain=ExposureRoute, range=str)
