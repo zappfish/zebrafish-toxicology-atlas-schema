@@ -1,5 +1,5 @@
 # Auto generated from zebrafish_toxicology_atlas_schema.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-04-20T10:10:53
+# Generation date: 2026-04-20T11:39:08
 # Schema: zebrafish-toxicology-atlas-schema
 #
 # id: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema

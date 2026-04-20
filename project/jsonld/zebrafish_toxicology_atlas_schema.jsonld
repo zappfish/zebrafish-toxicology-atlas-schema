@@ -1577,7 +1577,7 @@
   "source_file": "zebrafish_toxicology_atlas_schema.yaml",
   "source_file_date": "2026-04-20T10:10:48",
   "source_file_size": 13987,
-  "generation_date": "2026-04-20T10:10:53",
+  "generation_date": "2026-04-20T11:39:08",
   "@type": "SchemaDefinition",
   "@context": [
     "project/jsonld/zebrafish_toxicology_atlas_schema.context.jsonld",
