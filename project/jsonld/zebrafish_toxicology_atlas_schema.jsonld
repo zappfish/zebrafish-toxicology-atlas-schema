@@ -62,6 +62,18 @@
     {
       "prefix_prefix": "ZFIN",
       "prefix_reference": "https://zfin.org/"
+    },
+    {
+      "prefix_prefix": "UMLS",
+      "prefix_reference": "https://uts.nlm.nih.gov/uts/umls/concept/"
+    },
+    {
+      "prefix_prefix": "PUBCHEM.COMPOUND",
+      "prefix_reference": "https://identifiers.org/pubchem.compound/"
+    },
+    {
+      "prefix_prefix": "UNII",
+      "prefix_reference": "https://fdasis.nlm.nih.gov/srs/unii/"
     }
   ],
   "default_prefix": "zebrafish_toxicology_atlas_schema",
@@ -72,7 +84,7 @@
       "definition_uri": "https://w3id.org/linkml/String",
       "description": "A character string",
       "notes": [
-        "In RDF serializations, a slot with range of string is treated as a literal or type xsd:string.   If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"string\"."
+        "In RDF serializations, a slot with range of string is treated as a literal or type xsd:string. If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"string\"."
       ],
       "from_schema": "https://w3id.org/linkml/types",
       "imported_from": "linkml:types",
@@ -398,35 +410,6 @@
       ]
     },
     {
-      "name": "ExposureTypeEnum",
-      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureTypeEnum",
-      "description": "An enumeration of exposure types derived from the ECTO ontology.",
-      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
-      "reachable_from": {
-        "source_ontology": "obo:ecto",
-        "relationship_types": [
-          "rdfs:subClassOf"
-        ],
-        "include_self": true
-      }
-    },
-    {
-      "name": "ExposureRouteEnum",
-      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureRouteEnum",
-      "description": "An enumeration of exposure routes derived from the EXO ontology.",
-      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
-      "reachable_from": {
-        "source_ontology": "obo:exo",
-        "source_nodes": [
-          "EXO:0000002"
-        ],
-        "relationship_types": [
-          "rdfs:subClassOf"
-        ],
-        "include_self": true
-      }
-    },
-    {
       "name": "ExposureRegimenTypeEnum",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureRegimenTypeEnum",
       "description": "An enumeration of exposure regimen types.",
@@ -447,18 +430,229 @@
     {
       "name": "VehicleEnum",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnum",
-      "description": "An enumeration of vehicles used in exposures.",
+      "description": "An enumeration of vehicles used to deliver stressors in exposure events.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "permissible_values": [
         {
-          "text": "ethanol",
-          "description": "Ethanol",
-          "meaning": "CHEBI:00000000"
+          "text": "acetone",
+          "description": "Acetone",
+          "meaning": "CHEBI:15347"
+        },
+        {
+          "text": "acetonitrile",
+          "description": "Acetonitrile",
+          "meaning": "CHEBI:38472"
+        },
+        {
+          "text": "albumin_bsa",
+          "description": "Albumin (BSA)",
+          "meaning": "UMLS:C0036774"
+        },
+        {
+          "text": "butanone_mek",
+          "description": "Butanone (MEK)",
+          "meaning": "CHEBI:28398"
+        },
+        {
+          "text": "cyclodextrin_hpbcd",
+          "description": "Cyclodextrin (HPBCD)",
+          "meaning": "CHEBI:23456"
+        },
+        {
+          "text": "dimethyl_formamide",
+          "description": "Dimethyl formamide (DMF)",
+          "meaning": "CHEBI:17741"
         },
         {
           "text": "dmso",
-          "description": "DMSO",
-          "meaning": "CHEBI:00000000"
+          "description": "Dimethyl sulfoxide (DMSO)",
+          "meaning": "CHEBI:28262"
+        },
+        {
+          "text": "embryonic_media",
+          "description": "Embryonic Media (EM/E3)"
+        },
+        {
+          "text": "ethanol",
+          "description": "Ethanol",
+          "meaning": "CHEBI:16236"
+        },
+        {
+          "text": "glycerol",
+          "description": "Glycerol",
+          "meaning": "CHEBI:17754"
+        },
+        {
+          "text": "isopropanol",
+          "description": "Isopropanol",
+          "meaning": "CHEBI:17824"
+        },
+        {
+          "text": "methanol",
+          "description": "Methanol",
+          "meaning": "CHEBI:17790"
+        },
+        {
+          "text": "methylcellulose",
+          "description": "Methylcellulose",
+          "meaning": "CHEBI:53448"
+        },
+        {
+          "text": "pbs",
+          "description": "Phosphate-buffered saline (PBS)",
+          "meaning": "PUBCHEM.COMPOUND:24978514"
+        },
+        {
+          "text": "polyethylene_glycol",
+          "description": "Polyethylene glycol",
+          "meaning": "CHEBI:30742"
+        },
+        {
+          "text": "propylene_glycol",
+          "description": "Propylene glycol",
+          "meaning": "CHEBI:16997"
+        },
+        {
+          "text": "solketal",
+          "description": "Solketal",
+          "meaning": "UNII:3XK098O8ZW"
+        },
+        {
+          "text": "water",
+          "description": "Water",
+          "meaning": "CHEBI:15377"
+        }
+      ]
+    },
+    {
+      "name": "ManufacturerEnum",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum",
+      "description": "An enumeration of manufacturers and suppliers of chemicals used in exposure events.",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "permissible_values": [
+        {
+          "text": "sigma_aldrich",
+          "description": "Sigma-Aldrich"
+        },
+        {
+          "text": "merck_kgaa",
+          "description": "Merck KGaA"
+        },
+        {
+          "text": "millipore_sigma",
+          "description": "MilliporeSigma"
+        },
+        {
+          "text": "thermo_fisher_scientific",
+          "description": "Thermo Fisher Scientific"
+        },
+        {
+          "text": "fisher_scientific",
+          "description": "Fisher Scientific"
+        },
+        {
+          "text": "avantor",
+          "description": "Avantor"
+        },
+        {
+          "text": "vwr",
+          "description": "VWR"
+        },
+        {
+          "text": "new_england_biolabs",
+          "description": "New England Biolabs"
+        },
+        {
+          "text": "bio_rad_laboratories",
+          "description": "Bio-Rad Laboratories"
+        },
+        {
+          "text": "promega_corporation",
+          "description": "Promega Corporation"
+        },
+        {
+          "text": "corning_life_sciences",
+          "description": "Corning Life Sciences"
+        },
+        {
+          "text": "lonza_group",
+          "description": "Lonza Group"
+        },
+        {
+          "text": "tocris_bioscience",
+          "description": "Tocris Bioscience"
+        },
+        {
+          "text": "cayman_chemical_company",
+          "description": "Cayman Chemical Company"
+        },
+        {
+          "text": "selleck_chemicals",
+          "description": "Selleck Chemicals"
+        },
+        {
+          "text": "medchemexpress",
+          "description": "MedChemExpress"
+        },
+        {
+          "text": "enzo_life_sciences",
+          "description": "Enzo Life Sciences"
+        },
+        {
+          "text": "aquaneering_inc",
+          "description": "Aquaneering Inc."
+        },
+        {
+          "text": "pentair_aquatic_eco_systems",
+          "description": "Pentair Aquatic Eco-Systems"
+        },
+        {
+          "text": "tecniplast",
+          "description": "Tecniplast"
+        },
+        {
+          "text": "zebrafish_international_resource_center",
+          "description": "Zebrafish International Resource Center"
+        },
+        {
+          "text": "tokyo_chemical_industry",
+          "description": "Tokyo Chemical Industry"
+        },
+        {
+          "text": "alfa_aesar",
+          "description": "Alfa Aesar"
+        },
+        {
+          "text": "acros_organics",
+          "description": "Acros Organics"
+        },
+        {
+          "text": "honeywell",
+          "description": "Honeywell"
+        },
+        {
+          "text": "abcam",
+          "description": "Abcam"
+        },
+        {
+          "text": "cell_signaling_technology",
+          "description": "Cell Signaling Technology"
+        },
+        {
+          "text": "genscript",
+          "description": "GenScript"
+        },
+        {
+          "text": "addgene",
+          "description": "Addgene"
+        },
+        {
+          "text": "thomas_scientific",
+          "description": "Thomas Scientific"
+        },
+        {
+          "text": "cole_parmer",
+          "description": "Cole-Parmer"
         }
       ]
     }
@@ -480,30 +674,17 @@
       "@type": "SlotDefinition"
     },
     {
-      "name": "uri",
-      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/uri",
-      "description": "URI identifier for the chemical entity (CHEBI or CAS URI).",
-      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
-      "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/uri",
-      "identifier": true,
-      "owner": "ChemicalEntity",
-      "domain_of": [
-        "ChemicalEntity"
-      ],
-      "range": "uriorcurie",
-      "required": true,
-      "@type": "SlotDefinition"
-    },
-    {
       "name": "term_uri",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_uri",
       "description": "The URI of the phenotype ontology term.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_uri",
       "identifier": true,
-      "owner": "PhenotypeTerm",
+      "owner": "ExposureType",
       "domain_of": [
-        "PhenotypeTerm"
+        "PhenotypeTerm",
+        "ExposureRoute",
+        "ExposureType"
       ],
       "range": "uriorcurie",
       "required": true,
@@ -544,9 +725,9 @@
       "description": "Other names for the chemical.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/synonym",
-      "owner": "ChemicalEntity",
+      "owner": "StressorChemical",
       "domain_of": [
-        "ChemicalEntity"
+        "StressorChemical"
       ],
       "range": "string",
       "multivalued": true,
@@ -575,7 +756,9 @@
       "domain_of": [
         "ExposureEvent"
       ],
-      "range": "ExposureTypeEnum",
+      "range": "ExposureType",
+      "inlined": true,
+      "inlined_as_list": true,
       "@type": "SlotDefinition"
     },
     {
@@ -607,7 +790,7 @@
     {
       "name": "experiment",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/experiment",
-      "description": "The experiments in a study.",
+      "description": "The experiment in a study.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/experiment",
       "owner": "Study",
@@ -623,7 +806,7 @@
     {
       "name": "phenotype_observation",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/phenotype_observation",
-      "description": "The phenotype observations from this exposure event.",
+      "description": "The phenotype observation resulting from an exposure event.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/phenotype_observation",
       "owner": "ExposureEvent",
@@ -639,7 +822,7 @@
     {
       "name": "control",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control",
-      "description": "The controls for this experiment.",
+      "description": "An observation that serves as the reference for assessing phenotypic outcome.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control",
       "owner": "Experiment",
@@ -761,9 +944,11 @@
       "description": "The human-readable label for the phenotype ontology term.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_label",
-      "owner": "PhenotypeTerm",
+      "owner": "ExposureType",
       "domain_of": [
-        "PhenotypeTerm"
+        "PhenotypeTerm",
+        "ExposureRoute",
+        "ExposureType"
       ],
       "range": "string",
       "@type": "SlotDefinition"
@@ -782,16 +967,32 @@
       "@type": "SlotDefinition"
     },
     {
+      "name": "vehicle_type",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle_type",
+      "description": "The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary.",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle_type",
+      "owner": "VehicleOfTransmission",
+      "domain_of": [
+        "VehicleOfTransmission"
+      ],
+      "range": "VehicleEnum",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
       "name": "vehicle_if_treated",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle_if_treated",
-      "description": "Vehicle used if this is a treated control.",
+      "description": "The vehicle used in a control.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle_if_treated",
       "owner": "Control",
       "domain_of": [
         "Control"
       ],
-      "range": "VehicleEnum",
+      "range": "VehicleOfTransmission",
+      "inlined": true,
+      "inlined_as_list": true,
       "@type": "SlotDefinition"
     },
     {
@@ -806,7 +1007,7 @@
     {
       "name": "control_image",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control_image",
-      "description": "Images associated with this control.",
+      "description": "Image associated with this control.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/control_image",
       "owner": "Control",
@@ -836,7 +1037,7 @@
     {
       "name": "exposure_event",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/exposure_event",
-      "description": "The exposure events in this experiment.",
+      "description": "The exposure event in an experiment.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/exposure_event",
       "owner": "Experiment",
@@ -852,7 +1053,7 @@
     {
       "name": "standard_rearing_condition",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/standard_rearing_condition",
-      "description": "An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
+      "description": "An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/standard_rearing_condition",
       "owner": "Experiment",
@@ -891,7 +1092,7 @@
     {
       "name": "stressor",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/stressor",
-      "description": "Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure.",
+      "description": "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/stressor",
       "owner": "ExposureEvent",
@@ -907,15 +1108,17 @@
     {
       "name": "vehicle",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle",
-      "description": "The substance or medium used deliver a stressor.",
+      "description": "The substance or medium used to deliver a stressor.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/vehicle",
       "owner": "ExposureEvent",
       "domain_of": [
         "ExposureEvent"
       ],
-      "range": "VehicleEnum",
+      "range": "VehicleOfTransmission",
       "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
       "@type": "SlotDefinition"
     },
     {
@@ -928,7 +1131,9 @@
       "domain_of": [
         "ExposureEvent"
       ],
-      "range": "ExposureRouteEnum",
+      "range": "ExposureRoute",
+      "inlined": true,
+      "inlined_as_list": true,
       "@type": "SlotDefinition"
     },
     {
@@ -978,11 +1183,12 @@
       "description": "Additional comments.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/comment",
-      "owner": "StressorChemical",
+      "owner": "VehicleOfTransmission",
       "domain_of": [
         "Control",
         "ExposureEvent",
-        "StressorChemical"
+        "StressorChemical",
+        "VehicleOfTransmission"
       ],
       "range": "string",
       "@type": "SlotDefinition"
@@ -1001,27 +1207,14 @@
       "@type": "SlotDefinition"
     },
     {
-      "name": "chebi_id",
-      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/chebi_id",
-      "description": "CHEBI identifier for the chemical.",
-      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
-      "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/chebi_id",
-      "owner": "ChemicalEntity",
-      "domain_of": [
-        "ChemicalEntity"
-      ],
-      "range": "uriorcurie",
-      "@type": "SlotDefinition"
-    },
-    {
       "name": "cas_id",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/cas_id",
       "description": "CAS identifier for the chemical.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/cas_id",
-      "owner": "ChemicalEntity",
+      "owner": "StressorChemical",
       "domain_of": [
-        "ChemicalEntity"
+        "StressorChemical"
       ],
       "range": "string",
       "@type": "SlotDefinition"
@@ -1032,9 +1225,9 @@
       "description": "Name of the chemical.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/chemical_name",
-      "owner": "ChemicalEntity",
+      "owner": "StressorChemical",
       "domain_of": [
-        "ChemicalEntity"
+        "StressorChemical"
       ],
       "range": "string",
       "@type": "SlotDefinition"
@@ -1042,30 +1235,28 @@
     {
       "name": "chemical_id",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/chemical_id",
-      "description": "Chemical identifier (CHEBI, CAS, or UUID).",
+      "description": "Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/chemical_id",
       "owner": "StressorChemical",
       "domain_of": [
         "StressorChemical"
       ],
-      "range": "ChemicalEntity",
-      "required": true,
-      "inlined": true,
-      "inlined_as_list": true,
+      "range": "uriorcurie",
       "@type": "SlotDefinition"
     },
     {
       "name": "manufacturer",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/manufacturer",
-      "description": "The manufacturer of the chemical.",
+      "description": "The manufacturer or supplier of the chemical.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/manufacturer",
-      "owner": "StressorChemical",
+      "owner": "VehicleOfTransmission",
       "domain_of": [
-        "StressorChemical"
+        "StressorChemical",
+        "VehicleOfTransmission"
       ],
-      "range": "string",
+      "range": "ManufacturerEnum",
       "@type": "SlotDefinition"
     },
     {
@@ -1074,9 +1265,10 @@
       "description": "The dose or concentration of the chemical to which the subject was exposed to.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/concentration",
-      "owner": "StressorChemical",
+      "owner": "VehicleOfTransmission",
       "domain_of": [
-        "StressorChemical"
+        "StressorChemical",
+        "VehicleOfTransmission"
       ],
       "range": "QuantityValue",
       "required": true,
@@ -1159,7 +1351,7 @@
     {
       "name": "resolution",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/resolution",
-      "description": "Level of detail of the image.",
+      "description": "The level of detail in the image.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/resolution",
       "owner": "ControlImage",
@@ -1202,7 +1394,7 @@
     {
       "name": "lab",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/lab",
-      "description": "The lab where the experiment originated.",
+      "description": "ZFIN lab identifier of the laboratory that produced the study data.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/lab",
       "owner": "Study",
@@ -1224,6 +1416,65 @@
         "ControlImage"
       ],
       "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "VehicleOfTransmission_concentration",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/concentration",
+      "description": "The dose or concentration of the chemical to which the subject was exposed to.",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "is_a": "concentration",
+      "domain": "VehicleOfTransmission",
+      "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/concentration",
+      "alias": "concentration",
+      "owner": "VehicleOfTransmission",
+      "domain_of": [
+        "VehicleOfTransmission"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "concentration",
+      "range": "QuantityValue",
+      "required": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "ExposureRoute_term_label",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_label",
+      "description": "The human-readable label for the phenotype ontology term.",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "is_a": "term_label",
+      "domain": "ExposureRoute",
+      "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_label",
+      "alias": "term_label",
+      "owner": "ExposureRoute",
+      "domain_of": [
+        "ExposureRoute"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "term_label",
+      "range": "string",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "ExposureType_term_label",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_label",
+      "description": "The human-readable label for the phenotype ontology term.",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "is_a": "term_label",
+      "domain": "ExposureType",
+      "slot_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/term_label",
+      "alias": "term_label",
+      "owner": "ExposureType",
+      "domain_of": [
+        "ExposureType"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "term_label",
+      "range": "string",
+      "required": true,
       "@type": "SlotDefinition"
     },
     {
@@ -1303,7 +1554,7 @@
     {
       "name": "Experiment",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/Experiment",
-      "description": "Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.",
+      "description": "A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "ZappEntity",
       "slots": [
@@ -1321,7 +1572,7 @@
     {
       "name": "PhenotypeObservationSet",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/PhenotypeObservationSet",
-      "description": "A phenotypic outcome resulting from an exposure event.",
+      "description": "An observation set containing control and phenotypic outcome resulting from an exposure event.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "ZappEntity",
       "slots": [
@@ -1354,7 +1605,7 @@
     {
       "name": "Control",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/Control",
-      "description": "Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.",
+      "description": "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "ZappEntity",
       "slots": [
@@ -1415,18 +1666,38 @@
     {
       "name": "StressorChemical",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/StressorChemical",
-      "description": "A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.",
+      "description": "A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "ZappEntity",
       "slots": [
         "id",
         "chemical_id",
+        "cas_id",
+        "chemical_name",
+        "synonym",
         "manufacturer",
         "concentration",
         "comment"
       ],
       "slot_usage": {},
       "class_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/StressorChemical",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "VehicleOfTransmission",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleOfTransmission",
+      "description": "The substance or medium used to deliver a stressor to a subject during an exposure event.",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "is_a": "ZappEntity",
+      "slots": [
+        "id",
+        "vehicle_type",
+        "manufacturer",
+        "VehicleOfTransmission_concentration",
+        "comment"
+      ],
+      "slot_usage": {},
+      "class_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleOfTransmission",
       "@type": "ClassDefinition"
     },
     {
@@ -1464,26 +1735,6 @@
       "@type": "ClassDefinition"
     },
     {
-      "name": "ChemicalEntity",
-      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ChemicalEntity",
-      "description": "The chemical used as the stressor chemical in an exposure event.",
-      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
-      "exact_mappings": [
-        "biolink:ChemicalEntity"
-      ],
-      "is_a": "OntologyEntity",
-      "slots": [
-        "uri",
-        "chebi_id",
-        "cas_id",
-        "chemical_name",
-        "synonym"
-      ],
-      "slot_usage": {},
-      "class_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ChemicalEntity",
-      "@type": "ClassDefinition"
-    },
-    {
       "name": "PhenotypeTerm",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/PhenotypeTerm",
       "description": "A phenotype ontology term from the Zebrafish Phenotype ontology (ZP).",
@@ -1498,6 +1749,34 @@
       ],
       "slot_usage": {},
       "class_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/PhenotypeTerm",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ExposureRoute",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureRoute",
+      "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology.\n",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "is_a": "OntologyEntity",
+      "slots": [
+        "term_uri",
+        "ExposureRoute_term_label"
+      ],
+      "slot_usage": {},
+      "class_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureRoute",
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ExposureType",
+      "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureType",
+      "description": "An exposure-type term from ECTO.\n",
+      "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
+      "is_a": "OntologyEntity",
+      "slots": [
+        "term_uri",
+        "ExposureType_term_label"
+      ],
+      "slot_usage": {},
+      "class_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureType",
       "@type": "ClassDefinition"
     },
     {
@@ -1530,9 +1809,9 @@
   ],
   "metamodel_version": "1.7.0",
   "source_file": "zebrafish_toxicology_atlas_schema.yaml",
-  "source_file_date": "2025-12-15T09:22:59",
-  "source_file_size": 13846,
-  "generation_date": "2026-02-26T17:13:27",
+  "source_file_date": "2026-04-20T15:17:30",
+  "source_file_size": 17971,
+  "generation_date": "2026-04-20T15:22:49",
   "@type": "SchemaDefinition",
   "@context": [
     "project/jsonld/zebrafish_toxicology_atlas_schema.context.jsonld",

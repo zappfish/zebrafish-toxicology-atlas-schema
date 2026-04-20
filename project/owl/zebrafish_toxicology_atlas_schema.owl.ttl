@@ -1,5 +1,8 @@
 @prefix CHEBI: <http://purl.obolibrary.org/obo/CHEBI_> .
 @prefix EXO: <http://purl.obolibrary.org/obo/EXO_> .
+@prefix PUBCHEM.COMPOUND: <https://identifiers.org/pubchem.compound/> .
+@prefix UMLS: <https://uts.nlm.nih.gov/uts/umls/concept/> .
+@prefix UNII: <https://fdasis.nlm.nih.gov/srs/unii/> .
 @prefix biolink: <https://w3id.org/biolink/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix linkml: <https://w3id.org/linkml/> .
@@ -17,35 +20,29 @@
     rdfs:seeAlso <https://sierra-moxon.github.io/zebrafish-toxicology-atlas-schema> ;
     skos:definition "Schema to represent metadatcha associated with the Zebrafish Toxicology Atlas" .
 
+zebrafish_toxicology_atlas_schema:control_id a owl:DatatypeProperty ;
+    rdfs:label "control_id" ;
+    rdfs:range xsd:string ;
+    skos:definition "Identifier for the control, used to link control images to specific controls." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
 zebrafish_toxicology_atlas_schema:Study a owl:Class ;
     rdfs:label "Study" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:publication ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:lab ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:publication ],
         [ a owl:Restriction ;
             owl:allValuesFrom zebrafish_toxicology_atlas_schema:Experiment ;
             owl:onProperty zebrafish_toxicology_atlas_schema:experiment ],
         [ a owl:Restriction ;
             owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:experiment ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:publication ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:publication ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom [ a rdfs:Datatype ;
-                    owl:intersectionOf ( xsd:anyURI [ a rdfs:Datatype ;
-                                owl:onDatatype xsd:string ;
-                                owl:withRestrictions ( [ xsd:pattern "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$" ] ) ] ) ] ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:lab ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:annotator ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:publication ],
         [ a owl:Restriction ;
             owl:allValuesFrom [ a rdfs:Datatype ;
                     owl:intersectionOf ( xsd:anyURI [ a rdfs:Datatype ;
@@ -54,20 +51,29 @@ zebrafish_toxicology_atlas_schema:Study a owl:Class ;
             owl:onProperty zebrafish_toxicology_atlas_schema:annotator ],
         [ a owl:Restriction ;
             owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:experiment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:anyURI [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:string ;
+                                owl:withRestrictions ( [ xsd:pattern "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$" ] ) ] ) ] ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:lab ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:publication ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:lab ],
         zebrafish_toxicology_atlas_schema:ZappEntity ;
     skos:definition "A toxicological investigation, including the experimental conditions and phenotypic outcomes, with information provenance." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
-zebrafish_toxicology_atlas_schema:control_id a owl:DatatypeProperty ;
-    rdfs:label "control_id" ;
-    rdfs:range xsd:string ;
-    skos:definition "Identifier for the control, used to link control images to specific controls." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
 zebrafish_toxicology_atlas_schema:ZfinEntity a owl:Class ;
     rdfs:label "ZfinEntity" ;
     rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:zfin_id ],
+        [ a owl:Restriction ;
             owl:allValuesFrom [ a rdfs:Datatype ;
                     owl:intersectionOf ( xsd:string [ a rdfs:Datatype ;
                                 owl:onDatatype xsd:string ;
@@ -76,12 +82,94 @@ zebrafish_toxicology_atlas_schema:ZfinEntity a owl:Class ;
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:zfin_id ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:zfin_id ],
-        linkml:ClassDefinition ;
+        linkml:ClassDefinition,
+        zebrafish_toxicology_atlas_schema:Fish ;
     skos:definition "Entities with ZFIN database identifiers." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+CHEBI:15347 a owl:Class ;
+    rdfs:label "acetone" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Acetone" .
+
+CHEBI:15377 a owl:Class ;
+    rdfs:label "water" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Water" .
+
+CHEBI:16236 a owl:Class ;
+    rdfs:label "ethanol" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Ethanol" .
+
+CHEBI:16997 a owl:Class ;
+    rdfs:label "propylene_glycol" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Propylene glycol" .
+
+CHEBI:17741 a owl:Class ;
+    rdfs:label "dimethyl_formamide" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Dimethyl formamide (DMF)" .
+
+CHEBI:17754 a owl:Class ;
+    rdfs:label "glycerol" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Glycerol" .
+
+CHEBI:17790 a owl:Class ;
+    rdfs:label "methanol" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Methanol" .
+
+CHEBI:17824 a owl:Class ;
+    rdfs:label "isopropanol" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Isopropanol" .
+
+CHEBI:23456 a owl:Class ;
+    rdfs:label "cyclodextrin_hpbcd" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Cyclodextrin (HPBCD)" .
+
+CHEBI:28262 a owl:Class ;
+    rdfs:label "dmso" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Dimethyl sulfoxide (DMSO)" .
+
+CHEBI:28398 a owl:Class ;
+    rdfs:label "butanone_mek" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Butanone (MEK)" .
+
+CHEBI:30742 a owl:Class ;
+    rdfs:label "polyethylene_glycol" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Polyethylene glycol" .
+
+CHEBI:38472 a owl:Class ;
+    rdfs:label "acetonitrile" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Acetonitrile" .
+
+CHEBI:53448 a owl:Class ;
+    rdfs:label "methylcellulose" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Methylcellulose" .
 
 EXO:0000109 a owl:Class ;
     rdfs:label "continuous" ;
@@ -95,434 +183,209 @@ EXO:0000110 a owl:Class ;
         zebrafish_toxicology_atlas_schema:ExposureRegimenTypeEnum ;
     skos:definition "Repeated exposure" .
 
-zebrafish_toxicology_atlas_schema:ChemicalEntity a owl:Class ;
-    rdfs:label "ChemicalEntity" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:cas_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:uri ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:synonym ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_name ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chebi_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_name ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:cas_id ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:uri ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:cas_id ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chebi_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chebi_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:synonym ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:uri ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_name ],
-        zebrafish_toxicology_atlas_schema:OntologyEntity ;
-    skos:definition "The chemical used as the stressor chemical in an exposure event." ;
-    skos:exactMatch biolink:ChemicalEntity ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+UNII:3XK098O8ZW a owl:Class ;
+    rdfs:label "solketal" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Solketal" .
 
-zebrafish_toxicology_atlas_schema:Control a owl:Class ;
-    rdfs:label "Control" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ControlImage ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnum ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_type ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_type ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_type ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+PUBCHEM.COMPOUND:24978514 a owl:Class ;
+    rdfs:label "pbs" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Phosphate-buffered saline (PBS)" .
 
-zebrafish_toxicology_atlas_schema:Experiment a owl:Class ;
-    rdfs:label "Experiment" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:fish ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:boolean ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Fish ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:fish ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_event ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Control ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureEvent ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_event ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:fish ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+UMLS:C0036774 a owl:Class ;
+    rdfs:label "albumin_bsa" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Albumin (BSA)" .
 
-zebrafish_toxicology_atlas_schema:ExposureEvent a owl:Class ;
-    rdfs:label "ExposureEvent" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_end_stage ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_type ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureRouteEnum ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:route ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:StressorChemical ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:stressor ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Regimen ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:regimen ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:stressor ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_type ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_start_stage ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_observation ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:regimen ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:route ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_start_stage ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:regimen ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_end_stage ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:PhenotypeObservationSet ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_observation ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:route ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnum ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureTypeEnum ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_type ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_start_stage ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_end_stage ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "An occurrence in a study where a subject is exposed to a stressor under defined conditions." ;
-    skos:exactMatch biolink:ExposureEvent ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#abcam> a owl:Class ;
+    rdfs:label "abcam" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Abcam" .
 
-zebrafish_toxicology_atlas_schema:ExposureRouteEnum a owl:Class ;
-    rdfs:label "ExposureRouteEnum" ;
-    rdfs:subClassOf linkml:EnumDefinition ;
-    skos:definition "An enumeration of exposure routes derived from the EXO ontology." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#acros_organics> a owl:Class ;
+    rdfs:label "acros_organics" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Acros Organics" .
 
-zebrafish_toxicology_atlas_schema:ExposureTypeEnum a owl:Class ;
-    rdfs:label "ExposureTypeEnum" ;
-    rdfs:subClassOf linkml:EnumDefinition ;
-    skos:definition "An enumeration of exposure types derived from the ECTO ontology." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#addgene> a owl:Class ;
+    rdfs:label "addgene" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Addgene" .
 
-zebrafish_toxicology_atlas_schema:Fish a owl:Class ;
-    rdfs:label "Fish" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:name ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:name ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:name ],
-        zebrafish_toxicology_atlas_schema:ZfinEntity ;
-    skos:definition "Zebrafish used as subject in the study." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#alfa_aesar> a owl:Class ;
+    rdfs:label "alfa_aesar" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Alfa Aesar" .
 
-zebrafish_toxicology_atlas_schema:Image a owl:Class ;
-    rdfs:label "Image" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "An image associated with a phenotype observation." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#aquaneering_inc> a owl:Class ;
+    rdfs:label "aquaneering_inc" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Aquaneering Inc." .
 
-zebrafish_toxicology_atlas_schema:OntologyEntity a owl:Class ;
-    rdfs:label "OntologyEntity" ;
-    rdfs:subClassOf linkml:ClassDefinition ;
-    skos:definition "Entities representing ontology terms with URI identifiers." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#avantor> a owl:Class ;
+    rdfs:label "avantor" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Avantor" .
 
-zebrafish_toxicology_atlas_schema:Phenotype a owl:Class ;
-    rdfs:label "Phenotype" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:severity ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:prevalence ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:PhenotypeTerm ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_term_id ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:stage ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_term_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:SeverityEnum ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:severity ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:severity ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_term_id ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:prevalence ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:prevalence ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:stage ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:stage ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "Any measurable or visible trait change in the subject as a result of exposure." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#bio_rad_laboratories> a owl:Class ;
+    rdfs:label "bio_rad_laboratories" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Bio-Rad Laboratories" .
 
-zebrafish_toxicology_atlas_schema:PhenotypeObservationSet a owl:Class ;
-    rdfs:label "PhenotypeObservationSet" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:image ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ControlImage ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Phenotype ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Image ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:image ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "A phenotypic outcome resulting from an exposure event." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cayman_chemical_company> a owl:Class ;
+    rdfs:label "cayman_chemical_company" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Cayman Chemical Company" .
 
-zebrafish_toxicology_atlas_schema:PhenotypeTerm a owl:Class ;
-    rdfs:label "PhenotypeTerm" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:anyURI ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
-        zebrafish_toxicology_atlas_schema:OntologyEntity ;
-    skos:definition "A phenotype ontology term from the Zebrafish Phenotype ontology (ZP)." ;
-    skos:exactMatch biolink:PhenotypicFeature ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cell_signaling_technology> a owl:Class ;
+    rdfs:label "cell_signaling_technology" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Cell Signaling Technology" .
 
-zebrafish_toxicology_atlas_schema:Regimen a owl:Class ;
-    rdfs:label "Regimen" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:integer ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:total_exposure_duration ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:total_exposure_duration ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:total_exposure_duration ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureRegimenTypeEnum ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "The schedule and pattern of an exposure event." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cole_parmer> a owl:Class ;
+    rdfs:label "cole_parmer" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Cole-Parmer" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#corning_life_sciences> a owl:Class ;
+    rdfs:label "corning_life_sciences" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Corning Life Sciences" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#enzo_life_sciences> a owl:Class ;
+    rdfs:label "enzo_life_sciences" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Enzo Life Sciences" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#fisher_scientific> a owl:Class ;
+    rdfs:label "fisher_scientific" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Fisher Scientific" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#genscript> a owl:Class ;
+    rdfs:label "genscript" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "GenScript" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#honeywell> a owl:Class ;
+    rdfs:label "honeywell" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Honeywell" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#lonza_group> a owl:Class ;
+    rdfs:label "lonza_group" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Lonza Group" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#medchemexpress> a owl:Class ;
+    rdfs:label "medchemexpress" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "MedChemExpress" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#merck_kgaa> a owl:Class ;
+    rdfs:label "merck_kgaa" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Merck KGaA" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#millipore_sigma> a owl:Class ;
+    rdfs:label "millipore_sigma" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "MilliporeSigma" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#new_england_biolabs> a owl:Class ;
+    rdfs:label "new_england_biolabs" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "New England Biolabs" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#pentair_aquatic_eco_systems> a owl:Class ;
+    rdfs:label "pentair_aquatic_eco_systems" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Pentair Aquatic Eco-Systems" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#promega_corporation> a owl:Class ;
+    rdfs:label "promega_corporation" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Promega Corporation" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#selleck_chemicals> a owl:Class ;
+    rdfs:label "selleck_chemicals" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Selleck Chemicals" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#sigma_aldrich> a owl:Class ;
+    rdfs:label "sigma_aldrich" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Sigma-Aldrich" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tecniplast> a owl:Class ;
+    rdfs:label "tecniplast" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Tecniplast" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thermo_fisher_scientific> a owl:Class ;
+    rdfs:label "thermo_fisher_scientific" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Thermo Fisher Scientific" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thomas_scientific> a owl:Class ;
+    rdfs:label "thomas_scientific" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Thomas Scientific" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tocris_bioscience> a owl:Class ;
+    rdfs:label "tocris_bioscience" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Tocris Bioscience" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tokyo_chemical_industry> a owl:Class ;
+    rdfs:label "tokyo_chemical_industry" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Tokyo Chemical Industry" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#vwr> a owl:Class ;
+    rdfs:label "vwr" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "VWR" .
+
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#zebrafish_international_resource_center> a owl:Class ;
+    rdfs:label "zebrafish_international_resource_center" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "Zebrafish International Resource Center" .
 
 <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/SeverityEnum#mild> a owl:Class ;
     rdfs:label "mild" ;
@@ -542,47 +405,11 @@ zebrafish_toxicology_atlas_schema:Regimen a owl:Class ;
         zebrafish_toxicology_atlas_schema:SeverityEnum ;
     skos:definition "Severe severity" .
 
-zebrafish_toxicology_atlas_schema:StressorChemical a owl:Class ;
-    rdfs:label "StressorChemical" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ChemicalEntity ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
-        [ a owl:Restriction ;
-            owl:minCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_id ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
-        zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+<https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnum#embryonic_media> a owl:Class ;
+    rdfs:label "embryonic_media" ;
+    rdfs:subClassOf linkml:PermissibleValue,
+        zebrafish_toxicology_atlas_schema:VehicleEnum ;
+    skos:definition "Embryonic Media (EM/E3)" .
 
 zebrafish_toxicology_atlas_schema:annotator a owl:DatatypeProperty ;
     rdfs:label "annotator" ;
@@ -596,19 +423,19 @@ zebrafish_toxicology_atlas_schema:annotator a owl:DatatypeProperty ;
 zebrafish_toxicology_atlas_schema:control a owl:ObjectProperty ;
     rdfs:label "control" ;
     rdfs:range zebrafish_toxicology_atlas_schema:Control ;
-    skos:definition "The controls for this experiment." ;
+    skos:definition "An observation that serves as the reference for assessing phenotypic outcome." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:experiment a owl:ObjectProperty ;
     rdfs:label "experiment" ;
     rdfs:range zebrafish_toxicology_atlas_schema:Experiment ;
-    skos:definition "The experiments in a study." ;
+    skos:definition "The experiment in a study." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:exposure_event a owl:ObjectProperty ;
     rdfs:label "exposure_event" ;
     rdfs:range zebrafish_toxicology_atlas_schema:ExposureEvent ;
-    skos:definition "The exposure events in this experiment." ;
+    skos:definition "The exposure event in an experiment." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:image a owl:ObjectProperty ;
@@ -626,13 +453,13 @@ zebrafish_toxicology_atlas_schema:phenotype a owl:ObjectProperty ;
 zebrafish_toxicology_atlas_schema:phenotype_observation a owl:ObjectProperty ;
     rdfs:label "phenotype_observation" ;
     rdfs:range zebrafish_toxicology_atlas_schema:PhenotypeObservationSet ;
-    skos:definition "The phenotype observations from this exposure event." ;
+    skos:definition "The phenotype observation resulting from an exposure event." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:stressor a owl:ObjectProperty ;
     rdfs:label "stressor" ;
     rdfs:range zebrafish_toxicology_atlas_schema:StressorChemical ;
-    skos:definition "Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure." ;
+    skos:definition "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:synonym a owl:DatatypeProperty ;
@@ -643,35 +470,265 @@ zebrafish_toxicology_atlas_schema:synonym a owl:DatatypeProperty ;
 
 zebrafish_toxicology_atlas_schema:vehicle a owl:ObjectProperty ;
     rdfs:label "vehicle" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:VehicleEnum ;
-    skos:definition "The substance or medium used deliver a stressor." ;
+    rdfs:range zebrafish_toxicology_atlas_schema:VehicleOfTransmission ;
+    skos:definition "The substance or medium used to deliver a stressor." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
-CHEBI:00000000 a owl:Class ;
-    rdfs:label "dmso",
-        "ethanol" ;
-    rdfs:subClassOf linkml:PermissibleValue,
-        zebrafish_toxicology_atlas_schema:VehicleEnum ;
-    skos:definition "DMSO",
-        "Ethanol" .
+zebrafish_toxicology_atlas_schema:Control a owl:Class ;
+    rdfs:label "Control" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleOfTransmission ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ControlImage ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_if_treated ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_type ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
-zebrafish_toxicology_atlas_schema:ControlImage a owl:Class ;
-    rdfs:label "ControlImage" ;
+zebrafish_toxicology_atlas_schema:Experiment a owl:Class ;
+    rdfs:label "Experiment" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Fish ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:fish ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_event ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Control ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:rearing_condition_comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:boolean ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:standard_rearing_condition ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureEvent ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_event ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:fish ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:fish ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:ExposureEvent a owl:Class ;
+    rdfs:label "ExposureEvent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Regimen ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:regimen ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:route ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureRoute ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:route ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:route ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:PhenotypeObservationSet ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_observation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_type ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_type ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleOfTransmission ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:stressor ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:additional_exposure_condition ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:regimen ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_start_stage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureType ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_type ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_start_stage ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:regimen ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:StressorChemical ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:stressor ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_end_stage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_end_stage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_start_stage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_end_stage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_observation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "An occurrence in a study where a subject is exposed to a stressor under defined conditions." ;
+    skos:exactMatch biolink:ExposureEvent ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:ExposureRoute a owl:Class ;
+    rdfs:label "ExposureRoute" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        zebrafish_toxicology_atlas_schema:OntologyEntity ;
+    skos:definition """A route-of-exposure term. Term URIs are expected to be reachable from
+EXO:0000154 (route of exposure) in the EXO ontology.
+""" ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:ExposureType a owl:Class ;
+    rdfs:label "ExposureType" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        zebrafish_toxicology_atlas_schema:OntologyEntity ;
+    skos:definition """An exposure-type term from ECTO.
+""" ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:Fish a owl:Class ;
+    rdfs:label "Fish" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:name ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:name ],
+        zebrafish_toxicology_atlas_schema:ZfinEntity ;
+    skos:definition "Zebrafish used as subject in the study." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:Image a owl:Class ;
+    rdfs:label "Image" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_comments ],
+            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
+            owl:minCardinality 0 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
         [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
-        [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
             owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
         [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
+        [ a owl:Restriction ;
             owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_comments ],
+            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
         [ a owl:Restriction ;
             owl:minCardinality 0 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
@@ -679,31 +736,228 @@ zebrafish_toxicology_atlas_schema:ControlImage a owl:Class ;
             owl:maxCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
         [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
+            owl:allValuesFrom xsd:string ;
             owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
         [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_comments ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_id ],
-        [ a owl:Restriction ;
-            owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_id ],
-        [ a owl:Restriction ;
             owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_id ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
+            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
         zebrafish_toxicology_atlas_schema:ZappEntity ;
-    skos:definition "An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation." ;
+    skos:definition "An image associated with a phenotype observation." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:OntologyEntity a owl:Class ;
+    rdfs:label "OntologyEntity" ;
+    rdfs:subClassOf [ owl:unionOf ( zebrafish_toxicology_atlas_schema:ExposureRoute zebrafish_toxicology_atlas_schema:ExposureType zebrafish_toxicology_atlas_schema:PhenotypeTerm ) ],
+        linkml:ClassDefinition ;
+    skos:definition "Entities representing ontology terms with URI identifiers." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:Phenotype a owl:Class ;
+    rdfs:label "Phenotype" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:prevalence ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:SeverityEnum ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:severity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:stage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:prevalence ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_term_id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:severity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:prevalence ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:stage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:PhenotypeTerm ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_term_id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:stage ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:severity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_term_id ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "Any measurable or visible trait change in the subject as a result of exposure." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:PhenotypeObservationSet a owl:Class ;
+    rdfs:label "PhenotypeObservationSet" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Phenotype ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:Image ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:image ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ControlImage ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:control_image ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:image ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "An observation set containing control and phenotypic outcome resulting from an exposure event." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:PhenotypeTerm a owl:Class ;
+    rdfs:label "PhenotypeTerm" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_uri ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:term_label ],
+        zebrafish_toxicology_atlas_schema:OntologyEntity ;
+    skos:definition "A phenotype ontology term from the Zebrafish Phenotype ontology (ZP)." ;
+    skos:exactMatch biolink:PhenotypicFeature ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:Regimen a owl:Class ;
+    rdfs:label "Regimen" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:total_exposure_duration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:total_exposure_duration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:total_exposure_duration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ExposureRegimenTypeEnum ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:individual_exposure_duration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:interval_between_individual_exposures ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:exposure_regimen_type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:integer ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:number_of_individual_exposure ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "The schedule and pattern of an exposure event." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:StressorChemical a owl:Class ;
+    rdfs:label "StressorChemical" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:cas_id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:synonym ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:synonym ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_name ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:anyURI ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:cas_id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:cas_id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:chemical_id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "A chemical that elicits a response (a phenotype) in a subject when encountered through exposure." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:additional_exposure_condition a owl:DatatypeProperty ;
@@ -718,28 +972,16 @@ zebrafish_toxicology_atlas_schema:cas_id a owl:DatatypeProperty ;
     skos:definition "CAS identifier for the chemical." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
-zebrafish_toxicology_atlas_schema:chebi_id a owl:DatatypeProperty ;
-    rdfs:label "chebi_id" ;
-    rdfs:range xsd:anyURI ;
-    skos:definition "CHEBI identifier for the chemical." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
-zebrafish_toxicology_atlas_schema:chemical_id a owl:ObjectProperty ;
+zebrafish_toxicology_atlas_schema:chemical_id a owl:DatatypeProperty ;
     rdfs:label "chemical_id" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:ChemicalEntity ;
-    skos:definition "Chemical identifier (CHEBI, CAS, or UUID)." ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:chemical_name a owl:DatatypeProperty ;
     rdfs:label "chemical_name" ;
     rdfs:range xsd:string ;
     skos:definition "Name of the chemical." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
-zebrafish_toxicology_atlas_schema:concentration a owl:ObjectProperty ;
-    rdfs:label "concentration" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:QuantityValue ;
-    skos:definition "The dose or concentration of the chemical to which the subject was exposed to." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:control_type a owl:DatatypeProperty ;
@@ -768,7 +1010,7 @@ zebrafish_toxicology_atlas_schema:exposure_start_stage a owl:DatatypeProperty ;
 
 zebrafish_toxicology_atlas_schema:exposure_type a owl:ObjectProperty ;
     rdfs:label "exposure_type" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:ExposureTypeEnum ;
+    rdfs:range zebrafish_toxicology_atlas_schema:ExposureType ;
     skos:definition "An instance of exposure specifying the type of stressor a subject was exposed to." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
@@ -802,13 +1044,7 @@ zebrafish_toxicology_atlas_schema:lab a owl:DatatypeProperty ;
             owl:intersectionOf ( xsd:anyURI [ a rdfs:Datatype ;
                         owl:onDatatype xsd:string ;
                         owl:withRestrictions ( [ xsd:pattern "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$" ] ) ] ) ] ;
-    skos:definition "The lab where the experiment originated." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
-zebrafish_toxicology_atlas_schema:manufacturer a owl:DatatypeProperty ;
-    rdfs:label "manufacturer" ;
-    rdfs:range xsd:string ;
-    skos:definition "The manufacturer of the chemical." ;
+    skos:definition "ZFIN lab identifier of the laboratory that produced the study data." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:name a owl:DatatypeProperty ;
@@ -871,7 +1107,7 @@ zebrafish_toxicology_atlas_schema:regimen a owl:ObjectProperty ;
 
 zebrafish_toxicology_atlas_schema:route a owl:ObjectProperty ;
     rdfs:label "route" ;
-    rdfs:range zebrafish_toxicology_atlas_schema:ExposureRouteEnum ;
+    rdfs:range zebrafish_toxicology_atlas_schema:ExposureRoute ;
     skos:definition "The route of exposure." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
@@ -890,19 +1126,7 @@ zebrafish_toxicology_atlas_schema:stage a owl:DatatypeProperty ;
 zebrafish_toxicology_atlas_schema:standard_rearing_condition a owl:DatatypeProperty ;
     rdfs:label "standard_rearing_condition" ;
     rdfs:range xsd:boolean ;
-    skos:definition "An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
-zebrafish_toxicology_atlas_schema:term_label a owl:DatatypeProperty ;
-    rdfs:label "term_label" ;
-    rdfs:range xsd:string ;
-    skos:definition "The human-readable label for the phenotype ontology term." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
-zebrafish_toxicology_atlas_schema:term_uri a owl:DatatypeProperty ;
-    rdfs:label "term_uri" ;
-    rdfs:range xsd:anyURI ;
-    skos:definition "The URI of the phenotype ontology term." ;
+    skos:definition "An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:total_exposure_duration a owl:ObjectProperty ;
@@ -916,16 +1140,16 @@ zebrafish_toxicology_atlas_schema:unit a owl:DatatypeProperty ;
     skos:definition "The unit of the quantity value." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
-zebrafish_toxicology_atlas_schema:uri a owl:DatatypeProperty ;
-    rdfs:label "uri" ;
-    rdfs:range xsd:anyURI ;
-    skos:definition "URI identifier for the chemical entity (CHEBI or CAS URI)." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
-
 zebrafish_toxicology_atlas_schema:vehicle_if_treated a owl:ObjectProperty ;
     rdfs:label "vehicle_if_treated" ;
+    rdfs:range zebrafish_toxicology_atlas_schema:VehicleOfTransmission ;
+    skos:definition "The vehicle used in a control." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:vehicle_type a owl:ObjectProperty ;
+    rdfs:label "vehicle_type" ;
     rdfs:range zebrafish_toxicology_atlas_schema:VehicleEnum ;
-    skos:definition "Vehicle used if this is a treated control." ;
+    skos:definition "The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:zfin_id a owl:DatatypeProperty ;
@@ -935,6 +1159,57 @@ zebrafish_toxicology_atlas_schema:zfin_id a owl:DatatypeProperty ;
                         owl:onDatatype xsd:string ;
                         owl:withRestrictions ( [ xsd:pattern "^ZFIN:ZDB-[A-Z]+-\\d{6}-\\d+$" ] ) ] ) ] ;
     skos:definition "ZFIN database identifier." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:ControlImage a owl:Class ;
+    rdfs:label "ControlImage" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:resolution ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:scale_bar ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_comments ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:magnification ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_comments ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:phenotype_comments ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "An image associated with a control, taken at the same developmental stage as the corresponding phenotype observation." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:ExposureRegimenTypeEnum a owl:Class ;
@@ -949,7 +1224,7 @@ zebrafish_toxicology_atlas_schema:ExposureRegimenTypeEnum a owl:Class ;
 zebrafish_toxicology_atlas_schema:control_image a owl:ObjectProperty ;
     rdfs:label "control_image" ;
     rdfs:range zebrafish_toxicology_atlas_schema:ControlImage ;
-    skos:definition "Images associated with this control." ;
+    skos:definition "Image associated with this control." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:SeverityEnum a owl:Class ;
@@ -962,13 +1237,53 @@ zebrafish_toxicology_atlas_schema:SeverityEnum a owl:Class ;
         <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/SeverityEnum#moderate>,
         <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/SeverityEnum#severe> .
 
-zebrafish_toxicology_atlas_schema:VehicleEnum a owl:Class ;
-    rdfs:label "VehicleEnum" ;
-    rdfs:subClassOf linkml:EnumDefinition ;
-    owl:unionOf ( CHEBI:00000000 CHEBI:00000000 ) ;
-    skos:definition "An enumeration of vehicles used in exposures." ;
-    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> ;
-    linkml:permissible_values CHEBI:00000000 .
+zebrafish_toxicology_atlas_schema:VehicleOfTransmission a owl:Class ;
+    rdfs:label "VehicleOfTransmission" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:QuantityValue ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:concentration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:comment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom zebrafish_toxicology_atlas_schema:VehicleEnum ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_type ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:vehicle_type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:manufacturer ],
+        zebrafish_toxicology_atlas_schema:ZappEntity ;
+    skos:definition "The substance or medium used to deliver a stressor to a subject during an exposure event." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:concentration a owl:ObjectProperty ;
+    rdfs:label "concentration" ;
+    rdfs:range zebrafish_toxicology_atlas_schema:QuantityValue ;
+    skos:definition "The dose or concentration of the chemical to which the subject was exposed to." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:magnification a owl:DatatypeProperty ;
     rdfs:label "magnification" ;
@@ -976,10 +1291,16 @@ zebrafish_toxicology_atlas_schema:magnification a owl:DatatypeProperty ;
     skos:definition "The factor by which a microscope enlarges the apparent size of a subject compared to its actual size." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
+zebrafish_toxicology_atlas_schema:manufacturer a owl:ObjectProperty ;
+    rdfs:label "manufacturer" ;
+    rdfs:range zebrafish_toxicology_atlas_schema:ManufacturerEnum ;
+    skos:definition "The manufacturer or supplier of the chemical." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
 zebrafish_toxicology_atlas_schema:resolution a owl:DatatypeProperty ;
     rdfs:label "resolution" ;
     rdfs:range xsd:string ;
-    skos:definition "Level of detail of the image." ;
+    skos:definition "The level of detail in the image." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:scale_bar a owl:DatatypeProperty ;
@@ -988,28 +1309,34 @@ zebrafish_toxicology_atlas_schema:scale_bar a owl:DatatypeProperty ;
     skos:definition "Scale bar information, including the physical length it represents and the unit of measurement." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
-zebrafish_toxicology_atlas_schema:comment a owl:DatatypeProperty ;
-    rdfs:label "comment" ;
+zebrafish_toxicology_atlas_schema:term_label a owl:DatatypeProperty ;
+    rdfs:label "term_label" ;
     rdfs:range xsd:string ;
-    skos:definition "Additional comments." ;
+    skos:definition "The human-readable label for the phenotype ontology term." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:term_uri a owl:DatatypeProperty ;
+    rdfs:label "term_uri" ;
+    rdfs:range xsd:anyURI ;
+    skos:definition "The URI of the phenotype ontology term." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
 
 zebrafish_toxicology_atlas_schema:QuantityValue a owl:Class ;
     rdfs:label "QuantityValue" ;
     rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:string ;
+            owl:maxCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:numeric_value ],
         [ a owl:Restriction ;
             owl:allValuesFrom xsd:string ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:unit ],
+            owl:onProperty zebrafish_toxicology_atlas_schema:numeric_value ],
         [ a owl:Restriction ;
             owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:unit ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
             owl:onProperty zebrafish_toxicology_atlas_schema:unit ],
         [ a owl:Restriction ;
             owl:minCardinality 0 ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:numeric_value ],
-        [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:numeric_value ],
         [ a owl:Restriction ;
             owl:minCardinality 0 ;
@@ -1020,17 +1347,87 @@ zebrafish_toxicology_atlas_schema:QuantityValue a owl:Class ;
 
 zebrafish_toxicology_atlas_schema:ZappEntity a owl:Class ;
     rdfs:label "ZappEntity" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom xsd:integer ;
-            owl:onProperty zebrafish_toxicology_atlas_schema:id ],
+    rdfs:subClassOf [ owl:unionOf ( zebrafish_toxicology_atlas_schema:Control zebrafish_toxicology_atlas_schema:ControlImage zebrafish_toxicology_atlas_schema:Experiment zebrafish_toxicology_atlas_schema:ExposureEvent zebrafish_toxicology_atlas_schema:Image zebrafish_toxicology_atlas_schema:Phenotype zebrafish_toxicology_atlas_schema:PhenotypeObservationSet zebrafish_toxicology_atlas_schema:Regimen zebrafish_toxicology_atlas_schema:StressorChemical zebrafish_toxicology_atlas_schema:Study zebrafish_toxicology_atlas_schema:VehicleOfTransmission ) ],
         [ a owl:Restriction ;
-            owl:maxCardinality 1 ;
+            owl:allValuesFrom xsd:integer ;
             owl:onProperty zebrafish_toxicology_atlas_schema:id ],
         [ a owl:Restriction ;
             owl:minCardinality 1 ;
             owl:onProperty zebrafish_toxicology_atlas_schema:id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty zebrafish_toxicology_atlas_schema:id ],
         linkml:ClassDefinition ;
     skos:definition "Internal entities with auto-generated integer IDs." ;
     skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:comment a owl:DatatypeProperty ;
+    rdfs:label "comment" ;
+    rdfs:range xsd:string ;
+    skos:definition "Additional comments." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> .
+
+zebrafish_toxicology_atlas_schema:VehicleEnum a owl:Class ;
+    rdfs:label "VehicleEnum" ;
+    rdfs:subClassOf linkml:EnumDefinition ;
+    owl:unionOf ( CHEBI:15347 CHEBI:38472 UMLS:C0036774 CHEBI:28398 CHEBI:23456 CHEBI:17741 CHEBI:28262 <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnum#embryonic_media> CHEBI:16236 CHEBI:17754 CHEBI:17824 CHEBI:17790 CHEBI:53448 PUBCHEM.COMPOUND:24978514 CHEBI:30742 CHEBI:16997 UNII:3XK098O8ZW CHEBI:15377 ) ;
+    skos:definition "An enumeration of vehicles used to deliver stressors in exposure events." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> ;
+    linkml:permissible_values CHEBI:15347,
+        CHEBI:15377,
+        CHEBI:16236,
+        CHEBI:16997,
+        CHEBI:17741,
+        CHEBI:17754,
+        CHEBI:17790,
+        CHEBI:17824,
+        CHEBI:23456,
+        CHEBI:28262,
+        CHEBI:28398,
+        CHEBI:30742,
+        CHEBI:38472,
+        CHEBI:53448,
+        UNII:3XK098O8ZW,
+        PUBCHEM.COMPOUND:24978514,
+        UMLS:C0036774,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/VehicleEnum#embryonic_media> .
+
+zebrafish_toxicology_atlas_schema:ManufacturerEnum a owl:Class ;
+    rdfs:label "ManufacturerEnum" ;
+    rdfs:subClassOf linkml:EnumDefinition ;
+    owl:unionOf ( <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#sigma_aldrich> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#merck_kgaa> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#millipore_sigma> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thermo_fisher_scientific> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#fisher_scientific> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#avantor> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#vwr> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#new_england_biolabs> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#bio_rad_laboratories> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#promega_corporation> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#corning_life_sciences> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#lonza_group> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tocris_bioscience> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cayman_chemical_company> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#selleck_chemicals> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#medchemexpress> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#enzo_life_sciences> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#aquaneering_inc> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#pentair_aquatic_eco_systems> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tecniplast> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#zebrafish_international_resource_center> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tokyo_chemical_industry> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#alfa_aesar> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#acros_organics> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#honeywell> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#abcam> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cell_signaling_technology> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#genscript> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#addgene> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thomas_scientific> <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cole_parmer> ) ;
+    skos:definition "An enumeration of manufacturers and suppliers of chemicals used in exposure events." ;
+    skos:inScheme <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema> ;
+    linkml:permissible_values <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#abcam>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#acros_organics>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#addgene>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#alfa_aesar>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#aquaneering_inc>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#avantor>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#bio_rad_laboratories>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cayman_chemical_company>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cell_signaling_technology>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#cole_parmer>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#corning_life_sciences>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#enzo_life_sciences>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#fisher_scientific>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#genscript>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#honeywell>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#lonza_group>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#medchemexpress>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#merck_kgaa>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#millipore_sigma>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#new_england_biolabs>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#pentair_aquatic_eco_systems>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#promega_corporation>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#selleck_chemicals>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#sigma_aldrich>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tecniplast>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thermo_fisher_scientific>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#thomas_scientific>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tocris_bioscience>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#tokyo_chemical_industry>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#vwr>,
+        <https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ManufacturerEnum#zebrafish_international_resource_center> .
 
 

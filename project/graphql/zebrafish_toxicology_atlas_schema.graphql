@@ -5,6 +5,41 @@ enum ExposureRegimenTypeEnum
     repeated
   }
 
+enum ManufacturerEnum
+  {
+    sigma_aldrich
+    merck_kgaa
+    millipore_sigma
+    thermo_fisher_scientific
+    fisher_scientific
+    avantor
+    vwr
+    new_england_biolabs
+    bio_rad_laboratories
+    promega_corporation
+    corning_life_sciences
+    lonza_group
+    tocris_bioscience
+    cayman_chemical_company
+    selleck_chemicals
+    medchemexpress
+    enzo_life_sciences
+    aquaneering_inc
+    pentair_aquatic_eco_systems
+    tecniplast
+    zebrafish_international_resource_center
+    tokyo_chemical_industry
+    alfa_aesar
+    acros_organics
+    honeywell
+    abcam
+    cell_signaling_technology
+    genscript
+    addgene
+    thomas_scientific
+    cole_parmer
+  }
+
 enum SeverityEnum
   {
     mild
@@ -14,24 +49,31 @@ enum SeverityEnum
 
 enum VehicleEnum
   {
-    ethanol
+    acetone
+    acetonitrile
+    albumin_bsa
+    butanone_mek
+    cyclodextrin_hpbcd
+    dimethyl_formamide
     dmso
-  }
-
-type ChemicalEntity
-  {
-    uri: String!
-    chebiId: String
-    casId: String
-    chemicalName: String
-    synonym: [String]
+    embryonic_media
+    ethanol
+    glycerol
+    isopropanol
+    methanol
+    methylcellulose
+    pbs
+    polyethylene_glycol
+    propylene_glycol
+    solketal
+    water
   }
 
 type Control
   {
     id: Int!
     controlType: String
-    vehicleIfTreated: VehicleEnum
+    vehicleIfTreated: VehicleOfTransmission
     comment: String
     controlImage: [ControlImage]
   }
@@ -60,15 +102,27 @@ type ExposureEvent
   {
     id: Int!
     stressor: [StressorChemical]
-    vehicle: [VehicleEnum]
-    route: ExposureRouteEnum
+    vehicle: [VehicleOfTransmission]
+    route: ExposureRoute
     regimen: Regimen
     exposureStartStage: String
     exposureEndStage: String
     comment: String
-    exposureType: ExposureTypeEnum
+    exposureType: ExposureType
     additionalExposureCondition: String
     phenotypeObservation: [PhenotypeObservationSet]
+  }
+
+type ExposureRoute
+  {
+    termUri: String!
+    termLabel: String!
+  }
+
+type ExposureType
+  {
+    termUri: String!
+    termLabel: String!
   }
 
 type Fish
@@ -131,8 +185,11 @@ type Regimen
 type StressorChemical
   {
     id: Int!
-    chemicalId: ChemicalEntity!
-    manufacturer: String
+    chemicalId: String
+    casId: String
+    chemicalName: String
+    synonym: [String]
+    manufacturer: ManufacturerEnum
     concentration: QuantityValue!
     comment: String
   }
@@ -144,6 +201,15 @@ type Study
     publication: String
     annotator: [String]
     lab: String
+  }
+
+type VehicleOfTransmission
+  {
+    id: Int!
+    vehicleType: VehicleEnum!
+    manufacturer: ManufacturerEnum
+    concentration: QuantityValue!
+    comment: String
   }
 
 interface ZappEntity

@@ -1,54 +1,8 @@
 {
     "$defs": {
-        "ChemicalEntity": {
-            "additionalProperties": false,
-            "description": "The chemical used as the stressor chemical in an exposure event.",
-            "properties": {
-                "cas_id": {
-                    "description": "CAS identifier for the chemical.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
-                },
-                "chebi_id": {
-                    "description": "CHEBI identifier for the chemical.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
-                },
-                "chemical_name": {
-                    "description": "Name of the chemical.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
-                },
-                "synonym": {
-                    "description": "Other names for the chemical.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": [
-                        "array",
-                        "null"
-                    ]
-                },
-                "uri": {
-                    "description": "URI identifier for the chemical entity (CHEBI or CAS URI).",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "uri"
-            ],
-            "title": "ChemicalEntity",
-            "type": "object"
-        },
         "Control": {
             "additionalProperties": false,
-            "description": "Information about controls used in the experiment, including the type of control (wildtype vs mutant, treated vs untreated) and vehicle information if applicable.",
+            "description": "A subject serves as a reference for assessing phenotypic outcome in the phenotype observation set.",
             "properties": {
                 "comment": {
                     "description": "Additional comments.",
@@ -58,7 +12,7 @@
                     ]
                 },
                 "control_image": {
-                    "description": "Images associated with this control.",
+                    "description": "Image associated with this control.",
                     "items": {
                         "$ref": "#/$defs/ControlImage"
                     },
@@ -79,8 +33,15 @@
                     "type": "integer"
                 },
                 "vehicle_if_treated": {
-                    "$ref": "#/$defs/VehicleEnum",
-                    "description": "Vehicle used if this is a treated control."
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/VehicleOfTransmission"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The vehicle used in a control."
                 }
             },
             "required": [
@@ -119,7 +80,7 @@
                     ]
                 },
                 "resolution": {
-                    "description": "Level of detail of the image.",
+                    "description": "The level of detail in the image.",
                     "type": [
                         "string",
                         "null"
@@ -141,10 +102,10 @@
         },
         "Experiment": {
             "additionalProperties": false,
-            "description": "Group of observations (phenotypic outcomes and their control) that are linked by a common experiment and subject that are part of a study.",
+            "description": "A group of observations (phenotypic outcomes and their control) that are linked by a common exposure event and subject, and that are part of a study.",
             "properties": {
                 "control": {
-                    "description": "The controls for this experiment.",
+                    "description": "An observation that serves as the reference for assessing phenotypic outcome.",
                     "items": {
                         "$ref": "#/$defs/Control"
                     },
@@ -154,7 +115,7 @@
                     ]
                 },
                 "exposure_event": {
-                    "description": "The exposure events in this experiment.",
+                    "description": "The exposure event in an experiment.",
                     "items": {
                         "$ref": "#/$defs/ExposureEvent"
                     },
@@ -186,7 +147,7 @@
                     ]
                 },
                 "standard_rearing_condition": {
-                    "description": "An indication if the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
+                    "description": "An indication of whether the subject was maintained under standard conditions, which are the established, consistent environmental and husbandry parameters (such as temperature, lighting, diet, and housing) designed to minimize variability and ensure reproducibility in experiments.",
                     "type": [
                         "boolean",
                         "null"
@@ -232,7 +193,14 @@
                     ]
                 },
                 "exposure_type": {
-                    "$ref": "#/$defs/ExposureTypeEnum",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExposureType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
                     "description": "An instance of exposure specifying the type of stressor a subject was exposed to."
                 },
                 "id": {
@@ -240,7 +208,7 @@
                     "type": "integer"
                 },
                 "phenotype_observation": {
-                    "description": "The phenotype observations from this exposure event.",
+                    "description": "The phenotype observation resulting from an exposure event.",
                     "items": {
                         "$ref": "#/$defs/PhenotypeObservationSet"
                     },
@@ -261,11 +229,18 @@
                     "description": "The regimen for the exposure."
                 },
                 "route": {
-                    "$ref": "#/$defs/ExposureRouteEnum",
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExposureRoute"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
                     "description": "The route of exposure."
                 },
                 "stressor": {
-                    "description": "Substance, chemical or toxicant, that elicit a response (a phenotype) in a subject when encountered through exposure.",
+                    "description": "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.",
                     "items": {
                         "$ref": "#/$defs/StressorChemical"
                     },
@@ -275,9 +250,9 @@
                     ]
                 },
                 "vehicle": {
-                    "description": "The substance or medium used deliver a stressor.",
+                    "description": "The substance or medium used to deliver a stressor.",
                     "items": {
-                        "$ref": "#/$defs/VehicleEnum"
+                        "$ref": "#/$defs/VehicleOfTransmission"
                     },
                     "type": [
                         "array",
@@ -300,15 +275,45 @@
             "title": "ExposureRegimenTypeEnum",
             "type": "string"
         },
-        "ExposureRouteEnum": {
-            "description": "An enumeration of exposure routes derived from the EXO ontology.",
-            "title": "ExposureRouteEnum",
-            "type": "string"
+        "ExposureRoute": {
+            "additionalProperties": false,
+            "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology.",
+            "properties": {
+                "term_label": {
+                    "description": "The human-readable label for the phenotype ontology term.",
+                    "type": "string"
+                },
+                "term_uri": {
+                    "description": "The URI of the phenotype ontology term.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "term_uri",
+                "term_label"
+            ],
+            "title": "ExposureRoute",
+            "type": "object"
         },
-        "ExposureTypeEnum": {
-            "description": "An enumeration of exposure types derived from the ECTO ontology.",
-            "title": "ExposureTypeEnum",
-            "type": "string"
+        "ExposureType": {
+            "additionalProperties": false,
+            "description": "An exposure-type term from ECTO.",
+            "properties": {
+                "term_label": {
+                    "description": "The human-readable label for the phenotype ontology term.",
+                    "type": "string"
+                },
+                "term_uri": {
+                    "description": "The URI of the phenotype ontology term.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "term_uri",
+                "term_label"
+            ],
+            "title": "ExposureType",
+            "type": "object"
         },
         "Fish": {
             "additionalProperties": false,
@@ -347,7 +352,7 @@
                     ]
                 },
                 "resolution": {
-                    "description": "Level of detail of the image.",
+                    "description": "The level of detail in the image.",
                     "type": [
                         "string",
                         "null"
@@ -365,6 +370,50 @@
                 "id"
             ],
             "title": "Image",
+            "type": "object"
+        },
+        "ManufacturerEnum": {
+            "description": "An enumeration of manufacturers and suppliers of chemicals used in exposure events.",
+            "enum": [
+                "sigma_aldrich",
+                "merck_kgaa",
+                "millipore_sigma",
+                "thermo_fisher_scientific",
+                "fisher_scientific",
+                "avantor",
+                "vwr",
+                "new_england_biolabs",
+                "bio_rad_laboratories",
+                "promega_corporation",
+                "corning_life_sciences",
+                "lonza_group",
+                "tocris_bioscience",
+                "cayman_chemical_company",
+                "selleck_chemicals",
+                "medchemexpress",
+                "enzo_life_sciences",
+                "aquaneering_inc",
+                "pentair_aquatic_eco_systems",
+                "tecniplast",
+                "zebrafish_international_resource_center",
+                "tokyo_chemical_industry",
+                "alfa_aesar",
+                "acros_organics",
+                "honeywell",
+                "abcam",
+                "cell_signaling_technology",
+                "genscript",
+                "addgene",
+                "thomas_scientific",
+                "cole_parmer"
+            ],
+            "title": "ManufacturerEnum",
+            "type": "string"
+        },
+        "OntologyEntity": {
+            "additionalProperties": false,
+            "description": "Entities representing ontology terms with URI identifiers.",
+            "title": "OntologyEntity",
             "type": "object"
         },
         "Phenotype": {
@@ -417,10 +466,10 @@
         },
         "PhenotypeObservationSet": {
             "additionalProperties": false,
-            "description": "A phenotypic outcome resulting from an exposure event.",
+            "description": "An observation set containing control and phenotypic outcome resulting from an exposure event.",
             "properties": {
                 "control_image": {
-                    "description": "Images associated with this control.",
+                    "description": "Image associated with this control.",
                     "items": {
                         "$ref": "#/$defs/ControlImage"
                     },
@@ -575,11 +624,28 @@
         },
         "StressorChemical": {
             "additionalProperties": false,
-            "description": "A chemical, that elicit a response (a phenotype) in a subject when when encountered through exposure.",
+            "description": "A chemical that elicits a response (a phenotype) in a subject when encountered through exposure.",
             "properties": {
+                "cas_id": {
+                    "description": "CAS identifier for the chemical.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
                 "chemical_id": {
-                    "$ref": "#/$defs/ChemicalEntity",
-                    "description": "Chemical identifier (CHEBI, CAS, or UUID)."
+                    "description": "Chemical identifier (e.g., a CHEBI or other ontology URI) for the chemical.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "chemical_name": {
+                    "description": "Name of the chemical.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
                 },
                 "comment": {
                     "description": "Additional comments.",
@@ -597,15 +663,21 @@
                     "type": "integer"
                 },
                 "manufacturer": {
-                    "description": "The manufacturer of the chemical.",
+                    "$ref": "#/$defs/ManufacturerEnum",
+                    "description": "The manufacturer or supplier of the chemical."
+                },
+                "synonym": {
+                    "description": "Other names for the chemical.",
+                    "items": {
+                        "type": "string"
+                    },
                     "type": [
-                        "string",
+                        "array",
                         "null"
                     ]
                 }
             },
             "required": [
-                "chemical_id",
                 "concentration",
                 "id"
             ],
@@ -628,7 +700,7 @@
                     ]
                 },
                 "experiment": {
-                    "description": "The experiments in a study.",
+                    "description": "The experiment in a study.",
                     "items": {
                         "$ref": "#/$defs/Experiment"
                     },
@@ -639,13 +711,10 @@
                 },
                 "id": {
                     "description": "Auto-generated integer identifier.",
-                    "type": [
-                        "integer",
-                        "null"
-                    ]
+                    "type": "integer"
                 },
                 "lab": {
-                    "description": "The lab where the experiment originated.",
+                    "description": "ZFIN lab identifier of the laboratory that produced the study data.",
                     "pattern": "^ZFIN:ZDB-LAB-[0-9]+-[0-9]+$",
                     "type": [
                         "string",
@@ -667,13 +736,102 @@
             "type": "object"
         },
         "VehicleEnum": {
-            "description": "An enumeration of vehicles used in exposures.",
+            "description": "An enumeration of vehicles used to deliver stressors in exposure events.",
             "enum": [
+                "acetone",
+                "acetonitrile",
+                "albumin_bsa",
+                "butanone_mek",
+                "cyclodextrin_hpbcd",
+                "dimethyl_formamide",
+                "dmso",
+                "embryonic_media",
                 "ethanol",
-                "dmso"
+                "glycerol",
+                "isopropanol",
+                "methanol",
+                "methylcellulose",
+                "pbs",
+                "polyethylene_glycol",
+                "propylene_glycol",
+                "solketal",
+                "water"
             ],
             "title": "VehicleEnum",
             "type": "string"
+        },
+        "VehicleOfTransmission": {
+            "additionalProperties": false,
+            "description": "The substance or medium used to deliver a stressor to a subject during an exposure event.",
+            "properties": {
+                "comment": {
+                    "description": "Additional comments.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "concentration": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/QuantityValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The dose or concentration of the chemical to which the subject was exposed to."
+                },
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                },
+                "manufacturer": {
+                    "$ref": "#/$defs/ManufacturerEnum",
+                    "description": "The manufacturer or supplier of the chemical."
+                },
+                "vehicle_type": {
+                    "$ref": "#/$defs/VehicleEnum",
+                    "description": "The type of vehicle used to deliver a stressor, drawn from a controlled vocabulary."
+                }
+            },
+            "required": [
+                "vehicle_type",
+                "id"
+            ],
+            "title": "VehicleOfTransmission",
+            "type": "object"
+        },
+        "ZappEntity": {
+            "additionalProperties": false,
+            "description": "Internal entities with auto-generated integer IDs.",
+            "properties": {
+                "id": {
+                    "description": "Auto-generated integer identifier.",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "ZappEntity",
+            "type": "object"
+        },
+        "ZfinEntity": {
+            "additionalProperties": false,
+            "description": "Entities with ZFIN database identifiers.",
+            "properties": {
+                "zfin_id": {
+                    "description": "ZFIN database identifier.",
+                    "pattern": "^ZFIN:ZDB-[A-Z]+-\\d{6}-\\d+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zfin_id"
+            ],
+            "title": "ZfinEntity",
+            "type": "object"
         }
     },
     "$id": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
