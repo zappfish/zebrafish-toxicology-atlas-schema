@@ -1,5 +1,5 @@
 # Auto generated from zebrafish_toxicology_atlas_schema.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-04-17T20:49:53
+# Generation date: 2026-04-20T10:10:53
 # Schema: zebrafish-toxicology-atlas-schema
 #
 # id: https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema
@@ -414,12 +414,12 @@ class ExposureEvent(ZappEntity):
     id: Union[int, ExposureEventId] = None
     stressor: Optional[Union[dict[Union[int, StressorChemicalId], Union[dict, "StressorChemical"]], list[Union[dict, "StressorChemical"]]]] = empty_dict()
     vehicle: Optional[Union[Union[str, "VehicleEnumeration"], list[Union[str, "VehicleEnumeration"]]]] = empty_list()
-    route: Optional[Union[str, ExposureRouteTermUri]] = None
+    route: Optional[Union[dict, "ExposureRoute"]] = None
     regimen: Optional[Union[dict, "Regimen"]] = None
     exposure_start_stage: Optional[Union[str, URIorCURIE]] = None
     exposure_end_stage: Optional[Union[str, URIorCURIE]] = None
     comment: Optional[str] = None
-    exposure_type: Optional[Union[str, ExposureTypeTermUri]] = None
+    exposure_type: Optional[Union[dict, "ExposureType"]] = None
     additional_exposure_condition: Optional[str] = None
     phenotype_observation: Optional[Union[dict[Union[int, PhenotypeObservationSetId], Union[dict, PhenotypeObservationSet]], list[Union[dict, PhenotypeObservationSet]]]] = empty_dict()
 
@@ -435,8 +435,8 @@ class ExposureEvent(ZappEntity):
             self.vehicle = [self.vehicle] if self.vehicle is not None else []
         self.vehicle = [v if isinstance(v, VehicleEnumeration) else VehicleEnumeration(v) for v in self.vehicle]
 
-        if self.route is not None and not isinstance(self.route, ExposureRouteTermUri):
-            self.route = ExposureRouteTermUri(self.route)
+        if self.route is not None and not isinstance(self.route, ExposureRoute):
+            self.route = ExposureRoute(**as_dict(self.route))
 
         if self.regimen is not None and not isinstance(self.regimen, Regimen):
             self.regimen = Regimen(**as_dict(self.regimen))
@@ -450,8 +450,8 @@ class ExposureEvent(ZappEntity):
         if self.comment is not None and not isinstance(self.comment, str):
             self.comment = str(self.comment)
 
-        if self.exposure_type is not None and not isinstance(self.exposure_type, ExposureTypeTermUri):
-            self.exposure_type = ExposureTypeTermUri(self.exposure_type)
+        if self.exposure_type is not None and not isinstance(self.exposure_type, ExposureType):
+            self.exposure_type = ExposureType(**as_dict(self.exposure_type))
 
         if self.additional_exposure_condition is not None and not isinstance(self.additional_exposure_condition, str):
             self.additional_exposure_condition = str(self.additional_exposure_condition)
@@ -697,8 +697,7 @@ class PhenotypeTerm(OntologyEntity):
 class ExposureRoute(OntologyEntity):
     """
     A route-of-exposure term. Term URIs are expected to be reachable from
-    EXO:0000154 (route of exposure) in the EXO ontology; the API enforces
-    this at insert time by querying OLS/oaklib.
+    EXO:0000154 (route of exposure) in the EXO ontology.
     """
     _inherited_slots: ClassVar[list[str]] = []
 
@@ -727,8 +726,7 @@ class ExposureRoute(OntologyEntity):
 @dataclass(repr=False)
 class ExposureType(OntologyEntity):
     """
-    An exposure-type term from ECTO. The API enforces ECTO membership at
-    insert time by querying OLS/oaklib.
+    An exposure-type term from ECTO.
     """
     _inherited_slots: ClassVar[list[str]] = []
 
@@ -892,7 +890,7 @@ slots.name = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.name, name="name", curie
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.name, domain=None, range=Optional[str])
 
 slots.exposure_type = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.exposure_type, name="exposure_type", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('exposure_type'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.exposure_type, domain=None, range=Optional[Union[str, ExposureTypeTermUri]])
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.exposure_type, domain=None, range=Optional[Union[dict, ExposureType]])
 
 slots.unit = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.unit, name="unit", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('unit'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.unit, domain=None, range=Optional[str])
@@ -967,7 +965,7 @@ slots.vehicle = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle, name="vehicl
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.vehicle, domain=None, range=Optional[Union[Union[str, "VehicleEnumeration"], list[Union[str, "VehicleEnumeration"]]]])
 
 slots.route = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.route, name="route", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('route'),
-                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.route, domain=None, range=Optional[Union[str, ExposureRouteTermUri]])
+                   model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.route, domain=None, range=Optional[Union[dict, ExposureRoute]])
 
 slots.regimen = Slot(uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.regimen, name="regimen", curie=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.curie('regimen'),
                    model_uri=ZEBRAFISH_TOXICOLOGY_ATLAS_SCHEMA.regimen, domain=None, range=Optional[Union[dict, Regimen]])

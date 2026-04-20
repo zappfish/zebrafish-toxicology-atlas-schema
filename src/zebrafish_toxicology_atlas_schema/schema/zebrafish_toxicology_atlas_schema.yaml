@@ -174,8 +174,7 @@ classes:
     is_a: OntologyEntity
     description: |
       A route-of-exposure term. Term URIs are expected to be reachable from
-      EXO:0000154 (route of exposure) in the EXO ontology; the API enforces
-      this at insert time by querying OLS/oaklib.
+      EXO:0000154 (route of exposure) in the EXO ontology.
     slots:
       - term_uri
       - term_label
@@ -186,8 +185,7 @@ classes:
   ExposureType:
     is_a: OntologyEntity
     description: |
-      An exposure-type term from ECTO. The API enforces ECTO membership at
-      insert time by querying OLS/oaklib.
+      An exposure-type term from ECTO.
     slots:
       - term_uri
       - term_label
@@ -254,6 +252,8 @@ slots:
   exposure_type:
     description: An instance of exposure specifying the type of stressor a subject was exposed to.
     range: ExposureType
+    inlined: true
+    inlined_as_list: true
   unit:
     description: The unit of the quantity value.
   numeric_value:
@@ -358,6 +358,8 @@ slots:
   route:
     description: The route of exposure.
     range: ExposureRoute
+    inlined: true
+    inlined_as_list: true
   regimen:
     description: The regimen for the exposure.
     range: Regimen

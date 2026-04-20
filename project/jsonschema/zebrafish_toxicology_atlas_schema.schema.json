@@ -232,11 +232,15 @@
                     ]
                 },
                 "exposure_type": {
-                    "description": "An instance of exposure specifying the type of stressor a subject was exposed to.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExposureType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "An instance of exposure specifying the type of stressor a subject was exposed to."
                 },
                 "id": {
                     "description": "Auto-generated integer identifier.",
@@ -264,11 +268,15 @@
                     "description": "The regimen for the exposure."
                 },
                 "route": {
-                    "description": "The route of exposure.",
-                    "type": [
-                        "string",
-                        "null"
-                    ]
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExposureRoute"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The route of exposure."
                 },
                 "stressor": {
                     "description": "Substance, chemical or toxicant that elicits a response (a phenotype) in a subject when encountered through exposure.",
@@ -308,7 +316,7 @@
         },
         "ExposureRoute": {
             "additionalProperties": false,
-            "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology; the API enforces\nthis at insert time by querying OLS/oaklib.",
+            "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology.",
             "properties": {
                 "term_label": {
                     "description": "The human-readable label for the phenotype ontology term.",
@@ -328,7 +336,7 @@
         },
         "ExposureType": {
             "additionalProperties": false,
-            "description": "An exposure-type term from ECTO. The API enforces ECTO membership at\ninsert time by querying OLS/oaklib.",
+            "description": "An exposure-type term from ECTO.",
             "properties": {
                 "term_label": {
                     "description": "The human-readable label for the phenotype ontology term.",

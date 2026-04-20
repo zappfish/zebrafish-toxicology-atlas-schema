@@ -413,8 +413,7 @@ class PhenotypeTerm(OntologyEntity):
 class ExposureRoute(OntologyEntity):
     """
     A route-of-exposure term. Term URIs are expected to be reachable from
-EXO:0000154 (route of exposure) in the EXO ontology; the API enforces
-this at insert time by querying OLS/oaklib.
+EXO:0000154 (route of exposure) in the EXO ontology.
 
     """
 
@@ -431,8 +430,7 @@ this at insert time by querying OLS/oaklib.
 
 class ExposureType(OntologyEntity):
     """
-    An exposure-type term from ECTO. The API enforces ECTO membership at
-insert time by querying OLS/oaklib.
+    An exposure-type term from ECTO.
 
     """
 

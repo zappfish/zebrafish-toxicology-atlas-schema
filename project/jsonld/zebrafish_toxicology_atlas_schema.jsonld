@@ -549,6 +549,8 @@
         "ExposureEvent"
       ],
       "range": "ExposureType",
+      "inlined": true,
+      "inlined_as_list": true,
       "@type": "SlotDefinition"
     },
     {
@@ -904,6 +906,8 @@
         "ExposureEvent"
       ],
       "range": "ExposureRoute",
+      "inlined": true,
+      "inlined_as_list": true,
       "@type": "SlotDefinition"
     },
     {
@@ -1516,7 +1520,7 @@
     {
       "name": "ExposureRoute",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureRoute",
-      "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology; the API enforces\nthis at insert time by querying OLS/oaklib.\n",
+      "description": "A route-of-exposure term. Term URIs are expected to be reachable from\nEXO:0000154 (route of exposure) in the EXO ontology.\n",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "OntologyEntity",
       "slots": [
@@ -1530,7 +1534,7 @@
     {
       "name": "ExposureType",
       "definition_uri": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema/ExposureType",
-      "description": "An exposure-type term from ECTO. The API enforces ECTO membership at\ninsert time by querying OLS/oaklib.\n",
+      "description": "An exposure-type term from ECTO.\n",
       "from_schema": "https://w3id.org/sierra-moxon/zebrafish-toxicology-atlas-schema",
       "is_a": "OntologyEntity",
       "slots": [
@@ -1571,9 +1575,9 @@
   ],
   "metamodel_version": "1.7.0",
   "source_file": "zebrafish_toxicology_atlas_schema.yaml",
-  "source_file_date": "2026-04-17T19:47:45",
-  "source_file_size": 14044,
-  "generation_date": "2026-04-17T20:49:53",
+  "source_file_date": "2026-04-20T10:10:48",
+  "source_file_size": 13987,
+  "generation_date": "2026-04-20T10:10:53",
   "@type": "SchemaDefinition",
   "@context": [
     "project/jsonld/zebrafish_toxicology_atlas_schema.context.jsonld",
