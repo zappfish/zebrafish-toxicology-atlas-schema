@@ -1,6 +1,14 @@
-# zebrafish-toxicology-atlas-schema
+> [!WARNING]
+> **GONE [ELSEWHERE](https://github.com/zappfish/zapp-atlas/blob/main/server/src/zapp_atlas/schema/)**
 
-Schema to represent metadata associated with the Zebrafish Toxicology Atlas
+## zebrafish-toxicology-atlas-schema
+
+Schema development for the [zappfish](https://github.com/zappfish) project no longer lives here. The [LinkML schema](https://github.com/zappfish/zapp-atlas/blob/main/server/src/zapp_atlas/schema/zebrafish_toxicology_atlas_schema.yaml) has been moved into the [zapp-atlas](https://github.com/zappfish/zapp-atlas) repository.
+
+This repository will be deleted in 41902 minutes.
+
+---
+
 
 ## Website
 
